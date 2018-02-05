@@ -1,13 +1,24 @@
 import React, {Component} from 'react';
-import {View, Text} from 'react-native';
-import SignIn from './components/auth/SignIn'
+import {View, Text, StyleSheet} from 'react-native';
+import SignIn from './components/auth/SignIn';
+import Hello from './components/Hello';
 
-export default class Root extends Component{
+class Root extends Component{
     render(){
         return(
             <View>
-                <SignIn/>            
+                <SignIn/>
             </View>
         );
     }
 }
+
+const style = StyleSheet.create({
+    image: {
+        width: '100%',
+        height: 40,
+        marginTop: 10
+    }
+});
+
+export default Root;
