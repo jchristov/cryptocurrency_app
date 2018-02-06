@@ -1,7 +1,7 @@
-import {observable, computed} from 'mobx';
-import {status, json} from '../helpers/utils';
-import {entitiesFromFB} from '../helpers/utils';
+import {observable, computed, action} from 'mobx';
 import firebase from 'firebase';
+import {status, json, entitiesFromFB} from '../helpers/utils';
+
 
 /**
  * computed дикоратор который отробатывает каждый раз при изменении данных
@@ -20,14 +20,16 @@ class Currency{
         return Object.keys(this.entities).length;
     }
 
-    loadAll(){
+    @action loadAll(){
         this.loading = true;
-
-        firebase.database().ref('events').on('value', data => {
-            this.entities = entitiesFromFB(data.val);
-            this.loading = false;
-        });
+        firebase.database().ref('events')
+            .once('value', data => {
+                this.entities = entitiesFromFB(data.val())
+                this.loading = false;
+                this.loaded = true;
+            })
+            .catch(data=> console.log('---', data))
     }
 }
 
-export default new Currency();
+export default Currency;

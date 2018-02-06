@@ -1,25 +1,26 @@
 import React, { Component } from 'react'
+import {observer, inject} from 'mobx-react';
 import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import CurrencyList from '../../components/currency/CurrencyList'
-import currencyStore from '../../stores/currency';
-import {observer} from 'mobx-react';
 
-@observer
+@inject('currency')
+@observer 
 class CurrencyListScreen extends Component {
     
     static navigationOptions = {
         title: 'Currency List '
-    }
+    };
 
     componentDidMount(){
-        currencyStore.loadAll();
+        this.props.currency.loadAll();
     }
 
     render() {
-        if(currencyStore.loading){
+        const {currency} = this.props;
+        if(currency.loading){
             return this.getLoader();
         }
-        return <CurrencyList onCurrencyPress={this.handleCurrencyPress} events = {currencyStore.list}/>
+        return <CurrencyList onCurrencyPress={this.handleCurrencyPress} events = {currency.list}/>
     }
 
     getLoader = () => {
@@ -27,7 +28,6 @@ class CurrencyListScreen extends Component {
     }
 
     handleCurrencyPress = (uid) => {
-        console.log('----', uid);
         this.props.navigation.navigate('currency', {uid});
     }
 }

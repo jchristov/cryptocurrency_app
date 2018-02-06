@@ -17,7 +17,6 @@ class CurrencyList extends Component {
             title: `${letter}, ${list.length} events`,
             data: list.map(event => ({key: event.uid, event}))
         }))
-        console.log(sections);
         return (
             <SectionList
                 sections={sections}

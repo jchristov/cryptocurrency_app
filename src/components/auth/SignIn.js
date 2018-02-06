@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {View, Text, TextInput, Platform, TouchableOpacity, StyleSheet} from 'react-native';
-import {observer} from 'mobx-react';
-import userStore from '../../stores/user';
+import {observer, inject} from 'mobx-react';
 import firebase from 'firebase';
 
 /**
@@ -13,7 +12,7 @@ import firebase from 'firebase';
  * изменения будут происходить синхронно не как setState
  * setState это асинхронно 
  */
-
+@inject('user')
 @observer
 class SignIn extends Component {
     static propTypes = {
@@ -21,19 +20,20 @@ class SignIn extends Component {
     };
     
     render() {
+        const {user} = this.props;
         return (
             <View>
                 <Text style = {styles.header}>Please Sign In</Text>
                 
                 <Text>Email:</Text>
-                <TextInput value={userStore.email} 
+                <TextInput value={user.email} 
                            onChangeText={this.setEmail} 
                            style={styles.input}
                            keyboardType='email-address'
                 />
                 
                 <Text>Password:</Text>
-                <TextInput value={userStore.password} 
+                <TextInput value={user.password} 
                            onChangeText={this.setPassword} 
                            style={styles.input}
                            secureTextEntry
@@ -46,16 +46,17 @@ class SignIn extends Component {
     }
 
     signIn = () => {
-        firebase.auth().signInWithEmailAndPassword(userStore.email, userStore.password)
-            .then(user=>{
-                userStore.user = user;
+        const {user} = this.props;
+        firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+            .then(userEntity=>{
+                user.user = userEntity;
                 //this.props.navigation.navigate('eventList');
             });
         console.log('---', 'sign in');
     }
 
-    setPassword = password => userStore.password = password
-    setEmail = email => userStore.email = email
+    setPassword = password => user.password = password
+    setEmail = email => user.email = email
 }
 
 

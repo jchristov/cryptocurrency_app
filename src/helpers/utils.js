@@ -11,6 +11,7 @@ export function json(response) {
 }
 
 export function entitiesFromFB(data) {
+  console.log('123', data)
   Object.entries(data).forEach(([key, value]) => value.uid = key)
   return data
 }
