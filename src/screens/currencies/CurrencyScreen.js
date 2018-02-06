@@ -4,12 +4,12 @@ import Currency from '../../components/currency/Currency';
 
 class CurrencyScreen extends Component {
     
+    static navigationOptions = ({ navigation }) => ({
+        title: `Currency ${navigation.state.params.uid}`
+    });
+
     render() {
-        return (
-            <View>
-                <Currency/>
-            </View>
-        )
+        return <Currency/>
     }
 }
 
