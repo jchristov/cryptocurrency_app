@@ -1,7 +1,7 @@
 import {StackNavigator} from 'react-navigation';
 import Auth from './screens/Auth';
-import CurrencyScreen from './screens/currencies/CurrencyScreen';
-import CurrencyListScreen from './screens/currencies/CurrencyListScreen';
+import CurrencyScreen from './screens/currency/CurrencyScreen';
+import CurrencyListScreen from './screens/currency/CurrencyListScreen';
 
 const AppNavigator = StackNavigator({
     currencyList: {

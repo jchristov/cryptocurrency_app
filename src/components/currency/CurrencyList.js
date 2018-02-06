@@ -2,16 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {View,  SectionList, TouchableOpacity} from 'react-native';
 import CurrencyCard from './CurrencyCard';
-import {eventList} from '../../fixtures';
 import groupBy from 'lodash/groupBy'
 
 class CurrencyList extends Component {
     static propTypes = {
 
-    }
-
-    static defaultProps = {
-        events: eventList
     };
 
     render() {

@@ -9,3 +9,8 @@ export function status(response) {
 export function json(response) {
   return response.json()
 }
+
+export function entitiesFromFB(data) {
+  Object.entries(data).forEach(([key, value]) => value.uid = key)
+  return data
+}
