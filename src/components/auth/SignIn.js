@@ -46,8 +46,11 @@ class SignIn extends Component {
     }
 
     signIn = () => {
-
-        
+        firebase.auth().signInWithEmailAndPassword(userStore.email, userStore.password)
+            .then(user=>{
+                userStore.user = user;
+                //this.props.navigation.navigate('eventList');
+            });
         console.log('---', 'sign in');
     }
 

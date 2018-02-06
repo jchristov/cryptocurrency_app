@@ -1,6 +1,5 @@
 import './src/initDb';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import AppNavigator from './src/AppNavigator';
 
 export default class App extends React.Component {
@@ -8,12 +7,3 @@ export default class App extends React.Component {
     return <AppNavigator/>
   }
 } 
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
