@@ -1,9 +1,11 @@
 import Currency from './currency';
-import User from './user';
+import AuthStore  from './auth';
+import NavigationStore  from './navigation';
 
 const stores = {
-    user: new User(),
-    currency: new Currency()
+    auth: new AuthStore(),
+    currency: new Currency(),
+    navigation: new NavigationStore()
 };
 
 export default stores;

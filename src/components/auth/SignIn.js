@@ -4,6 +4,7 @@ import {View, Text, TextInput, Platform, TouchableOpacity, StyleSheet} from 'rea
 import {observer, inject} from 'mobx-react';
 import firebase from 'firebase';
 
+
 /**
  * observer это метод который заворачивает 
  * метод render в autorun реакцию которая 
@@ -12,7 +13,7 @@ import firebase from 'firebase';
  * изменения будут происходить синхронно не как setState
  * setState это асинхронно 
  */
-@inject('user')
+@inject('auth')
 @observer
 class SignIn extends Component {
     static propTypes = {
@@ -20,20 +21,20 @@ class SignIn extends Component {
     };
     
     render() {
-        const {user} = this.props;
+        const {auth} = this.props;
         return (
             <View>
                 <Text style = {styles.header}>Please Sign In</Text>
                 
                 <Text>Email:</Text>
-                <TextInput value={user.email} 
+                <TextInput value={auth.email} 
                            onChangeText={this.setEmail} 
                            style={styles.input}
                            keyboardType='email-address'
                 />
                 
                 <Text>Password:</Text>
-                <TextInput value={user.password} 
+                <TextInput value={auth.password} 
                            onChangeText={this.setPassword} 
                            style={styles.input}
                            secureTextEntry
@@ -46,17 +47,16 @@ class SignIn extends Component {
     }
 
     signIn = () => {
-        const {user} = this.props;
-        firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+        const {auth} = this.props;
+        firebase.auth().signInWithEmailAndPassword(auth.email, auth.password)
             .then(userEntity=>{
-                user.user = userEntity;
-                //this.props.navigation.navigate('eventList');
+                auth.user = userEntity;
+                //this.props.navigation.navigate('currencyList');
             });
-        console.log('---', 'sign in');
     }
 
-    setPassword = password => user.password = password
-    setEmail = email => user.email = email
+    setPassword = password => this.props.auth.password = password
+    setEmail = email => this.props.auth.email = email
 }
 
 

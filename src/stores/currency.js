@@ -1,15 +1,15 @@
-import {observable, computed, action} from 'mobx';
+import {observable, computed, action, useStrict} from 'mobx';
 import firebase from 'firebase';
-import {status, json, entitiesFromFB} from '../helpers/utils';
-
+import {status, json, entitiesFromFB} from './utils';
+//useStrict(true)
 
 /**
  * computed дикоратор который отробатывает каждый раз при изменении данных
+ * useStrict если мутации за пределами этого стора то об этом сообщат       
  */
 class Currency{
     @observable loading = false
     @observable loaded = false
-
     @observable entities = {}
 
     @computed get list(){

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {observer, inject} from 'mobx-react';
 import {View, StyleSheet, ActivityIndicator} from 'react-native';
-import CurrencyList from '../../components/currency/CurrencyList'
+import CurrencyList from '../../currency/CurrencyList'
 
 @inject('currency')
 @observer 

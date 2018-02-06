@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {View, StyleSheet} from 'react-native';
-import Currency from '../../components/currency/Currency';
+import Currency from '../../currency/Currency';
 import {observer, inject} from 'mobx-react';
 
 @observer
