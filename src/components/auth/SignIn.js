@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {View, Text, TextInput, Platform, TouchableOpacity, StyleSheet} from 'react-native';
 import {observer, inject} from 'mobx-react';
-import firebase from 'firebase';
-
+import {action} from 'mobx';
 
 /**
  * observer это метод который заворачивает 
  * метод render в autorun реакцию которая 
- * каждый раз будет перестраивать компонент
+ * каждый раз будет перестраивать компонент при изменении стора
  * 
  * изменения будут происходить синхронно не как setState
  * setState это асинхронно 
  */
+
 @inject('auth')
 @observer
 class SignIn extends Component {
@@ -39,24 +39,15 @@ class SignIn extends Component {
                            style={styles.input}
                            secureTextEntry
                 />
-                <TouchableOpacity onPress={this.signIn}>
+                <TouchableOpacity onPress={auth.signIn}>
                     <Text>Sign In</Text>
                 </TouchableOpacity>
             </View>
         )
     }
-
-    signIn = () => {
-        const {auth} = this.props;
-        firebase.auth().signInWithEmailAndPassword(auth.email, auth.password)
-            .then(userEntity=>{
-                auth.user = userEntity;
-                //this.props.navigation.navigate('currencyList');
-            });
-    }
-
-    setPassword = password => this.props.auth.password = password
-    setEmail = email => this.props.auth.email = email
+    //this.props.navigation.navigate('currencyList');
+    @action setPassword = password => this.props.auth.password = password
+    @action setEmail = email => this.props.auth.email = email
 }
 
 
