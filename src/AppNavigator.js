@@ -4,7 +4,6 @@ import CurrencyScreen from './components/screens/currency/CurrencyScreen';
 import CurrencyListScreen from './components/screens/currency/CurrencyListScreen';
 
 const AppNavigator = StackNavigator({
-    
     auth: {
         screen: SignInScreen
     },

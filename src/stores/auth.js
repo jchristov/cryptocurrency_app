@@ -13,16 +13,10 @@ class AuthStore extends BasicStore {
     constructor(...args){
         super(...args);
 
-        firebase.auth().onAuthStateChanged(user => {
-            /**
-             * Весь этот код по-хорошему должен находиться в сторе navigation,
-             * но т.к не получилось добавить navigation в стор, пока только так
-             * новый апдейт react-navigation требует указать addListener, для mobx решения не нашел.
-             * 
-             * https://github.com/react-navigation/react-navigation/issues/3416
-             */                
+        firebase.auth().onAuthStateChanged(user => {    
+            console.log('===', this.user);
             const objStore = this.getStore('navigation');
-            objStore.reset('navigation');
+            objStore.reset('currencyList');
         })
     }
 
