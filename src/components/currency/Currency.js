@@ -1,8 +1,15 @@
 import React, { Component } from 'react'
 import {View, StyleSheet, Image, Text, Button} from 'react-native';
 import ConfirmModal from '../common/ConfirmModal';
+import {observer, inject} from 'mobx-react';
 
+@inject('navigation')
+@observer
 class Currency extends Component {
+
+    static propTypes = {
+
+    };
 
     state = {
         confirmModal: false
@@ -25,6 +32,11 @@ class Currency extends Component {
                         title="Delete Coin"
                         color="#F55"
                         />
+                    <Button 
+                        onPress={this.goTo}
+                        title="Show Map"
+                        color="#F55"
+                    />
                 </View>
                 <ConfirmModal visible = {this.state.confirmModal}
                               onConfirm = {this.confirmDelete}
@@ -37,11 +49,16 @@ class Currency extends Component {
     }
     
     handleDelete = () => {
-        this.props.coin.title = 'Bitcoin';
-        /*this.setState({
+        /*this.props.coin.title = 'Bitcoin';*/
+        this.setState({
             confirmModal: true
-        })*/
+        })
     }
+
+    goTo = () => {
+        this.props.navigation.goTo('map', {uid: this.props.coin.uid});
+    }
+
 
     confirmDelete = () => this.setState({ confirmModal: false })
     cancelDelete = () => this.setState({ confirmModal: false })

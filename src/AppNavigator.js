@@ -1,8 +1,9 @@
 import {StackNavigator, TabNavigator} from 'react-navigation';
 import SignInScreen from './components/screens/auth/SignInScreen';
-import CurrencyScreen from './components/screens/currency/CurrencyScreen';
 import CurrencyListScreen from './components/screens/currency/CurrencyListScreen';
+import CurrencyScreen from './components/screens/currency/CurrencyScreen';
 import PeopleListScreen from './components/screens/people/PeopleListScreen';
+import ShowMap from './components/screens/ShowMap';
 
 const ListsNavigator = TabNavigator({
     currencyList: {
@@ -13,7 +14,6 @@ const ListsNavigator = TabNavigator({
     }
 });
 
-
 const AppNavigator = StackNavigator({
     lists: {
         screen: ListsNavigator
@@ -23,7 +23,10 @@ const AppNavigator = StackNavigator({
     }, 
     currency: {
         screen: CurrencyScreen
-    }
+    },
+    map: {
+        screen: ShowMap
+    },
 });
 
 export default AppNavigator;

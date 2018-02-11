@@ -29,4 +29,8 @@ export default class NavigationStore extends BasicStore {
         });
         this.dispatch(action);
     }
+
+    goTo(routeName){
+        this.dispatch(NavigationActions.navigate({routeName}));
+    }
 }
