@@ -4,7 +4,10 @@ import firebase from 'firebase';
 import {action, autorun} from 'mobx';
 
 /**
- * observable это дикоратор 
+ * observable это дикоратор который заворачивает метод render в autorun
+ * 
+ * autorun - запускает функцию и смотрит на все имеющиеся зависимости
+ * и если они поменялись перестраивает Virtual DOM с новыми данными 
  */
 class AuthStore extends BasicStore {
     @observable email = ''
@@ -19,8 +22,7 @@ class AuthStore extends BasicStore {
         
         let initRedirect = false;
 
-        autorun(() => {
-            console.log('---', this.user);
+        autorun(() => { 
             const routeName = this.user ? 'lists' : 'auth';
             if(initRedirect){
                 const objStore =  this.getStore('navigation');

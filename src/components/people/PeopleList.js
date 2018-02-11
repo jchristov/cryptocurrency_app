@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import {View, SectionList, Text} from 'react-native';
+import {View, SectionList, Text, TouchableOpacity} from 'react-native';
 import groupBy from 'lodash/groupBy';
 import PersonCard from './PersonCard';
+import {observer} from 'mobx-react';
 
+@observer
 export default class PeopleList extends Component {
     render() {
-        const {peoples} = this.props;
+        const {peoples, onPersonPress} = this.props;
 
         const grouped = groupBy(peoples, person => person.firstName.charAt(0));
 
@@ -18,7 +20,9 @@ export default class PeopleList extends Component {
             <SectionList
                 sections={sections}
                 renderSectionHeader = {({section}) => <Text>{section.title}</Text>}
-                renderItem = {({item}) => <PersonCard person = {item.person} />}
+                renderItem = {({item}) => <TouchableOpacity onPress = {onPersonPress.bind(null, item.key)}> 
+                    <PersonCard person = {item.person} />
+                </TouchableOpacity>}
             />
         );
     }

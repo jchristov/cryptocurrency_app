@@ -1,33 +1,28 @@
 import React, { Component } from 'react'
 import {View, StyleSheet, Image, Text, Button} from 'react-native';
-import {eventList} from '../../fixtures';
 import ConfirmModal from '../common/ConfirmModal';
 
 class Currency extends Component {
-    
-    static defaultProps = {
-        event: eventList[0]
-    }
 
     state = {
         confirmModal: false
     }
 
     render() {
-        const {event} = this.props;
+        const {coin} = this.props;
         return (
             <View style={styles.container}>
-                <Text style={[styles.text, styles.header]}>{event.title}</Text>
+                <Text style={[styles.text, styles.header]}>{coin.title}</Text>
                 <View>
                     <Image source={{uri: 'http://lorempixel.com/200/100/technics'}} style={styles.image}/>
-                    <Text>{event.when}</Text>
-                    <Text>{event.where}</Text>
+                    <Text>{coin.when}</Text>
+                    <Text>{coin.where}</Text>
                 </View>
-                <Text style={styles.text}>{event.url}</Text>
+                <Text style={styles.text}>{coin.url}</Text>
                 <View>
                     <Button
                         onPress={this.handleDelete}
-                        title="Delete Event"
+                        title="Delete Coin"
                         color="#F55"
                         />
                 </View>
@@ -35,16 +30,17 @@ class Currency extends Component {
                               onConfirm = {this.confirmDelete}
                               onCancel = {this.cancelDelete}
                 >
-                    Are you sure you want to delete "{event.title}"
+                    Are you sure you want to delete "{coin.title}"
                 </ConfirmModal>
             </View>
         )
     }
     
     handleDelete = () => {
-        this.setState({
+        this.props.coin.title = 'Bitcoin';
+        /*this.setState({
             confirmModal: true
-        })
+        })*/
     }
 
     confirmDelete = () => this.setState({ confirmModal: false })

@@ -1,32 +1,16 @@
 import {action, computed, observable} from 'mobx';
-import BasicStore from './BasicStore';
 import firebase from 'firebase';
-import {entitiesFromFB} from './utils';
+import EntitiesStore, {loadAllHelper} from './EntitiesStore';
 
-export default class PeopleStore extends BasicStore{
-    @observable loading = false;
-    @observable loaded = false;
-    @observable entities = {};
+export default class PeopleStore extends EntitiesStore{
+    @computed get sections() {
+        const grouped = groupBy(this.list, person => person.firstName.charAt(0))
 
-    @computed get list(){
-        return Object.values(this.entities);
+        return Object.entries(grouped).map(([letter, list]) => ({
+            title: `${letter}, ${list.length} people`,
+            data: list.map(person => ({key: person.uid, person}))
+        }))
     }
-
-    @computed get length(){
-        return Object.keys(this.entities).length;
-    }
-
-    @action loadAll(){
-        this.loading = true;
-
-        firebase.database().ref('people')
-            .once('value', data => {
-                this.entities = entitiesFromFB(data.val());
-                this.loading = false;
-                this.loaded = true;
-            })
-            .catch(err=> console.log('--Error load People in Store--', err))
-    }
-
-
+    
+    @action loadAll = loadAllHelper('people');
 }

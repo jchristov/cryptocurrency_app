@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import {View, Image, StyleSheet, Text} from 'react-native';
 import Card from '../common/Card';
+import {observer} from 'mobx-react';
 
+@observer
 export default class PersonCard extends Component {
     static propTypes = {
         person: PropTypes.object.isRequired

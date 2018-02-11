@@ -21,8 +21,13 @@ class PeopleListScreen extends Component {
             return this.getLoader();
         }
         
-        return <PeopleList peoples = {people.list}/>
+        return <PeopleList peoples = {people.list} onPersonPress = {this.handlePress}/>
     }
+
+    handlePress = (uid) => { 
+        console.log('---', uid);
+        this.props.people.entities[uid].email = 'LALLALALA';
+    }    
 
     getLoader = () => {
         return <View><ActivityIndicator size='large'/></View>

@@ -1,7 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {Modal, View, Text, Button, StyleSheet} from 'react-native'
 
 class ConfirmModal extends Component {
+    static propTypes = {
+
+    };
+
     render() {
         const {visible, children, onConfirm, onCancel} = this.props
         return (
@@ -16,10 +20,9 @@ class ConfirmModal extends Component {
                     </View>
                 </View>
             </Modal>
-        );
+        )
     }
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -40,5 +43,4 @@ const styles = StyleSheet.create({
     }
 })
 
-
-export default ConfirmModal;
+export default ConfirmModal
