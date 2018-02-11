@@ -1,7 +1,7 @@
 import {observable} from 'mobx';
 import BasicStore from './BasicStore';
 import firebase from 'firebase';
-import {action} from 'mobx';
+import {action, autorun} from 'mobx';
 
 /**
  * observable это дикоратор 
@@ -14,10 +14,20 @@ class AuthStore extends BasicStore {
         super(...args);
 
         firebase.auth().onAuthStateChanged(user => {    
-            console.log('===', this.user);
-            const objStore = this.getStore('navigation');
-            objStore.reset('currencyList');
-        })
+            this.setUser(user);
+        });
+        
+        let initRedirect = false;
+
+        autorun(() => {
+            console.log('---', this.user);
+            const routeName = this.user ? 'lists' : 'auth';
+            if(initRedirect){
+                const objStore =  this.getStore('navigation');
+                objStore.reset(routeName);
+            }
+            initRedirect = true;
+        });
     }
 
     signIn = () => {

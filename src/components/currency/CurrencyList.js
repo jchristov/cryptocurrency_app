@@ -4,7 +4,7 @@ import {View,  SectionList, TouchableOpacity} from 'react-native';
 import CurrencyCard from './CurrencyCard';
 import groupBy from 'lodash/groupBy'
 
-class CurrencyList extends Component {
+export default class CurrencyList extends Component {
     static propTypes = {
 
     };
@@ -27,5 +27,3 @@ class CurrencyList extends Component {
         )
     }
 }
-
-export default CurrencyList;

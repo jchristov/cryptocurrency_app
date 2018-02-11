@@ -12,8 +12,11 @@ export default class NavigationStore extends BasicStore {
 
     @computed get config() {
         return {
-            state: this.state,
-            dispatch: this.dispatch
+            dispatch: this.dispatch,
+            state: {
+                ...this.state,
+                routes: toJS(this.state.routes)
+            }
         }
     }
 

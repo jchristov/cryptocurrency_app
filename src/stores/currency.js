@@ -2,14 +2,13 @@ import {observable, computed, action, useStrict} from 'mobx';
 import firebase from 'firebase';
 import {status, json, entitiesFromFB} from './utils';
 import BasicStore from './BasicStore';
-
 //useStrict(true)
 
 /**
- * computed дикоратор который отробатывает каждый раз при изменении данных
+ * computed - дикоратор который пересчитывается каждый раз при изменении данных
  * useStrict если мутации за пределами этого стора то об этом сообщат       
  */
-export default class Currency extends BasicStore{
+export default class CurrencyStore extends BasicStore{
     @observable loading = false
     @observable loaded = false
     @observable entities = {}
@@ -30,6 +29,6 @@ export default class Currency extends BasicStore{
                 this.loading = false;
                 this.loaded = true;
             })
-            .catch(data=> console.log('---', data))
+            .catch(err=> console.log('--Error Load Currency in Store--', err))
     }
 }
