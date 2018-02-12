@@ -27,6 +27,7 @@ class PeopleListScreen extends Component {
 
     handlePress = (uid) => { 
         //text('+123456789', 'event notification');
+        this.props.navigation.navigate('personPhoto', { uid });
     }    
 
     getLoader = () => {

@@ -4,6 +4,7 @@ import CurrencyListScreen from './components/screens/currency/CurrencyListScreen
 import CurrencyScreen from './components/screens/currency/CurrencyScreen';
 import PeopleListScreen from './components/screens/people/PeopleListScreen';
 import ShowMap from './components/screens/ShowMap';
+import PersonPhotoScreen from './components/screens/people/PersonPhotoScreen';
 
 const ListsNavigator = TabNavigator({
     currencyList: {
@@ -27,6 +28,9 @@ const AppNavigator = StackNavigator({
     map: {
         screen: ShowMap
     },
+    personPhoto: {
+        screen: PersonPhotoScreen
+    }
 });
 
 export default AppNavigator;
