@@ -6,7 +6,6 @@ import PeopleStore from './People';
 const stores = {};
 
 export const auth = new AuthStore(stores);
-
 /**
  * https://github.com/infinitered/ignite/issues/1225
  * Не хватает метода addListener 

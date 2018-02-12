@@ -33,4 +33,8 @@ export default class NavigationStore extends BasicStore {
     goTo(routeName){
         this.dispatch(NavigationActions.navigate({routeName}));
     }
+
+    goBack(){
+        this.dispatch(NavigationActions.back());
+    }
 }

@@ -3,10 +3,13 @@ import PropTypes from 'prop-types'
 import {View, StyleSheet, TouchableOpacity, Text, Image, Modal, ActivityIndicator} from 'react-native';
 import {Camera} from 'expo';
 import {observable, action} from 'mobx';
-import {observer} from 'mobx-react';
+import {observer, inject} from 'mobx-react';
 import firebase from 'firebase';
+import {decode} from 'base64-arraybuffer';
 import Photo from '../common/Photo';
 
+@inject('people')
+@inject('navigation')
 @observer
 export default class PersonPhoto extends Component {
     static propTypes = {
@@ -30,11 +33,20 @@ export default class PersonPhoto extends Component {
     }
     
     getPhoto = async({uri, width, height, exif, base64}) => {
-        const {uid} = this.props;
+        const {uid, people, navigation} = this.props;
+        
         this.setUri(uri);
+
+        console.log('---', this.uri, base64);
         
-        
-    
+        const buf = decode(base64);
+        const ref = firebase.storage().ref(`/avatars/${uid}.jpg`)
+
+        await ref.put(buf);
+        const avatar = await ref.getDownloadURL();
+
+        people.updatePerson(uid, {avatar});
+        navigation.goBack();
     }
     
     render() {

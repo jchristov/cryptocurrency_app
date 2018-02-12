@@ -13,4 +13,9 @@ export default class PeopleStore extends EntitiesStore{
     }
     
     @action loadAll = loadAllHelper('people');
+
+    @action updatePerson(uid, data){
+        firebase.database().ref(`people/${uid}`).update(data);
+    }
+
 }
