@@ -5,7 +5,7 @@ import {Camera} from 'expo';
 import {observable, action} from 'mobx';
 import {observer, inject} from 'mobx-react';
 import firebase from 'firebase';
-import {decode} from 'base64-arraybuffer';
+
 import Photo from '../common/Photo';
 
 @inject('people')
@@ -31,21 +31,14 @@ export default class PersonPhoto extends Component {
             </View>
         );
     }
-    
+
     getPhoto = async({uri, width, height, exif, base64}) => {
         const {uid, people, navigation} = this.props;
         
         this.setUri(uri);
 
-        console.log('---', this.uri, base64);
-        
-        const buf = decode(base64);
-        const ref = firebase.storage().ref(`/avatars/${uid}.jpg`)
+        await people.saveAvatar(uid, base64);
 
-        await ref.put(buf);
-        const avatar = await ref.getDownloadURL();
-
-        people.updatePerson(uid, {avatar});
         navigation.goBack();
     }
     

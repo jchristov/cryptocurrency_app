@@ -1,15 +1,14 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import PersonPhoto from '../../people/PersonPhoto';
+import {observer} from 'mobx-react';
 
+@observer 
 export default class PersonPhotoScreen extends Component {
     static propTypes = {
     };
 
     render() {
-        const {navigation} = this.props;
-        const uid = navigation.state.params.uid;
-
-        return <PersonPhoto uid = {uid} />
+        return <PersonPhoto uid = {this.props.navigation.state.params.uid} />
     }
 }

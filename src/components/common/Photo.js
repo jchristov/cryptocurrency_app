@@ -8,7 +8,6 @@ import {observer} from 'mobx-react';
 @observer
 export default class Photo extends Component {
     static propTypes = {
-
     };
 
     @observable permitted = false;
@@ -35,27 +34,33 @@ export default class Photo extends Component {
         return (
             <View style={styles.container}>
                 <Camera style={styles.camera}  type={this.type} ref={this.getCameraRef}>
-                    <View style={styles.controls}>
-                        <TouchableOpacity style={styles.flip} onPress={this.flip}>
-                            <Text style={styles.text}>Flip</Text>    
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.shot} onPress={this.takePhoto}/>
+                    <View style={styles.overlay} >
+                        <View style={styles.controls}>
+                            <TouchableOpacity style={styles.flip} onPress={this.flip}>
+                                <Text style={styles.text}>Flip</Text>    
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.shot} onPress={this.takePhoto}/>
+                        </View>
                     </View>
                 </Camera>
             </View>
         );
     }
 
+    /**
+     * c ref работаем только так 
+     * чтобы была только одна ссылка на функцию в течении всего перестроения 
+     */
     getCameraRef = (ref) => {
         this.camera = ref;
-        setTimeout(() => this.setType(Camera.Constants.Type.front), 0)
+        setTimeout(() => this.setType(Camera.Constants.Type.front), 0);
     }   
 
     flip = () => {
         this.setType(this.type === Camera.Constants.Type.back
             ? Camera.Constants.Type.front
             : Camera.Constants.Type.back
-        )
+        );
     }
 
     takePhoto = async() => {
