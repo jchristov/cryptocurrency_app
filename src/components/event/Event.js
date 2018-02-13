@@ -5,7 +5,7 @@ import {observer, inject} from 'mobx-react';
 
 @inject('navigation')
 @observer
-class Currency extends Component {
+export default class Event extends Component {
 
     static propTypes = {
 
@@ -16,20 +16,20 @@ class Currency extends Component {
     }
 
     render() {
-        const {coin} = this.props;
+        const {event} = this.props;
         return (
             <View style={styles.container}>
-                <Text style={[styles.text, styles.header]}>{coin.title}</Text>
+                <Text style={[styles.text, styles.header]}>{event.title}</Text>
                 <View>
                     <Image source={{uri: 'http://lorempixel.com/200/100/technics'}} style={styles.image}/>
-                    <Text>{coin.when}</Text>
-                    <Text>{coin.where}</Text>
+                    <Text>{event.when}</Text>
+                    <Text>{event.where}</Text>
                 </View>
-                <Text style={styles.text}>{coin.url}</Text>
+                <Text style={styles.text}>{event.url}</Text>
                 <View>
                     <Button
                         onPress={this.handleDelete}
-                        title="Delete Coin"
+                        title="Delete event"
                         color="#F55"
                         />
                     <Button 
@@ -42,21 +42,21 @@ class Currency extends Component {
                               onConfirm = {this.confirmDelete}
                               onCancel = {this.cancelDelete}
                 >
-                    Are you sure you want to delete "{coin.title}"
+                    Are you sure you want to delete "{event.title}"
                 </ConfirmModal>
             </View>
         )
     }
     
     handleDelete = () => {
-        /*this.props.coin.title = 'Bitcoin';*/
+        /*this.props.event.title = 'Bitevent';*/
         this.setState({
             confirmModal: true
         })
     }
 
     goTo = () => {
-        this.props.navigation.goTo('map', {uid: this.props.coin.uid});
+        this.props.navigation.goTo('map', {uid: this.props.event.uid});
     }
 
 
@@ -97,6 +97,3 @@ const styles = StyleSheet.create({
         marginBottom: 30
     }
 });
-
-
-export default Currency;

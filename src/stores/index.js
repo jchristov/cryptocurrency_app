@@ -1,4 +1,4 @@
-import Currency from './Currency';
+import Events from './Events';
 import AuthStore  from './Auth';
 import NavigationStore  from './Navigation';
 import PeopleStore from './People';
@@ -12,12 +12,12 @@ export const auth = new AuthStore(stores);
  * Эта фича добавлена в релиз > 28
  */
 export const navigation = new NavigationStore(stores);
-export const currency = new Currency(stores);
+export const events = new Events(stores);
 export const people = new PeopleStore(stores);
 
 stores.auth = auth;
 stores.navigation = navigation;
-stores.currency = currency;
+stores.events = events;
 stores.people = people;
 
 export default stores;

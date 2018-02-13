@@ -8,6 +8,6 @@ import EntitiesStore, {loadAllHelper} from './EntitiesStore';
  * computed - дикоратор который пересчитывается каждый раз при изменении данных
  * useStrict если мутации за пределами этого стора то об этом сообщат       
  */
-export default class CurrencyStore extends EntitiesStore{
+export default class EventsStore extends EntitiesStore{
     @action loadAll = loadAllHelper('events');
 }

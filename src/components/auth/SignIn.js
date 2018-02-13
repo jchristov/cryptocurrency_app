@@ -45,7 +45,7 @@ class SignIn extends Component {
             </View>
         )
     }
-    //this.props.navigation.navigate('currencyList');
+    //this.props.navigation.navigate('eventList');
     @action setPassword = password => this.props.auth.password = password
     @action setEmail = email => this.props.auth.email = email
 }

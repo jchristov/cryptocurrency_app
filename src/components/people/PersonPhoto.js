@@ -5,7 +5,6 @@ import {Camera} from 'expo';
 import {observable, action} from 'mobx';
 import {observer, inject} from 'mobx-react';
 import firebase from 'firebase';
-
 import Photo from '../common/Photo';
 
 @inject('people')
@@ -36,7 +35,6 @@ export default class PersonPhoto extends Component {
         const {uid, people, navigation} = this.props;
         
         this.setUri(uri);
-
         await people.saveAvatar(uid, base64);
 
         navigation.goBack();
@@ -46,6 +44,7 @@ export default class PersonPhoto extends Component {
         if(this.uri) return this.getPreview();
         return <Photo base64 getPhoto={this.getPhoto} />
     }
+    
 }
 
 const styles = StyleSheet.create({
