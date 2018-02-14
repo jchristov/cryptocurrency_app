@@ -9,18 +9,17 @@ export default class CoinCard extends Component {
     };
 
     render() {
-        const {coin:{id, seperator, symbol, coin_name, price_usd, percent_change_24h, percent_change_7d}} = this.props;
-        console.log('---', this.props.coin);
-        
+        const {coin: {id, seperator, symbol, coin_name, price_usd, percent_change_24h, percent_change_7d}} = this.props;
+        console.log('123', id)
         return (
             <Card style={styles.container}>
                 <View style={styles.topColumn}>
-                    <Image style={styles.image} source={{uri: `https://files.coinmarketcap.com/static/img/coins/16x16/${coin.id}.png`}}/>
+                    <Image style={styles.image} source={{uri: `https://files.coinmarketcap.com/static/img/coins/16x16/${id}.png`}}/>
                     <Text>{symbol}</Text>
                     <Text>{seperator}|</Text>
                     <Text>{coin_name}</Text>
-                    <Text style={coinPrice}>{price_usd}
-                        <Text style={moneySymbol}> $ </Text>
+                    <Text>{price_usd}
+                        <Text> $ </Text>
                     </Text>
                 </View>
                 <View style={styles.bottomColumn}>
@@ -64,7 +63,8 @@ const styles = StyleSheet.create({
         justifyContent: "space-around"
     },
     image: {
-
+        width: 16,
+        height: 16
     },
     percentChangeMinus:{
         color: "#00BFA5",

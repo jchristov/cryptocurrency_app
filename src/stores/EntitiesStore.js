@@ -14,6 +14,10 @@ class EntitiesStore extends BasicStore {
         return Object.values(this.entities);
     }
 
+    @computed get arr(){
+        return this.entities;
+    }
+
     @computed get size(){
         return Object.keys(this.entities).length;
     }
@@ -36,12 +40,10 @@ export function loadAllHelper(refName){
 export function loadApi(){
     return function() {
         this.loading = true;
-
-        fetch(`https://api.coinmarketcap.com/v1/ticker/?limit=3`)
+        fetch(`https://api.coinmarketcap.com/v1/ticker/?limit=1`)
         .then(status)
         .then(json)
         .then(entities => {
-            console.log(entities);
             this.entities = entities;
             this.loading = false;
             this.loaded = true;

@@ -2,29 +2,26 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {SectionList, TouchableOpacity} from 'react-native';
 import CoinCard from './CoinCard';
+import groupBy from 'lodash/groupBy'
 
 export default class CoinList extends Component {
     static propTypes = {
     };
 
     render() {
-        const {coins, onEventPress} = this.props;
+        const {coins, onCoinPress} = this.props;
 
-       
-        const sections = coins.map(([letter, list]) => {
-            return {
-                title: `${letter}, ${list.length} events`,
-                data: list    
-            }
-        })
+        const grouped = groupBy(coins, coin => coin.id.charAt(0));
+        const sections = Object.entries(grouped).map(([letter, list]) => ({
+            title: `${letter}, ${list.length} events`,
+            data: list.map(coin => ({key: coin.id, coin}))
+        }));
         
-        console.log('---', sections)
-   
         return (
             <SectionList
                 sections={sections}
-                renderItem = {({item}) => <TouchableOpacity onPress = {onEventPress.bind(null, item.key)}>
-                    <CoinCard coin={item}/>
+                renderItem = {({item}) => <TouchableOpacity onPress={onCoinPress.bind(null, item.key)}>
+                    <CoinCard coin={item.coin}/>
                 </TouchableOpacity>}
             />
         );
