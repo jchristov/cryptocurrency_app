@@ -7,6 +7,9 @@ import EventList from '../../event/EventList'
 @observer 
 export default class EventListScreen extends Component {
     
+    static propTypes = {
+    };
+
     static navigationOptions = {
         title: 'Event List '
     };
@@ -17,9 +20,7 @@ export default class EventListScreen extends Component {
 
     render() {
         const {events} = this.props;
-        if(events.loading){
-            return this.getLoader();
-        }
+        if(events.loading) return this.getLoader();
         return <EventList onEventPress={this.handleEventPress} events = {events.list}/>;
     }
 
