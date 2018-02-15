@@ -6,16 +6,15 @@ import BasicStore from './BasicStore';
 class EntitiesStore extends BasicStore {
     @observable loading = false;
     @observable loaded = false;
-
     @observable entities = {};
-
+    @observable start = 1;
 
     @computed get list(){
         return Object.values(this.entities);
     }
 
     @computed get arr(){
-        return this.entities;
+        return this.entities.map(item => ({key: item.id, arr}));
     }
 
     @computed get size(){
@@ -40,17 +39,17 @@ export function loadAllHelper(refName){
 export function loadApi(){
     return function() {
         this.loading = true;
-        fetch(`https://api.coinmarketcap.com/v1/ticker/?limit=10`)
-        .then(status)
-        .then(json)
-        .then(entities => {
-            this.entities = entities;
-            this.loading = false;
-            this.loaded = true;
-        })
-        .catch(err => console.error(err));
+
+        fetch(`https://api.coinmarketcap.com/v1/ticker/?start=${this.start}&limit=10`)
+            .then(status)
+            .then(json)
+            .then(entities => {
+                this.entities = entities;
+                this.loading = false;
+                this.loaded = true;
+            })
+            .catch(err => console.error(err));
     }
 }
-
 
 export default EntitiesStore;

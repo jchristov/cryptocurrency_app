@@ -10,9 +10,10 @@ import {action, autorun} from 'mobx';
  * и если они поменялись перестраивает Virtual DOM с новыми данными 
  */
 class AuthStore extends BasicStore {
-    @observable email = ''
-    @observable password = ''
-    @observable user = null
+    @observable email = '';
+    @observable password = '';
+    @observable user = null;
+    
     constructor(...args){
         super(...args);
 

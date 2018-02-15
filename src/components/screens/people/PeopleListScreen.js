@@ -5,7 +5,7 @@ import PeopleList from '../../people/PeopleList';
 
 @inject('people')
 @observer 
-class PeopleListScreen extends Component {
+export default class PeopleListScreen extends Component {
     static propTypes = {
     };
 
@@ -35,5 +35,3 @@ class PeopleListScreen extends Component {
 
 const styles = StyleSheet.create({
 });
-
-export default PeopleListScreen;

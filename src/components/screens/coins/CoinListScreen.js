@@ -21,8 +21,8 @@ export default class CoinListScreen extends Component {
 
     render() {
         const {coins} = this.props;
-        if(!coins.loaded) return this.getLoader();
-        return <CoinList onCoinPress={this.handleCoinPress} coins={coins.arr}/>
+        if(coins.loading) return this.getLoader();
+        return <CoinList onCoinPress={this.handleCoinPress}/>
     }
 
     getLoader = () => {

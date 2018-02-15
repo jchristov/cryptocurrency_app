@@ -1,19 +1,28 @@
 import React, { Component } from 'react';
+import {inject, observer} from 'mobx-react';
 import PropTypes from 'prop-types';
 import {SectionList, TouchableOpacity, VirtualizedList, View, ActivityIndicator} from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import CoinCard from './CoinCard';
 
+@inject('coins')
+@observer
 export default class CoinList extends Component {
     static propTypes = {
     };
 
+    componentDidMount(){
+        const {coins} = this.props;
+        if(!coins.loaded) coins.loadApi();
+    }
+
     render() {
         const { coins, onCoinPress } = this.props;
-        const data = coins.map(coin => ({key: coin.id, coin}))
-      
+        if(!coins.loaded) return <ActivityIndicator size='large'/>
+        
+        
         return <VirtualizedList
-                    data={data}
+                    data={coins.arr}
                     getItemCount={this._getItemCount}
                     getItem={this._getItem}
                     keyExtractor={item => item.id}
