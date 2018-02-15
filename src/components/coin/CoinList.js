@@ -1,29 +1,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {SectionList, TouchableOpacity} from 'react-native';
+import {SectionList, TouchableOpacity, VirtualizedList, View} from 'react-native';
 import CoinCard from './CoinCard';
-import groupBy from 'lodash/groupBy'
 
 export default class CoinList extends Component {
     static propTypes = {
     };
 
     render() {
-        const {coins, onCoinPress} = this.props;
-
-        const grouped = groupBy(coins, coin => coin.id.charAt(0));
-        const sections = Object.entries(grouped).map(([letter, list]) => ({
-            title: `${letter}, ${list.length} events`,
-            data: list.map(coin => ({key: coin.id, coin}))
-        }));
-        
-        return (
-            <SectionList
-                sections={sections}
-                renderItem = {({item}) => <TouchableOpacity onPress={onCoinPress.bind(null, item.key)}>
-                    <CoinCard coin={item.coin}/>
-                </TouchableOpacity>}
-            />
-        );
+        const { coins, onCoinPress } = this.props;
+        const data = coins.map(coin=>({key: coin.id, coin}))
+      
+        return <VirtualizedList
+                    data={data}
+                    getItemCount={this.coins.length}
+                    getItem={this._getItem}
+                    keyExtractor={(item, index)=>{
+                        return item.key;
+                    }}
+                    renderItem = {({item}) => <TouchableOpacity onPress={console.log(123)}>
+                        <CoinCard coin={item}/>
+                    </TouchableOpacity>}
+                />
     }
+
+    _getItem = (data, index) => {
+        return this.props.coins[index];     
+    }
+    
 }

@@ -9,17 +9,17 @@ export default class CoinCard extends Component {
     };
 
     render() {
-        const {coin: {id, seperator, symbol, coin_name, price_usd, percent_change_24h, percent_change_7d}} = this.props;
-        console.log('123', id)
+        const {coin: {id, seperator, symbol, name, price_usd, percent_change_24h, percent_change_7d}} = this.props;
+        
         return (
             <Card style={styles.container}>
                 <View style={styles.topColumn}>
                     <Image style={styles.image} source={{uri: `https://files.coinmarketcap.com/static/img/coins/16x16/${id}.png`}}/>
-                    <Text>{symbol}</Text>
-                    <Text>{seperator}|</Text>
-                    <Text>{coin_name}</Text>
-                    <Text>{price_usd}
-                        <Text> $ </Text>
+                    <Text style={styles.coinSymbol}>{symbol}</Text>
+                    <Text style={styles.seperator}>{seperator}|</Text>
+                    <Text style={styles.coinName}>{name}</Text>
+                    <Text style={styles.coinPrice}>{price_usd}
+                        <Text style={styles.moneySymbol}> $ </Text>
                     </Text>
                 </View>
                 <View style={styles.bottomColumn}>
@@ -75,5 +75,28 @@ const styles = StyleSheet.create({
         color: "#DD2C00",
         fontWeight: "bold",
         marginLeft: 5
-    }
+    },
+    coinSymbol: {
+        marginTop: 10,
+        marginLeft: 20,
+        marginRight: 5,
+        fontWeight: "bold",        
+    },
+    seperator: {
+        marginTop: 10,
+    }, 
+    coinName: {
+        marginTop: 10,
+        marginLeft: 5,
+        marginRight: 20
+    },
+    coinPrice: {
+        marginTop: 10,
+        marginLeft: "auto",
+        marginRight: 10,
+        fontWeight: "bold",        
+    },
+    moneySymbol: {
+        fontWeight: "bold",
+    },
 });
