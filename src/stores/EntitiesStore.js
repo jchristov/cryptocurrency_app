@@ -40,7 +40,7 @@ export function loadAllHelper(refName){
 export function loadApi(){
     return function() {
         this.loading = true;
-        fetch(`https://api.coinmarketcap.com/v1/ticker/?limit=1`)
+        fetch(`https://api.coinmarketcap.com/v1/ticker/?limit=10`)
         .then(status)
         .then(json)
         .then(entities => {

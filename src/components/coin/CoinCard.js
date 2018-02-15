@@ -39,12 +39,11 @@ export default class CoinCard extends Component {
     }
 }
 
-
 const styles = StyleSheet.create({
     container:{
         display: 'flex',
         flexDirection: 'column',
-        marginBottom: 20,
+       
         borderBottomColor: "#e5e5e5",
         borderBottomWidth: 3,
         padding: 20
