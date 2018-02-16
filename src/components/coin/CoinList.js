@@ -17,16 +17,18 @@ export default class CoinList extends Component {
     }
 
     render() {
-        const { coins, onCoinPress } = this.props;
+        const {coins, onCoinPress} = this.props;
         if(!coins.loaded) return <ActivityIndicator size='large'/>
         const data = coins.entities.map(item => ({key: item.id, item}));
-        
+
         return <VirtualizedList 
                     data={data}
                     getItemCount={this._getItemCount}
                     getItem={this._getItem}
                     keyExtractor={item => item.id}
                     ListHeaderComponent={this.renderHeader}
+                    onEndReached={this.handleLoadMore}
+                    onEndReachedThreshold={0.5}   
                     renderItem = {({item}) => <TouchableOpacity >
                         <CoinCard coin={item}/>
                     </TouchableOpacity>}
@@ -38,7 +40,6 @@ export default class CoinList extends Component {
     }
 
     _getItem = (data, index) => {
-        console.log(this.props.coins.entities[index]);
         return this.props.coins.entities[index];    
     }
 
@@ -46,6 +47,17 @@ export default class CoinList extends Component {
         return <SearchBar placeholder="Type Here..." lightTheme round />
     }
     
+    handleRefresh = () => {
+        
+    }
+
+    handleLoadMore = () => {
+        console.log('123')
+        const {coins} = this.props;
+        coins.setStart();
+        coins.lazyLoadApi();
+    }
+
     renderFooter = () => {
         return (
             <View style={{

@@ -7,7 +7,6 @@ class EntitiesStore extends BasicStore {
     @observable loading = false;
     @observable loaded = false;
     @observable entities = {};
-    @observable start = 0;
 
     @computed get list(){
         return Object.values(this.entities);
@@ -29,23 +28,6 @@ export function loadAllHelper(refName){
                 this.loaded = true;
             })
             .catch(err => console.log('Error load data from firebase', err));
-    }
-}
-
-export function loadApi(){
-    return function() {
-        this.loading = true;
-
-        fetch(`https://api.coinmarketcap.com/v1/ticker/?start=${this.start}&limit=2`)
-            .then(status)
-            .then(json)
-            .then(entities => {
-                console.log(entities);
-                this.entities = entities;
-                this.loading = false;
-                this.loaded = true;
-            })
-            .catch(err => console.error(err));
     }
 }
 
