@@ -15,14 +15,14 @@ export default class CoinListScreen extends Component {
     };
     
     componentDidMount(){
-        const { coins } = this.props;
-        if(!coins.loaded && !coins.loading)coins.loadApi();
+        const {coins} = this.props;
+        if(!coins.loaded && !coins.loading) coins.loadApi();
     }
 
     render() {
         const {coins} = this.props;
         if(coins.loading) return this.getLoader();
-        return <CoinList onCoinPress={this.handleCoinPress}/>
+        return <CoinList onCoinPress = {this.handleCoinPress}/>
     }
 
     getLoader = () => {

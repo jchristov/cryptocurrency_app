@@ -36,7 +36,8 @@ class AuthStore extends BasicStore {
     signIn = () => {
         firebase.auth()
             .signInWithEmailAndPassword(this.email, this.password)
-            .then(this.setUser);
+            .then(this.setUser)
+            .catch(err => console.error(err));
     }
 
     @action setUser = (user) => {

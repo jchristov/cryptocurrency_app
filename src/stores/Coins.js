@@ -2,9 +2,8 @@ import EntitiesStore, {loadApi} from './EntitiesStore';
 import {observable, computed, action} from 'mobx';
 
 export default class CoinsStore extends EntitiesStore{  
-    
-    constructor(...args){
-        super(...args);
+    @computed get arrList(){
+        return this.entities.map(item => ({key: item.id, arr}));
     }
 
     @action loadApi = loadApi();
@@ -12,4 +11,5 @@ export default class CoinsStore extends EntitiesStore{
     @action setStart = (start) => {
         this.start = start;
     }  
+    
 }
