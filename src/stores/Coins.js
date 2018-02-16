@@ -4,7 +4,7 @@ import {status, json} from './utils';
 
 export default class CoinsStore extends EntitiesStore{  
     @observable refreshing = false;
-    @observable start = 0;
+    @observable startAt = 0;
     constructor(...args){
         super(...args);
         this.limit = 20;
@@ -14,31 +14,36 @@ export default class CoinsStore extends EntitiesStore{
         return this.entities.map(item => ({key: item.id, arr}));
     }
 
-    @action loadApi = () => {
-            this.loading = true;
-            fetch(`https://api.coinmarketcap.com/v1/ticker/?start=${this.start}&limit=${this.limit}`)
-                .then(status)
-                .then(json)
-                .then(entities => {
-                    this.entities = entities;
-                    this.loading = false;
-                    this.loaded = true;
-                })
-                .catch(err => console.error(err));
+    makeApiRequest = () => {
+        const url = `https://api.coinmarketcap.com/v1/ticker/?start=${this.startAt}&limit=${this.limit}`; 
+        fetch(url)
+            .then(status)
+            .then(json)
+            .then(this.setParams)
+            .catch(err => console.error('lazy load error component Coins', err));
     }
 
-    @action lazyLoadApi = () => {
-        fetch(`https://api.coinmarketcap.com/v1/ticker/?start=${this.start}&limit=${this.limit}`)
-        .then(status)
-        .then(json)
-        .then(newEntities => {
-            this.entities = this.entities.push(newEntities);
-        })
-        .catch(err => console.error(err));
+    @action setParams = (newEntities) => {
+        this.entities =  this.startAt === 0 ? newEntities : [...this.entities, ...newEntities];
+        this.loading = false;
+        this.loaded = true;
+        this.refreshing = false;
     }
 
-    @action setStart(){
-        this.start = Number(this.start) + Number(this.limit);
+    @action loadApi(){
+        this.loading = true;
+        this.makeApiRequest();
     }
-    
+
+    @action lazyLoadApi(){
+        this.loading = true;
+        this.startAt = Number(this.startAt) + Number(this.limit);
+        this.makeApiRequest();
+    }
+
+    @action refreshEntities(){
+        this.refreshing = true;
+        this.startAt = 0;
+        this.makeApiRequest();
+    }
 }

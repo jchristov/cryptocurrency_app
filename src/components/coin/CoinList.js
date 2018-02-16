@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {observer, inject} from 'mobx-react';
 import PropTypes from 'prop-types';
-import {SectionList, TouchableOpacity, VirtualizedList, View, ActivityIndicator} from 'react-native';
+import {SectionList, TouchableOpacity, VirtualizedList, FlatList, View, ActivityIndicator} from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import CoinCard from './CoinCard';
 
@@ -13,25 +13,29 @@ export default class CoinList extends Component {
 
     componentDidMount() {
         const {coins} = this.props
-        if (!coins.loaded) coins.loadApi()
+        if (!coins.loaded) coins.loadApi();
     }
 
     render() {
         const {coins, onCoinPress} = this.props;
         if(!coins.loaded) return <ActivityIndicator size='large'/>
-        const data = coins.entities.map(item => ({key: item.id, item}));
-
-        return <VirtualizedList 
+       
+        const data = coins.entities.map(item => ({key: item.id, coin: item}));
+        return <FlatList 
                     data={data}
-                    getItemCount={this._getItemCount}
-                    getItem={this._getItem}
-                    keyExtractor={item => item.id}
-                    ListHeaderComponent={this.renderHeader}
-                    onEndReached={this.handleLoadMore}
-                    onEndReachedThreshold={0.5}   
                     renderItem = {({item}) => <TouchableOpacity >
-                        <CoinCard coin={item}/>
+                        <CoinCard coin={item.coin}/>
                     </TouchableOpacity>}
+                    keyExtractor={item => item.key}
+                    ListHeaderComponent={this.renderHeader}
+                    ListFooterComponent={this.renderFooter}
+                    
+                    refreshing={coins.refreshing}
+                    onRefresh={this.handleRefresh}
+
+                    onEndReached={this.handleLoadMore}
+                    onEndReachedThreshold={0} 
+                    
                 />
     }
 
@@ -47,15 +51,13 @@ export default class CoinList extends Component {
         return <SearchBar placeholder="Type Here..." lightTheme round />
     }
     
-    handleRefresh = () => {
-        
+    handleLoadMore = () => {
+        console.log('load more')
+        this.props.coins.lazyLoadApi();
     }
 
-    handleLoadMore = () => {
-        console.log('123')
-        const {coins} = this.props;
-        coins.setStart();
-        coins.lazyLoadApi();
+    handleRefresh = () => {
+        this.props.coins.refreshEntities();
     }
 
     renderFooter = () => {

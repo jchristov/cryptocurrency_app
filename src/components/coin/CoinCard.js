@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Card from '../common/Card';
 import {View, StyleSheet, Text, Image} from 'react-native';
 
-export default class CoinCard extends Component {
+export default class CoinCard extends PureComponent {
     static propTypes = {
 
     };
