@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {View, Text, TextInput, Platform, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, Platform, TouchableOpacity, StyleSheet} from 'react-native';
 import {observer, inject} from 'mobx-react';
 import {action} from 'mobx';
+import {FormLabel, FormInput, Card, Button} from 'react-native-elements';
 
 /**
  * observer это метод который заворачивает 
@@ -24,24 +25,29 @@ class SignIn extends Component {
         const {auth} = this.props;
         return (
             <View>
-                <Text style = {styles.header}>Please Sign In</Text>
-                
-                <Text>Email:</Text>
-                <TextInput value={auth.email} 
-                           onChangeText={this.setEmail} 
-                           style={styles.input}
-                           keyboardType='email-address'
-                />
-                
-                <Text>Password:</Text>
-                <TextInput value={auth.password} 
-                           onChangeText={this.setPassword} 
-                           style={styles.input}
-                           secureTextEntry
-                />
-                <TouchableOpacity onPress={auth.signIn}>
-                    <Text>Sign In</Text>
-                </TouchableOpacity>
+                <Card>
+                    <Text style = {styles.header}>Please Sign In</Text>
+                    
+                    <FormLabel>Email:</FormLabel>
+                    <FormInput value={auth.email} 
+                               onChangeText={this.setEmail} 
+                               inputStyle={styles.input}
+                               keyboardType='email-address'
+                    />
+                    
+                    <FormLabel>Password:</FormLabel>
+                    <FormInput value={auth.password} 
+                            onChangeText={this.setPassword} 
+                            inputStyle={styles.input}
+                            secureTextEntry
+                    />
+                    
+                    <Button
+                        title="Sign In"
+                        textStyle={styles.btnText}
+                        buttonStyle={styles.btn}
+                    />
+                </Card>
             </View>
         )
     }
@@ -66,15 +72,25 @@ const styles = StyleSheet.create({
     input:{
         ...Platform.select({
             ios: {
-                borderBottomColor: '#000',
-                borderBottomWidth: 1
+                
             },
             android: {
                 
             }
         })
-        
+    },
+    btn:{
+        backgroundColor: "rgba(92, 99,216, 1)",
+        borderColor: "transparent",
+        borderWidth: 0,
+        borderRadius: 5,
+        marginTop: 40,
+        color: "white"
+    },
+    btnText:{
+        fontWeight: "700",
     }
+
 });
 
 export default SignIn;

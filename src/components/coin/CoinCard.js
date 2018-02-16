@@ -14,7 +14,7 @@ export default class CoinCard extends PureComponent {
         return (
             <Card style={styles.container}>
                 <View style={styles.topColumn}>
-                    <Image style={styles.image} source={{uri: `https://files.coinmarketcap.com/static/img/coins/16x16/${id}.png`}}/>
+                    <Image style={styles.image} source={{uri: `https://files.coinmarketcap.com/static/img/coins/32x32/${id}.png`}}/>
                     <Text style={styles.coinSymbol}>{symbol}</Text>
                     <Text style={styles.seperator}>{seperator}|</Text>
                     <Text style={styles.coinName}>{name}</Text>
@@ -25,12 +25,12 @@ export default class CoinCard extends PureComponent {
                 <View style={styles.bottomColumn}>
                     <Text>24h:
                         <Text style={percent_change_24h < 0 ? styles.percentChangeMinus : styles.percentChangePlus}>
-                            {percent_change_24h} %
+                            &nbsp;{percent_change_24h} %
                         </Text>
                     </Text>
                     <Text>7d:
                         <Text style={percent_change_7d < 0 ? styles.percentChangeMinus : styles.percentChangePlus}>
-                            {percent_change_7d} %
+                            &nbsp;{percent_change_7d} %
                         </Text>
                     </Text>
                 </View>
@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
         justifyContent: "space-around"
     },
     image: {
-        width: 16,
-        height: 16
+        width: 32,
+        height: 32
     },
     percentChangeMinus:{
         color: "#00BFA5",

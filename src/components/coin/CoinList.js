@@ -9,11 +9,61 @@ import CoinCard from './CoinCard';
 @observer
 export default class CoinList extends Component {
     static propTypes = {
+        coins: PropTypes.object
     };
 
     componentDidMount() {
         const {coins} = this.props
         if (!coins.loaded) coins.loadApi();
+    }
+
+    _getItemCount = () => {
+        return this.props.coins.entities.length;
+    }
+
+    _getItem = (data, index) => {
+        return this.props.coins.entities[index];    
+    }
+
+    renderHeader = () => {
+        return <SearchBar placeholder="Enter Currency Name..." lightTheme round />
+    }
+    
+    handleLoadMore = () => {
+        console.log('load more')
+        this.props.coins.lazyLoadApi();
+    }
+
+    handleRefresh = () => {
+        this.props.coins.refreshEntities();
+    }
+
+    renderFooter = () => {
+        if(!this.props.coins.loading) return null;
+
+        return (
+            <View style={{
+                paddingVertical: 20,
+                borderTopWidth: 1,
+                borderColor: "#CED0CE"
+              }}
+            >
+              <ActivityIndicator animating size="large" />
+            </View>
+        );
+    }
+
+    renderSeparator = () => {
+        return(
+            <View
+                style={{
+                    height: 1,
+                    width: "86%",
+                    backgroundColor: "#CED0CE",
+                    marginLeft: "14%"
+                }}
+            />
+        )
     }
 
     render() {
@@ -29,47 +79,12 @@ export default class CoinList extends Component {
                     keyExtractor={item => item.key}
                     ListHeaderComponent={this.renderHeader}
                     ListFooterComponent={this.renderFooter}
-                    
+    
                     refreshing={coins.refreshing}
                     onRefresh={this.handleRefresh}
 
                     onEndReached={this.handleLoadMore}
-                    onEndReachedThreshold={0} 
-                    
+                    onEndReachedThreshold={0}                 
                 />
-    }
-
-    _getItemCount = () => {
-        return this.props.coins.entities.length;
-    }
-
-    _getItem = (data, index) => {
-        return this.props.coins.entities[index];    
-    }
-
-    renderHeader = () => {
-        return <SearchBar placeholder="Type Here..." lightTheme round />
-    }
-    
-    handleLoadMore = () => {
-        console.log('load more')
-        this.props.coins.lazyLoadApi();
-    }
-
-    handleRefresh = () => {
-        this.props.coins.refreshEntities();
-    }
-
-    renderFooter = () => {
-        return (
-            <View style={{
-                paddingVertical: 20,
-                borderTopWidth: 1,
-                borderColor: "#CED0CE"
-              }}
-            >
-              <ActivityIndicator animating size="large" />
-            </View>
-        )
     }
 }
