@@ -24,11 +24,11 @@ export default class CoinsStore extends EntitiesStore{
             .catch(err => console.error('lazy load error component Coins', err));
     }
 
-    @action setParams = (newEntities) => {
+    @action setParams = (entities) => {
         this.loading = false;
         this.loaded = true;
         this.refreshing = false;
-        this.entities =  this.startAt === 0 ? newEntities : [...this.entities, ...newEntities];
+        this.entities =  this.startAt === 0 ? entities : [...this.entities, ...entities];
     }
 
     @action loadApi(){
