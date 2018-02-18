@@ -31,7 +31,7 @@ export default class CoinListScreen extends Component {
     }
 
     handleCoinPress = (uid) => {
-        this.props.navigation.navigate('coin', {uid});
+        this.props.navigation.navigate('detail', {uid});
     }
 }
 

@@ -12,9 +12,9 @@ export default class CoinList extends Component {
         coins: PropTypes.object
     };
 
-    componentDidMount() {
+    componentWillMount() {
         const {coins} = this.props
-        if (!coins.loaded) coins.loadApi();
+        if (!coins.loaded && !coins.loading) coins.loadApi();
     }
 
     _getItemCount = () => {
@@ -39,8 +39,6 @@ export default class CoinList extends Component {
     }
 
     renderFooter = () => {
-        if(!this.props.coins.loading) return null;
-
         return (
             <View style={{
                 paddingVertical: 20,
@@ -63,17 +61,18 @@ export default class CoinList extends Component {
                     marginLeft: "14%"
                 }}
             />
-        )
+        );
     }
 
     render() {
         const {coins, onCoinPress} = this.props;
-        if(!coins.loaded) return <ActivityIndicator size='large'/>
-       
+        if(coins.loading) return <ActivityIndicator size='large'/>
+
         const data = coins.entities.map(item => ({key: item.id, coin: item}));
+
         return <FlatList 
                     data={data}
-                    renderItem = {({item}) => <TouchableOpacity >
+                    renderItem = {({item}) => <TouchableOpacity onPress={onCoinPress.bind(null, item.coin.id)}>
                         <CoinCard coin={item.coin}/>
                     </TouchableOpacity>}
                     keyExtractor={item => item.key}

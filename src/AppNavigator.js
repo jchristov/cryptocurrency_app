@@ -6,6 +6,7 @@ import PeopleListScreen from './components/screens/people/PeopleListScreen';
 import ShowMap from './components/screens/ShowMap';
 import PersonPhotoScreen from './components/screens/people/PersonPhotoScreen';
 import CoinListScreen from './components/screens/coins/CoinListScreen';
+import DetailScreen from './components/screens/detail/DetailScreen';
 
 const ListsNavigator = TabNavigator({
     eventList: {
@@ -28,6 +29,9 @@ const AppNavigator = StackNavigator({
     }, 
     event: {
         screen: EventScreen
+    },
+    detail: {
+        screen: DetailScreen
     },
     map: {
         screen: ShowMap

@@ -1,8 +1,9 @@
 import Events from './Events';
-import AuthStore  from './Auth';
+import AuthStore  from './AuthStore';
 import NavigationStore  from './Navigation';
 import PeopleStore from './People';
 import Coins from './Coins';
+import Graphs from './Graphs';
 
 const stores = {};
 
@@ -16,11 +17,13 @@ export const navigation = new NavigationStore(stores);
 export const events = new Events(stores);
 export const people = new PeopleStore(stores);
 export const coins = new Coins(stores);
+export const graphs = new Graphs(stores);
 
 stores.auth = auth;
 stores.navigation = navigation;
 stores.events = events;
 stores.people = people;
 stores.coins = coins;
+stores.graphs = graphs;
 
 export default stores;

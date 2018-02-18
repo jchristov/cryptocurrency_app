@@ -13,12 +13,10 @@ import {FormLabel, FormInput, Card, Button} from 'react-native-elements';
  * изменения будут происходить синхронно не как setState
  * setState это асинхронно 
  */
-
 @inject('auth')
 @observer
 class SignIn extends Component {
     static propTypes = {
-
     };
     
     render() {
@@ -41,7 +39,7 @@ class SignIn extends Component {
                             inputStyle={styles.input}
                             secureTextEntry
                     />
-                    
+
                     <Button
                         title="Sign In"
                         textStyle={styles.btnText}
@@ -85,9 +83,10 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         borderRadius: 5,
         marginTop: 40,
-        color: "white"
+        
     },
     btnText:{
+        color: "white",
         fontWeight: "700",
     }
 

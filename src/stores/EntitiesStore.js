@@ -15,6 +15,25 @@ class EntitiesStore extends BasicStore {
     @computed get size(){
         return Object.keys(this.entities).length;
     }
+
+    async makeApiRequest(uri){
+        return await (await (fetch(uri)
+                .then(status)
+                .then(json)
+                .catch(err => {
+                    console.log('Error load currency', error);           
+                })
+            ));
+        /*
+        try {
+            let res = await fetch(uri);
+            await status(res);
+            return await res.json();
+        } catch (error) {
+            console.log('Error load currency', error);           
+        }
+        */
+    }
 }
 
 export function loadAllHelper(refName){
