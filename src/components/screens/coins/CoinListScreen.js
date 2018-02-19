@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CoinList from '../../coin/CoinList';
 import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import {observer, inject} from 'mobx-react';
+import Loader from '../../common/Loader';
 
 @inject('coins')
 @observer
@@ -21,19 +22,13 @@ export default class CoinListScreen extends Component {
 
     render() {
         const {coins} = this.props;
-       
         if(coins.loading) return this.getLoader();
         return <CoinList onCoinPress = {this.handleCoinPress}/>
     }
 
-    getLoader = () => {
-        return <View><ActivityIndicator size='large'/></View>;
-    }
+    getLoader = () => <Loader />
 
     handleCoinPress = (uid) => {
         this.props.navigation.navigate('detail', {uid});
     }
 }
-
-const styles = StyleSheet.create({
-});

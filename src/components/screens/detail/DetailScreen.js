@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, Dimensions } from 'react-native';
 import ChartList from '../../chart/ChartList';
 import {observer, inject} from 'mobx-react';
+import { Card } from 'react-native-elements'
 
 @inject('graphs')
 @observer
@@ -29,9 +30,19 @@ export default class DetailScreen extends Component {
         const {graphs} = this.props;
         if(!graphs.loaded) return this.getLoader();
         
-
-        return <ChartList 
-                    data={graphs.entities.prices.usd}
-                /> 
+        return (
+            <View style={styles.contanier}>
+                <ChartList data={graphs.entities.prices.usd}/>
+            </View>
+        );
     }
 }
+
+const styles = StyleSheet.create({
+    contanier:{
+        borderTopWidth: 1,
+        flex: 1,
+        flexDirection: 'column',
+        height: 300
+    }
+})

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {View, StyleSheet} from 'react-native';
 
-class Card extends Component {
+export default class Card extends Component {
     render() {
         const {children, style} = this.props;
         return (
@@ -25,5 +25,3 @@ const styles = StyleSheet.create({
         backgroundColor: '#FDFDFD'
     }
 });
-
-export default Card;

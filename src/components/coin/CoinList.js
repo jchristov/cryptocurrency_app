@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import {observer, inject} from 'mobx-react';
 import PropTypes from 'prop-types';
-import {SectionList, TouchableOpacity, VirtualizedList, FlatList, View, ActivityIndicator} from 'react-native';
+import {
+    SectionList,
+    ActivityIndicator, 
+    TouchableOpacity, 
+    VirtualizedList, 
+    FlatList, 
+    View, 
+    StyleSheet
+} from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import CoinCard from './CoinCard';
+import Loader from '../common/Loader';
 
 @inject('coins')
 @observer
@@ -64,12 +73,16 @@ export default class CoinList extends Component {
         );
     }
 
+    getLoader = () => {
+        return <Loader />
+    }
+
     render() {
         const {coins, onCoinPress} = this.props;
-        if(coins.loading) return <ActivityIndicator size='large'/>
+
+        if(coins.loading)return this.getLoader(); 
 
         const data = coins.entities.map(item => ({key: item.id, coin: item}));
-
         return <FlatList 
                     data={data}
                     renderItem = {({item}) => <TouchableOpacity onPress={onCoinPress.bind(null, item.coin.id)}>
@@ -87,3 +100,6 @@ export default class CoinList extends Component {
                 />
     }
 }
+
+const styles = StyleSheet.create({
+});

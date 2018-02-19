@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Modal, View, Text, Button, StyleSheet} from 'react-native'
 
-class ConfirmModal extends Component {
+export default class ConfirmModal extends Component {
     static propTypes = {
 
     };
@@ -42,5 +42,3 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around'
     }
 })
-
-export default ConfirmModal

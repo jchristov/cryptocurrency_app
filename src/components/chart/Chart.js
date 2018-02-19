@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Animated, StyleSheet } from 'react-native';
+import colour from '../helpers/colors';
 
 export default class Chart extends Component {
     static propTypes = {
@@ -24,7 +25,7 @@ export default class Chart extends Component {
     }
     
     render() {
-        const {padding} = this.props;
+        const {padding, color} = this.props;
         const {height} = this.state;
         
         const container = {
@@ -32,8 +33,8 @@ export default class Chart extends Component {
             paddingRight: padding.right
         };
         const animatedBlock = {
-            backgroundColor: 'black',
-            borderColor: 'border 1px solid white',
+            backgroundColor: color,
+            borderColor: colour.shade(color, -0.5),
             paddingTop: height  // Bind opacity to animated value
         };
 
@@ -49,11 +50,9 @@ export default class Chart extends Component {
 
 const styles = StyleSheet.create({
     highlight:{
-        "backgroundColor": "#f9f9f9",
         "borderColor": "#cdcdcd",
-        "borderRadius": 5,
         "borderWidth": 1,
-        "width": 10,
+        "width": 20,
     },
     view: {
         "borderBottomWidth": 1,
