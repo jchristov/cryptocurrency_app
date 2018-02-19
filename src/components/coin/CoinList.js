@@ -73,14 +73,10 @@ export default class CoinList extends Component {
         );
     }
 
-    getLoader = () => {
-        return <Loader />
-    }
-
     render() {
         const {coins, onCoinPress} = this.props;
 
-        if(coins.loading)return this.getLoader(); 
+        if(coins.loading)return <Loader/>
 
         const data = coins.entities.map(item => ({key: item.id, coin: item}));
         return <FlatList 

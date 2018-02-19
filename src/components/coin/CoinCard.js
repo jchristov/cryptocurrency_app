@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Card from '../common/Card';
 import {View, StyleSheet, Text, Image} from 'react-native';
+import { Card } from 'react-native-elements';
 
 export default class CoinCard extends PureComponent {
     static propTypes = {
@@ -43,7 +43,9 @@ const styles = StyleSheet.create({
     container:{
         display: 'flex',
         flexDirection: 'column',
-        padding: 20
+        padding: 40,
+        marginBottom: 20,
+        borderBottomWidth: 0
     },
     topColumn:{
         display: "flex",
@@ -87,9 +89,11 @@ const styles = StyleSheet.create({
         marginRight: 20
     },
     coinPrice: {
+        color: '#afafff',
         marginTop: 10,
         marginLeft: "auto",
         marginRight: 10,
+        fontSize: 14,
         fontWeight: "bold",        
     },
     moneySymbol: {

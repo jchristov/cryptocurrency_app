@@ -22,11 +22,9 @@ export default class CoinListScreen extends Component {
 
     render() {
         const {coins} = this.props;
-        if(coins.loading) return this.getLoader();
+        if(coins.loading) return <Loader/>
         return <CoinList onCoinPress = {this.handleCoinPress}/>
     }
-
-    getLoader = () => <Loader />
 
     handleCoinPress = (uid) => {
         this.props.navigation.navigate('detail', {uid});
