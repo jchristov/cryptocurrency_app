@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     highlight:{
         "borderColor": "#cdcdcd",
         "borderWidth": 1,
-        "width": 20,
+        "width": 10 ,
     },
     view: {
         "borderBottomWidth": 1,

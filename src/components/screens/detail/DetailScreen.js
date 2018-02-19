@@ -4,6 +4,7 @@ import { View, ActivityIndicator, StyleSheet, Dimensions } from 'react-native';
 import ChartList from '../../chart/ChartList';
 import {observer, inject} from 'mobx-react';
 import { Card } from 'react-native-elements'
+import Back from '../../common/Back';
 
 @inject('graphs')
 @observer
@@ -12,10 +13,17 @@ export default class DetailScreen extends Component {
     static propTypes = {
     };
 
-    static navigationOptions = {
-        title: 'Currency Detail'
+    static navigationOptions = ({navigation, screenProps}) => {
+        _goBack = () => {
+            navigation.goBack();
+        }
+        
+        return {
+            title: 'Currency Details',
+            headerLeft: <Back onBackPress={_goBack}  value="back" />
+        }
     };
-    
+
     componentDidMount(){
         const { navigation, graphs } = this.props;
         const uid = navigation.state.params.uid;
@@ -40,9 +48,8 @@ export default class DetailScreen extends Component {
 
 const styles = StyleSheet.create({
     contanier:{
-        borderTopWidth: 1,
         flex: 1,
         flexDirection: 'column',
         height: 300
     }
-})
+});
