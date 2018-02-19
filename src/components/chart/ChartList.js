@@ -8,6 +8,7 @@ import Chart from './Chart';
 import ChartHeader from './ChartHeader';
 import { Card } from 'react-native-elements';
 import ChartPrice from './ChartPrice';
+import { numberFormat } from '../helpers/utils';
 
 export default class ChartList extends Component {
     static propTypes = {
@@ -83,19 +84,19 @@ export default class ChartList extends Component {
         let {data} = this.props;
         let values = {};
 
-        values.max 		= max (data , ( item ) => item [ 1 ]);
-		values.min 		= min (data , ( item ) => item [ 1 ]);
-		values.middle 	= (values.max + values.min 	) / 2;
-		values.opening 	= (values.min + values.middle 	) / 2;
-		values.closing 	= (values.max + values.middle 	) / 2;
+        values.max = max (data, ( item ) => item [ 1 ]);
+		values.min = min (data, ( item ) => item [ 1 ]);
+		values.middle = (values.max + values.min) / 2;
+		values.opening = (values.min + values.middle) / 2;
+		values.closing = (values.max + values.middle) / 2;
 
         return <ChartPrice 
                     data = {[ 
-                        '$' + numbers.format(values.max.toFixed(2)) ,
-                        '$' + numbers.format(values.closing.toFixed(2)) ,
-                        '$' + numbers.format(values.middle.toFixed(2)) ,
-                        '$' + numbers.format(values.opening.toFixed(2)) ,
-                        '$' + numbers.format(values.min.toFixed(2))
+                        '$' + numberFormat(values.max.toFixed(2)) ,
+                        '$' + numberFormat(values.closing.toFixed(2)) ,
+                        '$' + numberFormat(values.middle.toFixed(2)) ,
+                        '$' + numberFormat(values.opening.toFixed(2)) ,
+                        '$' + numberFormat(values.min.toFixed(2))
                     ]} 
         />
     }
@@ -104,7 +105,7 @@ export default class ChartList extends Component {
         this.setScales();
         return (
             <View style={styles.container}>
-                {this._renderPrice}
+                {this._renderPrice()}
                 <SectionList
                     horizontal={true}
                     initialNumToRender={this.numToRender}
