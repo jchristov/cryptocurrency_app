@@ -9,6 +9,7 @@ export default function Loader({size='large', color='#0000ff'}) {
     );
 }
 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
