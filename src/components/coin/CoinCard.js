@@ -14,7 +14,7 @@ export default class CoinCard extends PureComponent {
         return (
             <Card style={styles.container}>
                 <View style={styles.topColumn}>
-                    <Image style={styles.image} source={{uri: `https://files.coinmarketcap.com/static/img/coins/32x32/${id}.png`}}/>
+                    <Image style={styles.image} source={{uri: `https://files.coinmarketcap.com/static/img/coins_legacy/32x32/${id}.png`}}/>
                     <Text style={styles.coinSymbol}>{symbol}</Text>
                     <Text style={styles.seperator}>{seperator}|</Text>
                     <Text style={styles.coinName}>{name}</Text>
@@ -65,12 +65,12 @@ const styles = StyleSheet.create({
         height: 32
     },
     percentChangeMinus:{
-        color: "#00BFA5",
+        color: "#DD2C00",
         fontWeight: "bold",
         marginLeft: 5
     },
     percentChangePlus: {
-        color: "#DD2C00",
+        color: "#009700",
         fontWeight: "bold",
         marginLeft: 5
     },

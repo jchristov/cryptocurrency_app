@@ -28,6 +28,7 @@ export default class ChartPrice extends Component {
     }
 }
 
+
 const styles = StyleSheet.create({
     cell:{
         flex: 1,
@@ -38,12 +39,13 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 10,
         padding: 2,
-        textAlign: 'right'
+        textAlign: 'right',
+        fontWeight: 'bold'
     },
     container: {
         borderColor: '#cdcdcd',
         borderBottomWidth: 1,
-        borderRightWidth: 1,
+       
         borderTopWidth: 1,
         height: 230,
         flexDirection: 'column',

@@ -5,6 +5,8 @@ import ChartList from '../../chart/ChartList';
 import {observer, inject} from 'mobx-react';
 import { Card } from 'react-native-elements'
 import Back from '../../common/Back';
+import Header from '../../common/Header';
+
 
 @inject('graphs')
 @observer
@@ -35,11 +37,12 @@ export default class DetailScreen extends Component {
     }
 
     render() {
-        const {graphs} = this.props;
+        const {graphs, navigation} = this.props;
         if(!graphs.loaded) return this.getLoader();
         
         return (
             <View style={styles.contanier}>
+                <Header value={navigation.state.params.uid} />
                 <ChartList data={graphs.entities.prices.usd}/>
             </View>
         );

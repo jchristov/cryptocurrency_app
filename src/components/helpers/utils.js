@@ -16,4 +16,11 @@ function numberFormat(number) {
     return parts.join('.');
 }
 
-export { numberFormat }
+function getImgUrl(coinName){
+    return `https://files.coinmarketcap.com/static/img/coins_legacy/32x32/${coinName}.png`;
+}
+
+export { 
+    numberFormat, 
+    getImgUrl 
+};
