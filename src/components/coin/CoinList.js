@@ -13,6 +13,7 @@ import {
 import {SearchBar} from 'react-native-elements';
 import CoinCard from './CoinCard';
 import Loader from '../common/Loader';
+import Colors from '../common/Colors';
 
 @inject('coins')
 @observer
@@ -26,16 +27,19 @@ export default class CoinList extends Component {
         if (!coins.loaded && !coins.loading) coins.loadApi();
     }
 
-    _getItemCount = () => {
+    getItemCount = () => {
         return this.props.coins.entities.length;
     }
 
-    _getItem = (data, index) => {
+    getItem = (data, index) => {
         return this.props.coins.entities[index];    
     }
-
+    
     renderHeader = () => {
-        return <SearchBar placeholder="Enter Currency Name..." lightTheme round />
+        return <SearchBar   containerStyle={styles.search} 
+                            placeholder="Enter Currency Name..." 
+                            lightTheme round 
+                />
     }
     
     handleLoadMore = () => {
@@ -85,9 +89,8 @@ export default class CoinList extends Component {
                         <CoinCard coin={item.coin}/>
                     </TouchableOpacity>}
                     keyExtractor={item => item.key}
-                    ListHeaderComponent={this.renderHeader}
                     ListFooterComponent={this.renderFooter}
-    
+                    style={styles.container}
                     refreshing={coins.refreshing}
                     onRefresh={this.handleRefresh}
 
@@ -98,4 +101,10 @@ export default class CoinList extends Component {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        backgroundColor: Colors.lightBackground
+    },
+    search: {
+        backgroundColor: Colors.lightBackground
+    }
 });

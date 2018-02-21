@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
         "width": 10 ,
     },
     view: {
+        "backgroundColor": 'white',
         "borderBottomWidth": 1,
         "borderColor": "#cdcdcd",
         "borderTopWidth": 1,

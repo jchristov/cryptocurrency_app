@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, View, Text, Dimensions } from 'react-native';
+import Fonts from '../common/Fonts';
 
 export default class ChartHeader extends PureComponent {
     static propTypes = {
@@ -9,8 +10,6 @@ export default class ChartHeader extends PureComponent {
 
     render() {
         const {value, style} = this.props;
-
-        
         return (
             <View style={styles.container}>
                 <Text style={styles.text}>{value}</Text>
@@ -30,9 +29,10 @@ const styles = StyleSheet.create({
 			rotate: '270deg'
 		}],
         width: 230,
+        fontFamily: Fonts.helvetica
       },
     container:{
-        backgroundColor: "#f9f9f9",
+        backgroundColor: "#f5f5f5",
         borderColor: "#cdcdcd",
         borderLeftWidth: 1,
         borderRightWidth: 1,

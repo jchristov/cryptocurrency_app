@@ -4,15 +4,22 @@ import CoinList from '../../coin/CoinList';
 import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import {observer, inject} from 'mobx-react';
 import Loader from '../../common/Loader';
+import Header from '../../common/Header';
+import SearchIcon from '../../search/SearchIcon';
 
 @inject('coins')
 @observer
 export default class CoinListScreen extends Component {
     static propTypes = {
+        coins: PropTypes.object
     };
 
-    static navigationOptions = {
-        title: 'Cryptocurrency List'
+    static navigationOptions = ({navigation, screenProps}) => {
+        return { 
+            headerTitle: <Header value='Cryptocurrency List'/>,
+            headerRight: <SearchIcon/>,    
+            title: 'Cryptocurrency List' 
+        }
     };
     
     componentDidMount(){
@@ -22,7 +29,7 @@ export default class CoinListScreen extends Component {
 
     render() {
         const {coins} = this.props;
-        if(coins.loading) return <Loader/>
+        if(coins.loading) return <Loader/>;
         return <CoinList onCoinPress = {this.handleCoinPress}/>
     }
 

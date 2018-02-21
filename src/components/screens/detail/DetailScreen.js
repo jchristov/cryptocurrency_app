@@ -6,7 +6,8 @@ import {observer, inject} from 'mobx-react';
 import { Card } from 'react-native-elements'
 import Back from '../../common/Back';
 import Header from '../../common/Header';
-
+import Colors from '../../common/Colors';
+import { getImgUrl } from '../../helpers/utils';
 
 @inject('graphs')
 @observer
@@ -15,12 +16,24 @@ export default class DetailScreen extends Component {
     static propTypes = {
     };
 
+    coinName = this.navigation.state.params.uid;
+
     static navigationOptions = ({navigation, screenProps}) => {
         _goBack = () => {
             navigation.goBack();
         }
         
         return {
+            header: {
+                style: {
+                    backgroundColor: 'black'
+                },
+            },
+            headerStyle: {
+                backgroundColor: '#ffffff',
+                borderBottomColor: '#2F95D6',
+                borderBottomWidth: 3,
+              },
             title: 'Currency Details',
             headerLeft: <Back onBackPress={_goBack}  value="back" />
         }
@@ -38,11 +51,12 @@ export default class DetailScreen extends Component {
 
     render() {
         const {graphs, navigation} = this.props;
+        const uri = getImgUrl(this.coinName);
+
         if(!graphs.loaded) return this.getLoader();
-        
         return (
             <View style={styles.contanier}>
-                <Header value={navigation.state.params.uid} />
+                <Header value={this.coinName} uri={uri} />
                 <ChartList data={graphs.entities.prices.usd}/>
             </View>
         );
@@ -54,5 +68,9 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         height: 300
+    },
+    header: {
+        flex: 1,
+        backgroundColor: Colors.bianca
     }
 });

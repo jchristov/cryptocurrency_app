@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Text, StyleSheet, Image, View } from 'react-native';
-import { getImgUrl } from '../helpers/utils';
+
 
 export default class Header extends Component {
     static propTypes = {
@@ -9,13 +9,12 @@ export default class Header extends Component {
     };
 
     render() {
-        const {value} = this.props;
-        const uri = getImgUrl(value);
+        const {value, uri} = this.props;
         return (
             <View style={styles.container}>
-                <Image style={styles.image} source={{uri: uri}}/>
+                {uri && <Image style={styles.image} source={{uri: uri}}/>} 
                 <Text style = {styles.text}>
-                    {value.toUpperCase()}       
+                    {value}       
                 </Text>
             </View>
         );
@@ -23,9 +22,10 @@ export default class Header extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        display: 'flex',
         justifyContent: 'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     text: {
         fontSize: 21,

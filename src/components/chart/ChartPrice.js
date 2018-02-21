@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     container: {
         borderColor: '#cdcdcd',
         borderBottomWidth: 1,
-       
+        backgroundColor: 'white',
         borderTopWidth: 1,
         height: 230,
         flexDirection: 'column',
