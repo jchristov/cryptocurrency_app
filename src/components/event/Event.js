@@ -49,10 +49,9 @@ export default class Event extends Component {
     }
     
     handleDelete = () => {
-        /*this.props.event.title = 'Bitevent';*/
         this.setState({
             confirmModal: true
-        })
+        });
     }
 
     goTo = () => {

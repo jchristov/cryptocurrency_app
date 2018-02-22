@@ -9,11 +9,11 @@ export default class Header extends Component {
     };
 
     render() {
-        const {value, uri} = this.props;
+        const {value, uri, style} = this.props;
         return (
             <View style={styles.container}>
                 {uri && <Image style={styles.image} source={{uri: uri}}/>} 
-                <Text style = {styles.text}>
+                <Text style = {[styles.text, style]}>
                     {value}       
                 </Text>
             </View>

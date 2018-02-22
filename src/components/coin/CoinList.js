@@ -17,11 +17,12 @@ import Colors from '../common/Colors';
 
 @inject('coins')
 @observer
-export default class CoinList extends Component {
+class CoinList extends Component {
     static propTypes = {
         coins: PropTypes.object
     };
 
+  
     componentWillMount() {
         const {coins} = this.props
         if (!coins.loaded && !coins.loading) coins.loadApi();
@@ -34,7 +35,7 @@ export default class CoinList extends Component {
     getItem = (data, index) => {
         return this.props.coins.entities[index];    
     }
-    
+
     renderHeader = () => {
         return <SearchBar   containerStyle={styles.search} 
                             placeholder="Enter Currency Name..." 
@@ -108,3 +109,5 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.lightBackground
     }
 });
+
+export default CoinList;

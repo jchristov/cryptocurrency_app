@@ -4,6 +4,7 @@ import NavigationStore  from './Navigation';
 import PeopleStore from './People';
 import Coins from './Coins';
 import Graphs from './Graphs';
+import SearchStore from './SearchStore';
 
 const stores = {};
 
@@ -18,6 +19,7 @@ export const events = new Events(stores);
 export const people = new PeopleStore(stores);
 export const coins = new Coins(stores);
 export const graphs = new Graphs(stores);
+export const search = new SearchStore(stores);
 
 stores.auth = auth;
 stores.navigation = navigation;
@@ -25,5 +27,6 @@ stores.events = events;
 stores.people = people;
 stores.coins = coins;
 stores.graphs = graphs;
+stores.search = search;
 
 export default stores;
