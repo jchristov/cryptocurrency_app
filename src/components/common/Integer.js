@@ -11,7 +11,7 @@ class Integer extends Component {
         let suffix = this.props.suffix && value ? this.props.suffix : '';
         
         let text = number ? prefix + numberFormat(value) + suffix : value;
-        let style = this.props.type === 'highlight' && number ? value > 0 ? '#03a15b' : '#da452f' : {};
+        let style = this.props.type === 'highlight' && number ? value > 0 ? {color: '#03a15b'} : {color:'#da452f'} : {};
         
         return (
             <Text 

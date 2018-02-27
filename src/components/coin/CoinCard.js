@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { Ionicons } from '@expo/vector-icons';
 import images from '../helpers/images';
 import Integer from '../common/Integer';
 import { numberFormat } from '../helpers/utils';
@@ -23,10 +23,12 @@ export default class CoinCard extends PureComponent {
             }
         } = this.props;
 
-
-        return (            
+        return (                         
             <View style={styles.container}>
-                <Image style={styles.image} source={{uri: images.currencies.medium_img(id)}}/>
+                <Image 
+                    style={styles.image} 
+                    source={{uri: images.currencies.medium_img(id)}}
+                />
                 <Text
                     ellipsizeMode='tail'
                     numberOfLines={1}
@@ -52,31 +54,43 @@ export default class CoinCard extends PureComponent {
                 >
                     {'$' + numberFormat(Number(price_usd).toFixed(2))}
                 </Text>
-            </View>
-        );   
+                <Ionicons 
+                    name="ios-arrow-forward" 
+                    size={24} 
+                    color="#fad76f"
+                    style={styles.icon}
+                />
+            </View> 
+        );
     }
 }
 
 const styles = StyleSheet.create({
-    image: {
-        width: 24,
-        height: 24,
-        marginRight: 10
-    },
     container: {
-        borderBottomWidth: 1,
-        borderBottomColor: '#fad76f',
-        backgroundColor: '#fff',
         flex: 1,
         alignItems: 'center',
         flexDirection: 'row',
+        justifyContent: 'space-between',
+        borderBottomWidth: 1,
+        borderBottomColor: '#fad76f',
+        backgroundColor: '#fff',
         paddingHorizontal: 2 ,
 		paddingVertical: 10
+    },
+    image: {
+        width: 32,
+        height: 32,
+        marginLeft: 10,
+        marginRight: 10,
     },
     textName: {
         color: '#545454',
         fontSize: 14,
         flex: 1,
         fontWeight: 'bold'
+    }, 
+    icon: {
+        marginRight: 10,
+        marginLeft: 10
     }
 });
