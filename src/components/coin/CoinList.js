@@ -78,20 +78,28 @@ class CoinList extends Component {
         );
     }
 
+    _renderItem = ({index, item}) => {
+        const {onCoinPress} = this.props;
+        return(
+            <TouchableOpacity onPress={onCoinPress.bind(null, item.coin.id)}>
+                <CoinCard coin={item.coin}/>
+            </TouchableOpacity>
+        );
+    }
+
     render() {
-        const {coins, onCoinPress} = this.props;
+        const {coins} = this.props;
 
         if(coins.loading)return <Loader/>
 
         const data = coins.entities.map(item => ({key: item.id, coin: item}));
         return <FlatList 
                     data={data}
-                    renderItem = {({item}) => <TouchableOpacity onPress={onCoinPress.bind(null, item.coin.id)}>
-                        <CoinCard coin={item.coin}/>
-                    </TouchableOpacity>}
+                    style={styles.container}
+                    renderItem = {this._renderItem}
                     keyExtractor={item => item.key}
                     ListFooterComponent={this.renderFooter}
-                    style={styles.container}
+                    
                     refreshing={coins.refreshing}
                     onRefresh={this.handleRefresh}
 

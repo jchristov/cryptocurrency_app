@@ -24,7 +24,7 @@ class AuthStore extends BasicStore {
         let initRedirect = false;
 
         autorun(() => { 
-            const routeName = this.user ? 'coins' : 'auth';
+            const routeName = this.user ? 'lists' : 'auth';
             if(initRedirect){
                 const objStore =  this.getStore('navigation');
                 objStore.reset(routeName);

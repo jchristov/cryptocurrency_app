@@ -14,8 +14,6 @@ const api = {
     path: '/v1/ticker/'
 };
 
-
-
 export {
     detailsApi,
     api

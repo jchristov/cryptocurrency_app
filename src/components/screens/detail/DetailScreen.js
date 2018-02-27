@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { View, ActivityIndicator, StyleSheet, Dimensions } from 'react-native';
 import ChartList from '../../chart/ChartList';
 import {observer, inject} from 'mobx-react';
-import { Card } from 'react-native-elements'
 import Back from '../../common/Back';
 import Header from '../../common/Header';
 import Colors from '../../common/Colors';

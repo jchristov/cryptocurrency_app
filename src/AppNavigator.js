@@ -7,31 +7,29 @@ import ShowMap from './components/screens/ShowMap';
 import PersonPhotoScreen from './components/screens/people/PersonPhotoScreen';
 import CoinListScreen from './components/screens/coins/CoinListScreen';
 import DetailScreen from './components/screens/detail/DetailScreen';
+import PortfolioListScreen from './components/screens/portfolio/PortfolioListScreen';
 
 const ListsNavigator = TabNavigator({
-    eventList: {
-        screen: EventListScreen
+    coins: {
+        screen: CoinListScreen
     },
-    people: {
-        screen: PeopleListScreen
+    portfolio: {
+        screen: PortfolioListScreen
     }
 });
 
 const AppNavigator = StackNavigator({
-    coins: {
-        screen: CoinListScreen
-    },
-    lists: {
-        screen: ListsNavigator
+    lists:{
+        screen: ListsNavigator 
     },
     auth: {
         screen: SignInScreen
     }, 
-    event: {
-        screen: EventScreen
-    },
     detail: {
         screen: DetailScreen
+    },
+    event: {
+        screen: EventScreen
     },
     map: {
         screen: ShowMap

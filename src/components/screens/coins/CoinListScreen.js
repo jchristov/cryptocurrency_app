@@ -9,7 +9,6 @@ import SearchIcon from '../../search/SearchIcon';
 import SearchInput from '../../search/SearchInput';
 
 @inject('coins')
-@inject('search')
 @observer
 class CoinListScreen extends Component {
     static propTypes = {
@@ -19,7 +18,7 @@ class CoinListScreen extends Component {
     static navigationOptions = ({navigation, screenProps}) => {
         return { 
             headerTitle: <Header style={styles.title} value='Cryptocurrency List'/>,
-            headerRight: <SearchIcon onPress={this.handleSearch}/>,    
+            headerRight: <SearchIcon />,    
             title: 'Cryptocurrency List' 
         }
     };
@@ -28,13 +27,16 @@ class CoinListScreen extends Component {
         const {coins} = this.props;
         if(!coins.loaded && !coins.loading) coins.loadApi();
     }
-    
-    handleSearch = () => this.setState({showSearch: true})
 
     render() {
         const {coins} = this.props;
+        
         if(coins.loading) return <Loader/>
-        return <CoinList onCoinPress = {this.handleCoinPress}/>
+        
+        return  <View>
+                    <SearchInput/>
+                    <CoinList onCoinPress = {this.handleCoinPress}/>
+                </View>
     }
 
     handleCoinPress = (uid) => {
