@@ -6,7 +6,7 @@ import {observer, inject} from 'mobx-react';
 import Back from '../../common/Back';
 import Header from '../../common/Header';
 import Colors from '../../common/Colors';
-import { getImgUrl } from '../../helpers/utils';
+import images from '../../helpers/images';
 
 @inject('graphs')
 @observer
@@ -50,12 +50,12 @@ export default class DetailScreen extends Component {
 
     render() {
         const {graphs, navigation} = this.props;
-        const uri = getImgUrl(this.coinName);
-
+        
         if(!graphs.loaded) return this.getLoader();
+        
         return (
             <View style={styles.contanier}>
-                <Header value={this.coinName} uri={uri} />
+                <Header value={this.coinName} uri={images.currencies.medium_img(this.coinName)} />
                 <ChartList data={graphs.entities.prices.usd}/>
             </View>
         );

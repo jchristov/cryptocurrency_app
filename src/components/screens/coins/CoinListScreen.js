@@ -7,6 +7,7 @@ import Loader from '../../common/Loader';
 import Header from '../../common/Header';
 import SearchIcon from '../../search/SearchIcon';
 import SearchInput from '../../search/SearchInput';
+import {Ionicons} 	from '@expo/vector-icons';
 
 @inject('coins')
 @observer
@@ -18,8 +19,15 @@ class CoinListScreen extends Component {
     static navigationOptions = ({navigation, screenProps}) => {
         return { 
             headerTitle: <Header style={styles.title} value='Cryptocurrency List'/>,
-            headerRight: <SearchIcon />,    
-            title: 'Cryptocurrency List' 
+            headerRight: <SearchIcon />, 
+            tabBarIcon: ({ focused }) => {
+                return <Ionicons
+                            name="ios-stats-outline"
+                            size={32}
+                            color 	= { focused ? '#444' : '#176ced'}
+                        />
+            },   
+            title: 'Монеты' 
         }
     };
     
@@ -33,10 +41,12 @@ class CoinListScreen extends Component {
         
         if(coins.loading) return <Loader/>
         
-        return  <View>
-                    <SearchInput/>
-                    <CoinList onCoinPress = {this.handleCoinPress}/>
-                </View>
+        return (
+            <View>
+                <SearchInput/>
+                <CoinList onCoinPress = {this.handleCoinPress}/>
+            </View>
+        );
     }
 
     handleCoinPress = (uid) => {

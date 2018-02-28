@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import PortfolioList from '../../portfolio/PortfolioList';
 import {View, StyleSheet, ActivityIndicator} from 'react-native';
 import {observer, inject} from 'mobx-react';
+import {Ionicons} 	from '@expo/vector-icons';
 import Loader from '../../common/Loader';
 import Header from '../../common/Header';
 import SearchIcon from '../../search/SearchIcon';
@@ -17,9 +18,16 @@ class PortfolioListScreen extends Component {
 
     static navigationOptions = ({navigation, screenProps}) => {
         return { 
-            headerTitle: <Header style={styles.title} value='Portfolio'/>,
+            headerTitle: <Header style={styles.title} value='Портфель'/>,
             headerRight: <SearchIcon />,    
-            title: 'Portfolio' 
+            tabBarIcon: ({ focused }) => {
+                return <Ionicons
+                    name="ios-briefcase-outline"
+                    size={32}
+                    color={ focused ? '#444' : '#176ced'}
+                />
+			},
+            title: 'Портфель' 
         }
     };
     

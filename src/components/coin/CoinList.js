@@ -16,13 +16,13 @@ import Loader from '../common/Loader';
 import Colors from '../common/Colors';
 
 @inject('coins')
+@inject('search')
 @observer
 class CoinList extends Component {
     static propTypes = {
         coins: PropTypes.object
     };
 
-  
     componentWillMount() {
         const {coins} = this.props
         if (!coins.loaded && !coins.loading) coins.loadApi();
@@ -88,11 +88,14 @@ class CoinList extends Component {
     }
 
     render() {
-        const {coins} = this.props;
+        const {coins, search} = this.props;
 
-        if(coins.loading)return <Loader/>
+        if(coins.loading) return <Loader/>
 
-        const data = coins.entities.map(item => ({key: item.id, coin: item}));
+        const data = search.value ? coins.entities.filter(item => {
+                    return item.name.toLowerCase().indexOf(search.value.toLowerCase()) > -1 || item.symbol.toLowerCase().indexOf(search.value.toLowerCase()) > -1;
+                }).map(item => ({key: item.id, coin: item})) : coins.entities.map(item => ({key: item.id, coin: item}));
+
         return <FlatList 
                     data={data}
                     style={styles.container}

@@ -17,22 +17,38 @@ export default class SearchInput extends Component {
         }
     }
 
+    handleChange = (value) => {
+        if(this.props.search.setValue){
+            this.props.search.setValue(value);
+        }
+    }
+
+    handleReset = () => {
+        if(this.props.search.setValue){
+            this.props.search.setValue(null);
+        }
+    }
+
     render() {
         const {search} = this.props;
         
-        if(search.isOpen) return null;
+        if(!search.isOpen) return null;
         
         return (
             <View style={styles.container}>
                 <View style={styles.row}>
-                    <TouchableOpacity style={styles.refresh}>
+                    <TouchableOpacity style={styles.refresh} onPress={this.handleReset}>
                         <Ionicons name="ios-refresh-outline" size={32} color="black"/>
                     </TouchableOpacity>    
                     <TextInput  
+                        autoCapitalize='none'
+                        autoCorrect={false}
+                        autoFocus={true}
                         style={styles.input} 
                         selectionColor='#176ced'
                         placeholder="Please enter a search term" 
                         placeholderTextColor="#444"
+                        onChangeText={this.handleChange}
                         value={search.value}
                     />
                     <TouchableOpacity style={styles.close} onPress={this.handleClose}>
@@ -49,12 +65,14 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: '#fad76f',
         backgroundColor: '#fff',
-        height: 40 	
+        height: 40,
+        paddingTop: 5,
+        paddingBottom: 5
     },
     row: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         alignItems: 'center'
     },
     input:{
@@ -64,10 +82,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         color: '#545454',
         flex: 1,
-        paddingTop: 10,
-        paddingBottom: 10,
-        fontSize: 14,
         margin: 5,
+        height: '100%',
+        fontSize: 14,
         paddingHorizontal: 5
     },
     refresh:{
