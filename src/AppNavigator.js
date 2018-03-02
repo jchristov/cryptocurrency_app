@@ -8,6 +8,7 @@ import PersonPhotoScreen from './components/screens/people/PersonPhotoScreen';
 import CoinListScreen from './components/screens/coins/CoinListScreen';
 import DetailScreen from './components/screens/detail/DetailScreen';
 import PortfolioListScreen from './components/screens/portfolio/PortfolioListScreen';
+import ChartScreen from './components/screens/chart/ChartScreen';
 
 const ListsNavigator = TabNavigator({
     coins: {
@@ -36,6 +37,9 @@ const AppNavigator = StackNavigator({
     },
     personPhoto: {
         screen: PersonPhotoScreen
+    },
+    chart: {
+        screen: ChartScreen
     }
 });
 

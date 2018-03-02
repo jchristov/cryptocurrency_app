@@ -29,10 +29,10 @@ const styles = StyleSheet.create({
 			rotate: '270deg'
 		}],
         width: 230,
-        fontFamily: Fonts.helvetica
-      },
+    //    fontFamily: Fonts.helvetica
+    },
     container:{
-        backgroundColor: "#f5f5f5",
+      //  backgroundColor: "#f5f5f5",
         borderColor: "#cdcdcd",
         borderLeftWidth: 1,
         borderRightWidth: 1,

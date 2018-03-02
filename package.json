@@ -19,7 +19,10 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "as-table": "^1.0.31",
+    "asciichart": "^1.5.7",
     "base64-arraybuffer": "^0.1.5",
+    "ccxt": "^1.10.1265",
     "d3-array": "^1.2.1",
     "d3-scale": "^2.0.0",
     "d3-time": "^1.0.8",

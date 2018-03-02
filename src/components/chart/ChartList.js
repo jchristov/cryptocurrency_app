@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { SectionList, View, StyleSheet, Dimensions } from 'react-native';
+
 import { scaleLinear } from 'd3-scale';
 import { timeFormat } from 'd3-time-format';
 import { max, min } from 'd3-array';
+
 import Chart from './Chart';
 import ChartHeader from './ChartHeader';
 import { Card } from 'react-native-elements';
@@ -50,7 +52,9 @@ export default class ChartList extends Component {
     }
 
     _renderItem = ({index, item, section}) => {
-        const climbing 	= section.data[index + 1] ? item.value >= section.data [ index + 1 ].value : true; 
+        const climbing 	= section.data[index + 1]
+                            ? item.value >= section.data[index + 1].value 
+                            : true; 
 		const pigment 	= climbing 	? '#00cc00' : '#cc0000';
 				
         const beginning = ! index;
