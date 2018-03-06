@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Hello from './components/Hello';
+
 class Root extends Component{
     render(){
         return(
@@ -9,7 +10,6 @@ class Root extends Component{
         );
     }
 }
-
 
 const style = StyleSheet.create({
     image: {

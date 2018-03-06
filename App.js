@@ -7,8 +7,6 @@ import stores from './src/stores';
 
 @observer
 export default class App extends React.Component {
-  
-  
   render() {
     return (
       <Provider {...stores}>
