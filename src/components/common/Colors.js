@@ -10,6 +10,7 @@ const NAMED_COLORS = {
   timberwolf: "rgba(218, 216, 210, 1)",
   magnesium: "rgba(178, 178, 178, 1)",
   black: "rgba(3, 3, 3, 1)",
+  background: '#E1E2E1',
 
   // blues (light to dark)
   iceberg: "rgba(216, 240, 246, 1)",
@@ -23,7 +24,7 @@ const NAMED_COLORS = {
   sapphire2: "rgba(18, 36, 108, 1)",
   tangaroa: "rgba(1, 23, 65, 1)",
   blueCharcoal: "rgba(1, 10, 28, 1)",
-
+  
   // the rest
   yellow: "rgba(246, 253, 55, 1)",
   green: "rgba(106, 246, 162, 1)",
@@ -46,6 +47,7 @@ const THEME_COLORS = {
   darkText: NAMED_COLORS.blueCharcoal,
   cellBorder: NAMED_COLORS.blueCharcoal,
   lightText: NAMED_COLORS.blueBayoux,
+  border: '#E0E0E0',
 
   // legacy
   inactiveText: "#9B9B9B"

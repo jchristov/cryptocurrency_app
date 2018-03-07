@@ -12,7 +12,8 @@ import { Card } from 'react-native-elements';
 import ChartPrice from './ChartPrice';
 import { numberFormat } from '../helpers/utils';
 
-export default class ChartList extends Component {
+
+class ChartList extends Component {
     static propTypes = {
     };
     
@@ -135,3 +136,5 @@ const styles = StyleSheet.create({
         height 	: 230
     }
 });
+
+export default ChartList;

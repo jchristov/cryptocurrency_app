@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Text, StyleSheet, Image, View } from 'react-native';
-
+import Colors from '../common/Colors';
 
 export default class Header extends Component {
     static propTypes = {
@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 21,
+        color: Colors.white,
         fontWeight: 'bold'
     },
     image: {

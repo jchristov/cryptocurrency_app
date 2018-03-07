@@ -8,7 +8,8 @@ import {
     VirtualizedList, 
     FlatList, 
     View, 
-    StyleSheet
+    StyleSheet,
+    Text
 } from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import CoinCard from './CoinCard';
@@ -35,12 +36,16 @@ class CoinList extends Component {
     getItem = (data, index) => {
         return this.props.coins.entities[index];    
     }
-
+    
     renderHeader = () => {
-        return <SearchBar   containerStyle={styles.search} 
-                            placeholder="Enter Currency Name..." 
-                            lightTheme round 
-                />
+        return (
+            <View style={styles.header}>
+                <Text style={styles.text}>Rank</Text>
+                <Text style={styles.text}>24H</Text>
+                <Text style={styles.text}>7D</Text>
+                <Text style={styles.text}>Price</Text>
+            </View>
+        );
     }
     
     handleLoadMore = () => {
@@ -78,7 +83,7 @@ class CoinList extends Component {
         );
     }
 
-    _renderItem = ({index, item}) => {
+    renderItem = ({index, item}) => {
         const {onCoinPress} = this.props;
         return(
             <TouchableOpacity onPress={onCoinPress.bind(null, item.coin.id)}>
@@ -98,11 +103,9 @@ class CoinList extends Component {
 
         return <FlatList 
                     data={data}
-                    style={styles.container}
-                    renderItem = {this._renderItem}
+                    renderItem = {this.renderItem}
                     keyExtractor={item => item.key}
                     ListFooterComponent={this.renderFooter}
-                    
                     refreshing={coins.refreshing}
                     onRefresh={this.handleRefresh}
 
@@ -113,11 +116,21 @@ class CoinList extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: Colors.lightBackground
-    },
     search: {
         backgroundColor: Colors.lightBackground
+    },
+    text:{
+        flex: 1, 
+        fontSize: 16,
+        textAlign: 'center',
+        color: Colors.actionText
+    },
+    header:{
+        backgroundColor: Colors.lightBackground,
+        borderBottomColor:Colors.border,
+        borderBottomWidth: 1,
+        flexDirection: 'row',
+        paddingHorizontal: 10  
     }
 });
 

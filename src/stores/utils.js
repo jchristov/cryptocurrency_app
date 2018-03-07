@@ -1,4 +1,4 @@
-export function status(response) {
+function status(response) {
   if (response.status >= 200 && response.status < 300) {
     return Promise.resolve(response)
   } else {
@@ -6,16 +6,16 @@ export function status(response) {
   }
 }
   
-export function json(response) {
+function json(response) {
   return response.json()
 }
   
-export function entitiesFromFB(data) {
+function entitiesFromFB(data) {
   Object.entries(data).forEach(([key, value]) => value.uid = key)
   return data
 }
   
-export function setSchematic(data) {
+function setSchematic(data) {
   return {
     market : {
       cap 	: data['market_cap_by_available_supply'] ,
@@ -28,3 +28,16 @@ export function setSchematic(data) {
     }
   };
 }
+
+function getPriceHistoryUrl(cryptocurrency, currency, api, timeLimit){
+  return `https://min-api.cryptocompare.com/data/${api}?fsym=${cryptocurrency}&tsym=${currency}&limit=${timeLimit}&aggregate=1&e=CCCAGG`;
+}
+
+
+export {
+  status, 
+  setSchematic, 
+  entitiesFromFB, 
+  json,
+  getPriceHistoryUrl
+};

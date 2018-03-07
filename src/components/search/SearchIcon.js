@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import {observer, inject} from 'mobx-react';
+import Colors from '../common/Colors';
+import Fonts from '../common/Fonts';
 
 @inject('search')
 @observer
@@ -20,7 +22,7 @@ export default class SearchIcon extends Component {
     render() {
         return (
             <TouchableOpacity style={styles.icon} onPress={this.handlePress}>
-                <Ionicons name="ios-search-outline" size={24} color="black"/>
+                <Ionicons name="ios-search-outline" size={24} color="white"/>
             </TouchableOpacity>
         );
     }
@@ -28,6 +30,6 @@ export default class SearchIcon extends Component {
 
 const styles = StyleSheet.create({
     icon : {
-        marginHorizontal 	: 15
+        marginHorizontal: 15
     } 
 })

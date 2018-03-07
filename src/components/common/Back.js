@@ -10,7 +10,7 @@ export default class Back extends Component {
     render() {
         return (
             <TouchableOpacity onPress={this.props.onBackPress} style={styles.control}>
-                <Ionicons name='ios-arrow-back-outline' size='28' color='black'/>
+                <Ionicons name='ios-arrow-back-outline' size='28' color='white'/>
             </TouchableOpacity>
         )
     }

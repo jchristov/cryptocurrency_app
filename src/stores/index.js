@@ -5,6 +5,7 @@ import PeopleStore from './People';
 import Coins from './Coins';
 import Graphs from './Graphs';
 import SearchStore from './SearchStore';
+import Charts from './Charts';
 
 const stores = {};
 
@@ -20,6 +21,7 @@ export const people = new PeopleStore(stores);
 export const coins = new Coins(stores);
 export const graphs = new Graphs(stores);
 export const search = new SearchStore(stores);
+export const charts = new Charts(stores);
 
 stores.auth = auth;
 stores.navigation = navigation;
@@ -28,5 +30,6 @@ stores.people = people;
 stores.coins = coins;
 stores.graphs = graphs;
 stores.search = search;
+stores.charts = charts;
 
 export default stores;
