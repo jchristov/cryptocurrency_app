@@ -8,6 +8,7 @@ import Colors from '../../common/Colors';
 import images from '../../helpers/images';
 import { timeFormat } from 'd3-time-format';
 import ChartList from '../../chart/components/ChartList';
+import { DURATION, DEFAULT_CURRENCY } from '../../../constants';
 
 @inject('charts')
 @observer
@@ -35,7 +36,8 @@ export default class DetailScreen extends Component {
   componentDidMount(){
     const { navigation, charts } = this.props;   
     const cryptocurrency = navigation.state.params.uid;
-    charts.loadCharts(cryptocurrency, currency, api, timeLimit);
+
+    charts.loadCharts(cryptocurrency, DEFAULT_CURRENCY);
   }
       
   getLoader = () => {
@@ -52,12 +54,13 @@ export default class DetailScreen extends Component {
     const format = timeFormat('%B %d, %Y');
 
     if(!charts.loaded) return this.getLoader();    
-    const newData = charts.entities.prices.usd.map(item=>({time: format(item[0]), price: item[1]}))
-
+    console.log('---', charts.entities);
+    
+    //<Header value={coinName} uri={images.currencies.medium_img(coinName)} />
+        
     return (
         <View style={styles.contanier}>
-            <Header value={coinName} uri={images.currencies.medium_img(coinName)} />
-            <ChartList/>
+            <ChartList data={charts.entities}/>
         </View>
     );
   }

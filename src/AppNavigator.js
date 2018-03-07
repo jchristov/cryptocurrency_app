@@ -20,6 +20,9 @@ const ListsNavigator = TabNavigator({
 });
 
 const AppNavigator = StackNavigator({
+    chart: {
+        screen: ChartScreen
+    },
     lists:{
         screen: ListsNavigator 
     },

@@ -86,7 +86,7 @@ class CoinList extends Component {
     renderItem = ({index, item}) => {
         const {onCoinPress} = this.props;
         return(
-            <TouchableOpacity onPress={onCoinPress.bind(null, item.coin.id)}>
+            <TouchableOpacity onPress={onCoinPress.bind(null, item.coin.symbol)}>
                 <CoinCard coin={item.coin}/>
             </TouchableOpacity>
         );

@@ -10,21 +10,21 @@ class Charts extends EntitiesStore{
   constructor(...args){
     super(...args);
     this.detailsApi = detailsApi;
+    this.uri = undefined;
   }
 
-  makeApiRequest(cryptocurrency, currency, api, timeLimit){
-  const url = getPriceHistoryUrl(cryptocurrency, currency, api, timeLimit);
-
-  super.makeApiRequest(uri)
-    .then(this.setParams)
-    .catch(err => console.error('load error component Charts', err));
+  makeApiRequest(){
+    super.makeApiRequest(this.uri)
+      .then(this.setParams)
+      .catch(err => console.error('load error component Charts', err));
   } 
 
   _formatData = (data) => (data.map(item => ({time: new Date(item.time * 1000), price: item.open})))
   
-  @action loadCharts(cryptocurrency, currency, api, timeLimit){
+  @action loadCharts(cryptocurrency, currency, api = 'histoday', timeLimit = '2000'){
+    this.uri = getPriceHistoryUrl(cryptocurrency, currency, api, timeLimit);
     this.loading = true;
-    this.makeApiRequest(cryptocurrency, currency, api, timeLimit);
+    this.makeApiRequest();
   }   
 
   @action setParams = (entities) => {
