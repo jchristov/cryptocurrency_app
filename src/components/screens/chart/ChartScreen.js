@@ -36,7 +36,9 @@ export default class DetailScreen extends Component {
     if(!charts.loaded) return this.getLoader();    
           
     return (
-        <ChartList data={charts.entities} height={225} width={width}/>
+        <View style={styles.contanier}>
+            <ChartList data={charts.entities} height={225} width={width}/>
+        </View>
     );
   }
 }

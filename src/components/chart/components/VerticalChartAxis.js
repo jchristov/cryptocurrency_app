@@ -5,13 +5,13 @@ import { extent } from 'd3-array';
 import { formatCurrency } from '../../helpers/utils';
 import Colors from '../../common/Colors';
 
-const VerticalChartAxis = ({data, textAlign}) => {
-  textAlign = textAlign === 'left' ? 'left' : 'right';
-  
+const VerticalChartAxis = ({data, textAlign}) => { 
   const [minPrice, maxPrice] = extent(data, d => d.price);
+  const posStyle = {};
+  textAlign === 'left' ? posStyle.alignItems = 'flex-start' : posStyle.alignItems = 'flex-end';
 
   return (
-    <View style={[styles.container, textAlign === 'left' ? styles.textLeft : styles.textRight]}>
+    <View style={[styles.container, posStyle]}>
       <View>
         <Text style={styles.text}>{formatCurrency(maxPrice, 'usd', 0)}</Text>
       </View>
@@ -24,9 +24,9 @@ const VerticalChartAxis = ({data, textAlign}) => {
 }
 
 VerticalChartAxis.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
+  data: PropTypes.objectOf(PropTypes.shape({
     price: PropTypes.number,
-    time: PropTypes.data
+    time: PropTypes.data,
   })).isRequired,
   textAlign: PropTypes.oneOf(['left', 'right']).isRequired
 };
@@ -35,13 +35,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'space-between',
-    width: 40
-  },
-  textLeft: {
-    alignItems: 'flex-start'
-  },
-  textRight: {
-    alignItems: 'flex-end'
+    width: 65,
   },
   text: {
     color: Colors.lightText,

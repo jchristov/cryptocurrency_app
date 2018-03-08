@@ -5,16 +5,14 @@ import ChartPrice from './ChartPrice';
 import { observer, inject } from 'mobx-react';
 import ChartShape from './ChartShape';
 import Colors from '../../common/Colors';
-import { scaleLinear, scaleTime, scaleBand } from 'd3-scale';
-import { area as d3Area, line as d3Line } from 'd3-shape';
-import { extent } from 'd3-array';
 import Morph from 'art/morph/path';
 import VerticalChartAxis from './VerticalChartAxis';
+import  * as graphUtils  from './graph-utils';
 
 const { Group, Shape, Surface } = ART;
 
 const AnimationDurationMs = 250; 
-const PaddingSize = 40;
+const PaddingSize = 65;
 const TickWidth = PaddingSize * 2;
 
 const dimensionWindow = Dimensions.get('window');
@@ -39,38 +37,6 @@ class ChartList extends Component {
 
   static createGraph = (data, width, height) => {
 
-    const scalePriceToY = scaleLinear()
-      .range([height, 20]) // ширина графика
-      .domain(extent(data, d => d.price)) //возвратит массив  из максимального и минимального элементов
-
-    //координата x отображает дату в пределе от extent(data, d => d.time) на ширине в [0, width]
-    const scaleTimeToX = scaleTime()
-      .range([0, width])
-      .domain(extent(data, d => d.time));
-
-    const newArr = data.map(({ price, time }) => ({
-      price: scalePriceToY(price),
-      time: scaleTimeToX(time),
-    }));        
-
-    const lineShape = d3Line()
-      .x(d => d.time)
-      .y(d => d.price);
-
-    return {
-      data, 
-      scale: {
-        x: scaleTimeToX,
-        y: scalePriceToY
-      },
-      path: lineShape(newArr),
-      ticks: data.map(({price, time}) => {
-        return {
-          y: scalePriceToY(price),
-          x: scaleTimeToX(time),
-        }
-      })
-    }  
   }
 
   constructor(props){
@@ -93,7 +59,7 @@ class ChartList extends Component {
     const graphWidth = width - fullPaddingSize;
     const graphHeight = height - fullPaddingSize;
 
-    const lineGraph = ChartList.createGraph(data, graphWidth, graphHeight);
+    const lineGraph = graphUtils.createGraph(data, graphWidth, graphHeight);
 
     this.setState({
       graphWidth,
@@ -186,26 +152,23 @@ class ChartList extends Component {
             data={data}
             textAlign="left"
           />
-          
-          <View style={styles.chart}>
+          <View>
             <Surface width={graphWidth} height={graphHeight}>
               <Group x={0} y={0}>
                 <Shape
                   d={linePath}
                   strokeWidth={2}
                   pointerEvents={'none'}
-                  stroke={'#FFB01E'}
+                  stroke={'#6E7CB9'}
                 />
               </Group>
+
             </Surface>
           </View>
-          
           <VerticalChartAxis
             data={data}
             textAlign="right"
           />
-          
-    
         </View>
     );
   }
@@ -214,21 +177,23 @@ class ChartList extends Component {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    height: 225,
+    justifyContent: 'space-around',
     backgroundColor: Colors.white,
     borderColor: Colors.border,
-    marginBottom: 0,
     borderWidth: 2,
-    borderRadius: 4 
+    borderRadius: 4,
+    padding: 8,
+    margin: 8
   },
   chart: {
-    width: '100%',
-    height: '100%'
   }
 });
 
 ChartList.propTypes = {
-
+  data: PropTypes.objectOf(PropTypes.shape({
+    price: PropTypes.number,
+    time: PropTypes.date,
+  })).isRequired,
 };
 
 export default ChartList;
