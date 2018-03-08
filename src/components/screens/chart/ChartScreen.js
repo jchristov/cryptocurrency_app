@@ -5,7 +5,8 @@ import {observer, inject} from 'mobx-react';
 import { timeFormat } from 'd3-time-format';
 import ChartList from '../../chart/components/ChartList';
 import { DURATION, DEFAULT_CURRENCY } from '../../../constants';
-
+import Colors from '../../common/Colors';
+import { Card } from 'react-native-elements';
 
 @inject('charts')
 @observer
@@ -35,17 +36,14 @@ export default class DetailScreen extends Component {
     if(!charts.loaded) return this.getLoader();    
           
     return (
-        <View style={styles.contanier}>
-            <ChartList data={charts.entities} height={300} width={300}/>
-        </View>
+        <ChartList data={charts.entities} height={225} width={width}/>
     );
   }
 }
 
 const styles = StyleSheet.create({
   contanier:{
-      flex: 1,
-      flexDirection: 'column'
+      flexDirection: 'row',  
   },
   loader: {
       flex: 1,

@@ -9,12 +9,12 @@ import { scaleLinear, scaleTime, scaleBand } from 'd3-scale';
 import { area as d3Area, line as d3Line } from 'd3-shape';
 import { extent } from 'd3-array';
 import Morph from 'art/morph/path';
-
+import VerticalChartAxis from './VerticalChartAxis';
 
 const { Group, Shape, Surface } = ART;
 
 const AnimationDurationMs = 250; 
-const PaddingSize = 20;
+const PaddingSize = 40;
 const TickWidth = PaddingSize * 2;
 
 const dimensionWindow = Dimensions.get('window');
@@ -178,18 +178,34 @@ class ChartList extends Component {
 
   render() {
     const { graphHeight, graphWidth, linePath, ticks, scale } = this.state;
+    const { data } = this.props;
     
     return (
         <View style={styles.container}>
-          <Surface width={graphWidth} height={graphHeight}>
-            <Group x={0} y={0}>
-              <Shape
-                d={linePath}
-                strokeWidth={1}
-                stroke={Colors.black}          
-              />
-            </Group>
-          </Surface>
+          <VerticalChartAxis
+            data={data}
+            textAlign="left"
+          />
+          
+          <View style={styles.chart}>
+            <Surface width={graphWidth} height={graphHeight}>
+              <Group x={0} y={0}>
+                <Shape
+                  d={linePath}
+                  strokeWidth={2}
+                  pointerEvents={'none'}
+                  stroke={'#FFB01E'}
+                />
+              </Group>
+            </Surface>
+          </View>
+          
+          <VerticalChartAxis
+            data={data}
+            textAlign="right"
+          />
+          
+    
         </View>
     );
   }
@@ -197,7 +213,17 @@ class ChartList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flexDirection: 'row',
+    height: 225,
+    backgroundColor: Colors.white,
+    borderColor: Colors.border,
+    marginBottom: 0,
+    borderWidth: 2,
+    borderRadius: 4 
+  },
+  chart: {
+    width: '100%',
+    height: '100%'
   }
 });
 
@@ -206,19 +232,3 @@ ChartList.propTypes = {
 };
 
 export default ChartList;
-
-
-/**
- *   <Surface width={width} height={height}>
-            <Group x={20} y={height - 20}>
-              
-            <Shape
-              d={path}
-              stroke={"#2ca02c"}
-              strokeWidth={3}  
-            />
-
-            </Group>
-          </Surface>
-        
- */
