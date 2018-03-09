@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { View, StyleSheet, Dimensions, ART, LayoutAnimation } from 'react-native';
 import ChartPrice from './ChartPrice';
 import { observer, inject } from 'mobx-react';
-import ChartShape from './ChartShape';
 import Colors from '../../common/Colors';
 import Morph from 'art/morph/path';
 import VerticalChartAxis from './VerticalChartAxis';
@@ -35,10 +34,6 @@ class ChartList extends Component {
     height: Math.round(dimensionWindow.height * 0.5),
   };
 
-  static createGraph = (data, width, height) => {
-
-  }
-
   constructor(props){
     super(props);
     this.state = INITIAL_STATE;
@@ -55,7 +50,7 @@ class ChartList extends Component {
   computeNextState(nextProps){
     const {data, width, height} = nextProps;
 
-    const fullPaddingSize = PaddingSize * 2;
+    const fullPaddingSize = PaddingSize ;
     const graphWidth = width - fullPaddingSize;
     const graphHeight = height - fullPaddingSize;
 
@@ -108,7 +103,7 @@ class ChartList extends Component {
   }
 
   // This is where we animate our graph's path value.
-  aminate = (start) => {
+  animate = (start) => {
     this.animating = requestAnimationFrame((timestamp) => {
       if (!start) {
         // eslint-disable-next-line no-param-reassign
@@ -148,27 +143,25 @@ class ChartList extends Component {
     
     return (
         <View style={styles.container}>
+          
           <VerticalChartAxis
             data={data}
             textAlign="left"
           />
-          <View>
+          
+          <View style={styles.chart}>
             <Surface width={graphWidth} height={graphHeight}>
               <Group x={0} y={0}>
                 <Shape
                   d={linePath}
                   strokeWidth={2}
-                  pointerEvents={'none'}
                   stroke={'#6E7CB9'}
                 />
               </Group>
 
             </Surface>
           </View>
-          <VerticalChartAxis
-            data={data}
-            textAlign="right"
-          />
+
         </View>
     );
   }
@@ -178,14 +171,13 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: Colors.white,
-    borderColor: Colors.border,
-    borderWidth: 2,
-    borderRadius: 4,
-    padding: 8,
-    margin: 8
+   
+    flex: 1,
+    borderBottomColor: Colors.border,
+    borderBottomWidth: 1,
   },
   chart: {
+    flex: 1
   }
 });
 

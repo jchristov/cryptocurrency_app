@@ -16,14 +16,14 @@ class EntitiesStore extends BasicStore {
         return Object.keys(this.entities).length;
     }
 
-    async makeApiRequest(uri){
+    async makeApiRequest(uri){    
         return await (await (fetch(uri)
-                .then(status)
-                .then(json)
-                .catch(err => {
-                    console.log('Error load currency', error);           
-                })
-            ));
+            .then(status)
+            .then(json)
+            .catch(err => {
+                console.log('Error load currency', err);           
+            })
+        ));
     }
 }
 

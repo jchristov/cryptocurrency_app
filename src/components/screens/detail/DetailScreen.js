@@ -54,7 +54,6 @@ export default class DetailScreen extends Component {
     const format = timeFormat('%B %d, %Y');
 
     if(!charts.loaded) return this.getLoader();    
-    console.log('---', charts.entities);
     
     //<Header value={coinName} uri={images.currencies.medium_img(coinName)} />
         

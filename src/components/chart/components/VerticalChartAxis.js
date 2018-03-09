@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'space-between',
-    width: 65,
+    flexBasis: 40,
   },
   text: {
     color: Colors.lightText,

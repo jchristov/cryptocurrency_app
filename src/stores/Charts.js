@@ -1,36 +1,60 @@
 import EntitiesStore from './EntitiesStore';
 import { observable, action } from 'mobx';
 import { detailsApi } from '../apiConfig';
-import { getPriceHistoryUrl } from './utils';
+import { getHistoUrl, getPriceHistoricalUrl, getDateAgo, entitiesFromHistoApi } from './utils';
+import { DURATION } from '../constants';
+
+const DURATION_LIST = Object.keys(DURATION).map(item => DURATION[item]); 
 
 class Charts extends EntitiesStore{
 
   @observable uid = null;
+  @observable selectedDurationIndex = 5;
+  @observable historicalPrice = null;
 
   constructor(...args){
-    super(...args);
+    super(...args);  
     this.detailsApi = detailsApi;
-    this.uri = undefined;
+    this.dayAgo = 365;
+    this.date = new Date();
   }
 
-  makeApiRequest(){
-    super.makeApiRequest(this.uri)
-      .then(this.setParams)
+  makeApiRequest(uri){
+    super.makeApiRequest(uri)
+      .then(this.setHistoParams)
       .catch(err => console.error('load error component Charts', err));
   } 
 
-  _formatData = (data) => (data.map(item => ({time: new Date(item.time * 1000), price: item.open})))
   
   @action loadCharts(cryptocurrency, currency, api = 'histoday', timeLimit = '2000'){
-    this.uri = getPriceHistoryUrl(cryptocurrency, currency, api, timeLimit);
+    const uri = getHistoUrl(cryptocurrency, currency, api, timeLimit);
     this.loading = true;
-    this.makeApiRequest();
+    this.makeApiRequest(uri);
   }   
 
-  @action setParams = (entities) => {
+  loadPriceHistorical(cryptocurrency, currency){
+    const milliseconds = getDateAgo(this.date, this.dayAgo);
+    const seconds = Math.round(milliseconds / 1000);
+
+    const uri = getPriceHistoricalUrl(cryptocurrency, currency, seconds);    
+    super.makeApiRequest(uri)
+      .then(this.setPriceHistoricalParams)
+      .catch(err => console.log('Error load PriceHistorical Data', err))
+  }
+
+  @action setHistoParams = (entities) => {
     this.loading = false;
     this.loaded = true;
-    this.entities = this._formatData(entities.Data);
+    this.entities = entitiesFromHistoApi(entities.Data);
+  }
+
+  @action setPriceHistoricalParams = (price) => {
+    const data = Object.keys(price).map(item => price[item]);
+    this.historicalPrice = data;
+  }
+
+  @action setDurationIndex = (index) => {
+    this.selectedDurationIndex = index;
   }
 }
 

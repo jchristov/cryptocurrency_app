@@ -1,29 +1,73 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ActivityIndicator, StyleSheet, Dimensions } from 'react-native';
+import { View, ActivityIndicator, StyleSheet, Dimensions, Text, TouchableOpacity } from 'react-native';
 import {observer, inject} from 'mobx-react';
 import { timeFormat } from 'd3-time-format';
 import ChartList from '../../chart/components/ChartList';
-import { DURATION, DEFAULT_CURRENCY } from '../../../constants';
+import ChartPrice from '../../chart/components/ChartPrice';
 import Colors from '../../common/Colors';
-import { Card } from 'react-native-elements';
+import Tabs from '../../tabs/Tabs';
+import { DURATION, DEFAULT_CURRENCY } from '../../../constants';
+
+const DURATION_LIST = Object.keys(DURATION).map(item => DURATION[item]); 
 
 @inject('charts')
 @observer
-export default class DetailScreen extends Component {
+class ChartScreen extends Component {
     
   static propTypes = {
   };
 
   componentDidMount(){
-    const { charts } = this.props;       
-    charts.loadCharts('BTC', DEFAULT_CURRENCY);
+    this.fetchPriceData();
   }
-      
+
+  fetchPriceData = async() => {
+    const { charts } = this.props;
+    const limit = DURATION_LIST[charts.selectedDurationIndex].limit;
+    const api = DURATION_LIST[charts.selectedDurationIndex].api;
+       
+    await charts.loadCharts('BTC', DEFAULT_CURRENCY, api, limit);
+    await charts.loadPriceHistorical('BTC', DEFAULT_CURRENCY);
+  }
+
   getLoader = () => {
     return (
         <View style={styles.loader}>
             <ActivityIndicator size='large'/>
+        </View>
+    );
+  }
+
+  handleDurationChange = (newIndex) => {
+    this.props.charts.setDurationIndex(index);
+  }
+
+  renderDurationTabs = () => {
+    const body = DURATION_LIST.map(itm=> (
+        <Text style={styles.text} key={itm.codename}>{itm.codename}</Text>
+    ));
+    return (
+        <Tabs
+            keys={DURATION_LIST.map(({ codename }) => codename)}
+            handlePress={this.handleDurationChange}
+            selectedIndex={this.props.charts.selectedDurationIndex}
+        > 
+            {body}
+        </Tabs> 
+      );
+  }
+
+  renderCurrencyPrice() {
+    const { charts } = this.props; 
+    return(
+        <View style={styles.price}>
+            <ChartPrice
+                cryptocurrencyLabel={'bitcoin'}
+                pricesHistory={charts.entities}
+                historicalPrice={charts.historicalPrice}
+                durationLabel={DURATION_LIST[charts.selectedDurationIndex].humanize}
+            />
         </View>
     );
   }
@@ -33,11 +77,21 @@ export default class DetailScreen extends Component {
     const format = timeFormat('%B %d, %Y');
     const {height, width} = Dimensions.get('window');
 
-    if(!charts.loaded) return this.getLoader();    
-          
+    if(!charts.loaded) return this.getLoader();
+
     return (
         <View style={styles.contanier}>
-            <ChartList data={charts.entities} height={225} width={width}/>
+            <View style={styles.section}>
+              { this.renderDurationTabs() }
+              { this.renderCurrencyPrice() }
+            </View>
+            <View style={styles.charts}>
+                <ChartList 
+                  data={charts.entities} 
+                  height={height / 3} 
+                  width={width}
+                />
+            </View>
         </View>
     );
   }
@@ -45,13 +99,33 @@ export default class DetailScreen extends Component {
 
 const styles = StyleSheet.create({
   contanier:{
-      flexDirection: 'row',  
+    flexDirection: 'column',
+    backgroundColor: Colors.white,
+  },
+  charts: {
+    flexDirection: 'row',
+    marginTop: 20  
+  },
+  section: {
+    backgroundColor: Colors.palatinateBlue,
+    flexDirection: 'column'
+  },
+  price: {
+    flexDirection: 'column',
+    height: 90,
+    justifyContent: 'center'
   },
   loader: {
-      flex: 1,
-      justifyContent: 'center'
+    flex: 1,
+    justifyContent: 'center'
   },
   title:{
-      fontWeight: '300'
+    fontWeight: '300'
+  },
+  text:{
+    color: Colors.white,
+    fontSize: 16,
   }
 });
+
+export default ChartScreen;

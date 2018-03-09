@@ -15,6 +15,10 @@ function entitiesFromFB(data) {
   return data
 }
   
+function entitiesFromHistoApi(data) {
+  return data.map(item => ({time: new Date(item.time * 1000), price: item.open}));
+}
+
 function setSchematic(data) {
   return {
     market : {
@@ -29,15 +33,28 @@ function setSchematic(data) {
   };
 }
 
-function getPriceHistoryUrl(cryptocurrency, currency, api, timeLimit){
+function getHistoUrl(cryptocurrency = 'BTC', currency = 'USD', api, timeLimit){
   return `https://min-api.cryptocompare.com/data/${api}?fsym=${cryptocurrency}&tsym=${currency}&limit=${timeLimit}&aggregate=1&e=CCCAGG`;
 }
 
+function getPriceHistoricalUrl(cryptocurrency = 'BTC', currency = 'USD', time) {
+  return `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${cryptocurrency}&tsyms=${currency}&ts=${time}`;
+}
+
+function  getDateAgo(date, days) {
+  let dateCopy = new Date(date);
+
+  dateCopy.setDate(date.getDate() - days);
+  return dateCopy.getTime();
+}
 
 export {
   status, 
   setSchematic, 
   entitiesFromFB, 
   json,
-  getPriceHistoryUrl
+  getHistoUrl,
+  getPriceHistoricalUrl,
+  getDateAgo,
+  entitiesFromHistoApi
 };
