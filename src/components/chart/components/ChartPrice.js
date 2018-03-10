@@ -4,6 +4,7 @@ import { View, StyleSheet, Dimensions } from 'react-native';
 import { scan } from 'd3-array';
 import Price from './Price';
 import { DEFAULT_CURRENCY } from '../../../constants';
+import Colors from '../../common/Colors';
 
 const ChartPrice = ({cryptocurrencyLabel, historicalPrice, durationLabel, pricesHistory,}) => {
   const lastIndex = scan(pricesHistory, (a, b) => a.time - b.time);
@@ -44,7 +45,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-
+    borderTopWidth: 1,
+    height: 90,
+    borderTopColor: Colors.yellow,
+    marginLeft: 10,
+    marginRight: 10
   }
 });
 

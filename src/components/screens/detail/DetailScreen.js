@@ -80,17 +80,15 @@ class DetailScreen extends Component {
 
   renderCurrencyPrice() {
     const { charts } = this.props; 
-    
+
 
     return(
-      <View style={styles.price}>
         <ChartPrice
           cryptocurrencyLabel={'bitcoin'}
           durationLabel={DURATION_LIST[charts.selectedDurationIndex].humanize}
           pricesHistory={charts.entities}
           historicalPrice={charts.historicalPrice}
         />
-      </View>
     );
   }
 
@@ -101,7 +99,6 @@ class DetailScreen extends Component {
     const { height, width } = Dimensions.get('window');
     
     if(!charts.loaded) return this.getLoader();
-
     return (
       <View style={styles.contanier}>
         <View style={styles.section}>
@@ -109,11 +106,11 @@ class DetailScreen extends Component {
           { this.renderCurrencyPrice() }
         </View>
         <View style={styles.charts}>
-            <ChartList 
-              data={charts.entities} 
-              height={height / 3} 
-              width={width}
-            />
+          <ChartList 
+            data={charts.entities} 
+            height={height / 3} 
+            width={width}
+          />
         </View>
       </View>
     );
@@ -132,11 +129,6 @@ const styles = StyleSheet.create({
   section:{
     backgroundColor: Colors.palatinateBlue,
     flexDirection: 'column'
-  },
-  price:{
-    flexDirection: 'column',
-    height: 90,
-    justifyContent: 'center'
   },
   loader:{
     flex: 1,

@@ -55,13 +55,11 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'center',
-    width: '100%',
     flex: 1,
   },
   section: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    
+    justifyContent: 'center',  
   },
   label: {
     color: Colors.white,
@@ -72,12 +70,12 @@ const styles = StyleSheet.create({
   },
   small_font: {
     color: Colors.white,
-    fontSize: 30,
+    fontSize: 14,
     fontWeight: '500'
   },
   large: {
     color: Colors.white,
-    fontSize: 48,
+    fontSize: 30,
     fontWeight: 'normal',
   },
   green: {
