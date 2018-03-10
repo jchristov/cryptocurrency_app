@@ -8,7 +8,7 @@ import Colors from '../../common/Colors';
 const PLUS_CHAR = '+';
 const MINUS_CHAR = '\u2212';
 
-const Price = ({label, value, isCurrency, isPercentage, showPlusCharacter, visible = true}) => {
+const Price = ({label, value, isCurrency, isPercentage, showPlusCharacter, visible}) => {
   const isNegative = value < 0;
   const absValue = Math.abs(value);
   const currencyValue = formatCurrency(absValue, DEFAULT_CURRENCY);
@@ -17,51 +17,68 @@ const Price = ({label, value, isCurrency, isPercentage, showPlusCharacter, visib
   return (
     visible && 
     <View style={styles.container}>
-      <View style={}>
-        {showPlusCharacter && <Text style={[styles.small_font, styles.green]}>{PLUS_CHAR}</Text>}
-        {isNegative && <Text style={style.small_font}>{MINUS_CHAR}</Text>}
-        {isCurrency && <Text >{currencyValue.slice(0, 1)}</Text>}
-        {isCurrency && <Text>{currencyValue.slice(1, -3)}</Text>}
-        {isCurrency && <Text>{currencyValue.slice(-3)}</Text>}
-        {isPercentage && <Text>{percentageValue}</Text>}
-        {isPercentage && <Text>%</Text>}
+      <View style={styles.section}>
+          {showPlusCharacter && <Text style={[styles.small_font, styles.green]}>{PLUS_CHAR}</Text>}
+          {isNegative && <Text style={styles.small_font}>{MINUS_CHAR}</Text>}
+          {isCurrency && <Text style={styles.small_font}>{currencyValue.slice(0, 1)}</Text>}
+          {isCurrency && <Text style={styles.large}>{currencyValue.slice(1, -3)}</Text>}
+          {isCurrency && <Text style={styles.small_font}>{currencyValue.slice(-3)}</Text>}
+          {isPercentage && <Text style={styles.large}>{percentageValue}</Text>}
+          {isPercentage && <Text style={styles.small_font}>%</Text>}
       </View>
       <View>
-        <Text style={styles.label}>{label}</Text>
+        <Text style={styles.label}>
+          {label}
+        </Text>
       </View>
     </View>
   );
 }
 
 Price.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
+  isCurrency: PropTypes.bool,
+  isPercentage: PropTypes.bool,
+  showPlusCharacter: PropTypes.bool,
+  visible: PropTypes.bool
+};
 
+Price.defaultProps = {
+  isCurrency: false,
+  isPercentage: false,
+  showPlusCharacter: false,
+  visible: true,
 };
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'center',
-    width: '100%'
+    width: '100%',
+    flex: 1,
   },
-  wrap:{
-
+  section: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    
   },
   label: {
-    color: '#7d95b6',
+    color: Colors.white,
     fontSize: 14,
     fontWeight: '500',
     letterSpacing: 2,
     textAlign: 'center',
-    textTransform: 'uppercase'
   },
   small_font: {
+    color: Colors.white,
     fontSize: 30,
-    fontWeight: 500
+    fontWeight: '500'
   },
   large: {
+    color: Colors.white,
     fontSize: 48,
     fontWeight: 'normal',
-    verticalAlign: 'baseline'
   },
   green: {
     color: Colors.green

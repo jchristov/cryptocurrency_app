@@ -3,21 +3,37 @@ import PropTypes from 'prop-types';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import { scan } from 'd3-array';
 import Price from './Price';
+import { DEFAULT_CURRENCY } from '../../../constants';
 
-const ChartPrice = ({cryptocurrencyLabel, pricesHistory, historicalPrice, durationLabel}) => {
+const ChartPrice = ({cryptocurrencyLabel, historicalPrice, durationLabel, pricesHistory,}) => {
   const lastIndex = scan(pricesHistory, (a, b) => a.time - b.time);
   const oldPrice = pricesHistory[lastIndex] && pricesHistory[lastIndex].price;
-  console.log('lastIndex', lastIndex, historicalPrice);
+
+  console.log('---', oldPrice, historicalPrice);
+  
+
   return (
     <View style={styles.container}>
       <Price
-        label={`${cryptocurrencyLabel} цена`}
+        isCurrency={true}  
+        label={`${cryptocurrencyLabel} price`}
+        value={123123}
+      />
+      <Price
+        showPlusCharacter={true}
         isCurrency={true}
-        value={'123123'}
+        label={`${durationLabel} (${DEFAULT_CURRENCY})`}
+        value={123123}
+      />
+      <Price
+        showPlusCharacter={true}
+        isCurrency={true}
+        label={`${durationLabel} (%)`}
+        value={123123}
+        visible={!!durationLabel}
       />
     </View>
   );
-
 }
 
 ChartPrice.propTypes = {
@@ -27,7 +43,8 @@ ChartPrice.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+
   }
 });
 

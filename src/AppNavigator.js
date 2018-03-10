@@ -20,18 +20,15 @@ const ListsNavigator = TabNavigator({
 });
 
 const AppNavigator = StackNavigator({
-    chart: {
-        screen: ChartScreen
-    },
-    lists:{
+    main:{
         screen: ListsNavigator 
+    },
+    detail: {
+        screen: DetailScreen
     },
     auth: {
         screen: SignInScreen
     }, 
-    detail: {
-        screen: DetailScreen
-    },
     event: {
         screen: EventScreen
     },

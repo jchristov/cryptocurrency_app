@@ -5,22 +5,26 @@ import Colors from '../common/Colors';
 
 const Tabs = ({children, keys, selectedIndex, handlePress}) => {
   return (
-      <View style={styles.container}>
-        {
-          children.map((child, index) => {
-            const style = {};
-            if(index === selectedIndex){
-              style.borderBottomColor = Colors.yellow;
-              style.borderBottomWidth = 2;  
-            }
-            return (
-              <TouchableHighlight  style={[styles.button, style]} onPress={handlePress.bind(null, index)}>     
-                  {child}
-              </TouchableHighlight>
-            );          
-          })
-        }
-      </View>
+    <View style={styles.container}>
+      {
+        children.map((child, index) => {
+          const style = {};
+          if(index === selectedIndex){
+            style.borderBottomColor = Colors.yellow;
+            style.borderBottomWidth = 2;  
+          }
+          return (
+            <TouchableHighlight 
+              style={[styles.button, style]}
+              key={keys[index]} 
+              onPress={handlePress.bind(null, index)}
+            >     
+                {child}
+            </TouchableHighlight>
+          );          
+        })
+      }
+    </View>
   );
 }
 

@@ -26,9 +26,9 @@ class ChartScreen extends Component {
     const { charts } = this.props;
     const limit = DURATION_LIST[charts.selectedDurationIndex].limit;
     const api = DURATION_LIST[charts.selectedDurationIndex].api;
-       
+    
+    await charts.loadPriceHistorical('BTC', DEFAULT_CURRENCY);     
     await charts.loadCharts('BTC', DEFAULT_CURRENCY, api, limit);
-    await charts.loadPriceHistorical('BTC', DEFAULT_CURRENCY);
   }
 
   getLoader = () => {
@@ -48,27 +48,28 @@ class ChartScreen extends Component {
         <Text style={styles.text} key={itm.codename}>{itm.codename}</Text>
     ));
     return (
-        <Tabs
-            keys={DURATION_LIST.map(({ codename }) => codename)}
-            handlePress={this.handleDurationChange}
-            selectedIndex={this.props.charts.selectedDurationIndex}
-        > 
-            {body}
-        </Tabs> 
+      <Tabs
+        keys={DURATION_LIST.map(({ codename }) => codename)}
+        handlePress={this.handleDurationChange}
+        selectedIndex={this.props.charts.selectedDurationIndex}
+      > 
+        {body}
+      </Tabs> 
       );
   }
 
   renderCurrencyPrice() {
     const { charts } = this.props; 
+    
     return(
-        <View style={styles.price}>
-            <ChartPrice
-                cryptocurrencyLabel={'bitcoin'}
-                pricesHistory={charts.entities}
-                historicalPrice={charts.historicalPrice}
-                durationLabel={DURATION_LIST[charts.selectedDurationIndex].humanize}
-            />
-        </View>
+      <View style={styles.price}>
+        <ChartPrice
+          cryptocurrencyLabel={'bitcoin'}
+          durationLabel={DURATION_LIST[charts.selectedDurationIndex].humanize}
+          pricesHistory={charts.entities}
+          historicalPrice={charts.historicalPrice}
+        />
+      </View>
     );
   }
 
