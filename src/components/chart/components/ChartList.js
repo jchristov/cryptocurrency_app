@@ -20,6 +20,7 @@ const INITIAL_STATE = {
   graphWidth: 0,
   graphHeight: 0,
   linePath: '',
+  areaPath: ''
 };
 
 @inject('charts')
@@ -59,7 +60,8 @@ class ChartList extends Component {
     this.setState({
       graphWidth,
       graphHeight,
-      linePath: lineGraph.path,
+      linePath: lineGraph.linePath,
+      areaPath: lineGraph.areaPath,
       ticks: lineGraph.ticks,
       scale: lineGraph.scale, 
     });
@@ -138,7 +140,7 @@ class ChartList extends Component {
   }
 
   render() {
-    const { graphHeight, graphWidth, linePath, ticks, scale } = this.state;
+    const { graphHeight, graphWidth, areaPath, linePath, ticks, scale } = this.state;
     const { data } = this.props;
     
     /**
@@ -161,11 +163,14 @@ class ChartList extends Component {
                   strokeWidth={2}
                   stroke={'#6E7CB9'}
                 />
-                
 
+                <Shape
+                  d={areaPath}
+                  strokeWidth={2}
+                  stroke={'#6E7CB9'}
+                />
 
               </Group>
-
             </Surface>
           </View>
 

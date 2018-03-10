@@ -32,13 +32,19 @@ function createGraph(data, width, height) {
     .x(d => d.time)
     .y(d => d.price);
 
+  const areaShape = d3Area()
+    .x(d => d.time)
+    .y0(height)
+    .y1(d => d.price);
+
   return {
     data, 
     scale: {
       x: scaleTimeToX,
       y: scalePriceToY
     },
-    path: lineShape(newArr),
+    linePath: lineShape(newArr),
+    areaPath: areaShape(newArr),
     ticks: data.map(({price, time}) => {
       return {
         y: scalePriceToY(price),
