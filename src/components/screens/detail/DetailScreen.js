@@ -21,19 +21,21 @@ class DetailScreen extends Component {
   static propTypes = {
   };
 
+  //Colors.palatinateBlue
+
   static navigationOptions = ({navigation, screenProps}) => {
     _goBack = () => {
-        navigation.goBack();
+      navigation.goBack();
     }
     return {  
-        title: 'Детали',
-        headerTitle: <Header style={styles.title} value='Детали'/>,
-        headerStyle: { 
-            backgroundColor: Colors.palatinateBlue,
-            borderBottomWidth: 1,
-            color: Colors.white 
-        },
-        headerLeft: <Back onBackPress={_goBack}  value="Назад" />
+      title: 'Детали',
+      headerTitle: <Header style={styles.title} value='Детали'/>,
+      headerStyle: { 
+          backgroundColor: Colors.palatinateBlue,
+          borderBottomWidth: 1,
+          
+      },
+      headerLeft: <Back onBackPress={_goBack}  value="Назад" />
     }
   };
 
@@ -43,12 +45,13 @@ class DetailScreen extends Component {
 
   fetchPriceData = async() => {
     const { charts, navigation } = this.props;
-    const cryptocurrency = navigation.state.params.uid;
+    const cryptocurrency = navigation.state.params.cryptocurrency;
+  
     const limit = DURATION_LIST[charts.selectedDurationIndex].limit;
     const api = DURATION_LIST[charts.selectedDurationIndex].api;
-    
-    await charts.loadPriceHistorical('BTC', DEFAULT_CURRENCY);     
-    await charts.loadCharts('BTC', DEFAULT_CURRENCY, api, limit);
+
+    await charts.loadPriceHistorical('BTC', DEFAULT_CURRENCY);  
+    await charts.loadCharts('BTC', DEFAULT_CURRENCY, api, limit);   
   }
 
   getLoader = () => {
@@ -59,8 +62,11 @@ class DetailScreen extends Component {
     );
   }
 
-  handleDurationChange = (newIndex) => {
-    this.props.charts.setDurationIndex(index);
+  handleDurationChange = (index) => { 
+    const {charts} = this.props; 
+
+    charts.setDurationIndex(index);
+    this.fetchPriceData();
   }
 
   renderDurationTabs = () => {
@@ -78,16 +84,24 @@ class DetailScreen extends Component {
       );
   }
 
-  renderCurrencyPrice() {
-    const { charts } = this.props; 
 
+  /**
+   * 
+   */
+  renderCurrencyPrice() {
+    const { charts, navigation } = this.props; 
+    const cryptocurrency = navigation.state.params.cryptocurrency;
+
+
+    const oldPrice = charts.historicalPrice[0].USD;
+    
 
     return(
         <ChartPrice
           cryptocurrencyLabel={'bitcoin'}
           durationLabel={DURATION_LIST[charts.selectedDurationIndex].humanize}
-          pricesHistory={charts.entities}
-          historicalPrice={charts.historicalPrice}
+          currentPrice={+cryptocurrency.price_usd}
+          oldPrice={+oldPrice}
         />
     );
   }
@@ -97,7 +111,10 @@ class DetailScreen extends Component {
     const { charts } = this.props;
     const format = timeFormat('%B %d, %Y');
     const { height, width } = Dimensions.get('window');
+
+    console.log(charts.entities.length);
     
+
     if(!charts.loaded) return this.getLoader();
     return (
       <View style={styles.contanier}>
@@ -124,10 +141,15 @@ const styles = StyleSheet.create({
   },
   charts:{
     flexDirection: 'row',
-    marginTop: 20  
+    margin: 0,
+    padding: 0,
+    marginTop: 20,
+    paddingTop: 20,
+    borderTopWidth: 1,
+    borderTopColor: Colors.border  
   },
   section:{
-    backgroundColor: Colors.palatinateBlue,
+    backgroundColor: Colors.white,
     flexDirection: 'column'
   },
   loader:{
@@ -138,7 +160,7 @@ const styles = StyleSheet.create({
     fontWeight: '300'
   },
   text:{
-    color: Colors.white,
+    color: Colors.actionText,
     fontSize: 16,
   }
 });

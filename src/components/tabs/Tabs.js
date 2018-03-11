@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableHighlight , View, StyleSheet, Text } from 'react-native';
 import Colors from '../common/Colors';
+import { observer } from 'mobx-react';
 
-const Tabs = ({children, keys, selectedIndex, handlePress}) => {
+const Tabs = observer(({children, keys, selectedIndex, handlePress}) => {
   return (
     <View style={styles.container}>
       {
@@ -26,7 +27,7 @@ const Tabs = ({children, keys, selectedIndex, handlePress}) => {
       }
     </View>
   );
-}
+})
 
 Tabs.propTypes = {
 

@@ -66,7 +66,7 @@ class CoinListScreen extends Component {
         const {coins} = this.props;
         if(coins.loading) return <Loader/>
         return (
-            <View>
+            <View style={styles.container}>
                 <SearchInput/>
                 {this.renderHeader()}
                 <CoinList onCoinPress = {this.handleCoinPress}/>
@@ -74,12 +74,15 @@ class CoinListScreen extends Component {
         );
     }
 
-    handleCoinPress = (uid) => {
-        this.props.navigation.navigate('detail', {uid});
+    handleCoinPress = (cryptocurrency) => {
+        this.props.navigation.navigate('detail', {cryptocurrency});
     }
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    },
     header:{
         backgroundColor: Colors.lightBackground,
         borderBottomColor: Colors.border,

@@ -157,23 +157,21 @@ class ChartList extends Component {
           <View style={styles.chart}>
             <Surface width={graphWidth} height={graphHeight}>
               <Group x={0} y={0}>
-                
                 <Shape
                   d={linePath}
                   strokeWidth={2}
-                  stroke={'#6E7CB9'}
+                  stroke={'#FFB01E'}
                 />
-
+               
                 <Shape
                   d={areaPath}
                   strokeWidth={2}
-                  stroke={'#6E7CB9'}
+                  fill={'#FFEBC5'}
                 />
-
+              
               </Group>
             </Surface>
           </View>
-
         </View>
     );
   }

@@ -1,36 +1,33 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, Dimensions } from 'react-native';
-import { scan } from 'd3-array';
 import Price from './Price';
-import { DEFAULT_CURRENCY } from '../../../constants';
 import Colors from '../../common/Colors';
+import { DEFAULT_CURRENCY } from '../../../constants';
 
-const ChartPrice = ({cryptocurrencyLabel, historicalPrice, durationLabel, pricesHistory,}) => {
-  const lastIndex = scan(pricesHistory, (a, b) => a.time - b.time);
-  const oldPrice = pricesHistory[lastIndex] && pricesHistory[lastIndex].price;
-
-  console.log('---', oldPrice, historicalPrice);
-  
+const ChartPrice = ({cryptocurrencyLabel, durationLabel, currentPrice, oldPrice}) => {
+  const priceDifference = currentPrice - oldPrice;
+  const percentageDifference = ((currentPrice / oldPrice) - 1) * 100 || 0;
 
   return (
     <View style={styles.container}>
       <Price
+        label={`${cryptocurrencyLabel} цена`}
         isCurrency={true}  
-        label={`${cryptocurrencyLabel} price`}
-        value={123123}
+        value={currentPrice}
       />
       <Price
-        showPlusCharacter={true}
+        showPlusCharacter={priceDifference > 0}
         isCurrency={true}
         label={`${durationLabel} (${DEFAULT_CURRENCY})`}
-        value={123123}
+        value={priceDifference}
+        visible={!!durationLabel}
       />
       <Price
-        showPlusCharacter={true}
-        isCurrency={true}
+        showPlusCharacter={percentageDifference > 0}
+        isPercentage={true}
         label={`${durationLabel} (%)`}
-        value={123123}
+        value={percentageDifference}
         visible={!!durationLabel}
       />
     </View>
@@ -47,9 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     borderTopWidth: 1,
     height: 90,
-    borderTopColor: Colors.yellow,
-    marginLeft: 10,
-    marginRight: 10
+    borderTopColor: Colors.border,
   }
 });
 

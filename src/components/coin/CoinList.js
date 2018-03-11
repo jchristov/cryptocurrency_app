@@ -20,118 +20,126 @@ import Colors from '../common/Colors';
 @inject('search')
 @observer
 class CoinList extends Component {
-    static propTypes = {
-        coins: PropTypes.object
-    };
+  static propTypes = {
+    coins: PropTypes.object
+  };
 
-    componentWillMount() {
-        const {coins} = this.props
-        if (!coins.loaded && !coins.loading) coins.loadApi();
-    }
+  componentWillMount() {
+    const {coins} = this.props
+    if (!coins.loaded && !coins.loading) coins.loadApi();
+  }
 
-    getItemCount = () => {
-        return this.props.coins.entities.length;
-    }
+  getItemCount = () => {
+    return this.props.coins.entities.length;
+  }
 
-    getItem = (data, index) => {
-        return this.props.coins.entities[index];    
-    }
-    
-    renderHeader = () => {
-        return (
-            <View style={styles.header}>
-                <Text style={styles.text}>Rank</Text>
-                <Text style={styles.text}>24H</Text>
-                <Text style={styles.text}>7D</Text>
-                <Text style={styles.text}>Price</Text>
-            </View>
-        );
-    }
-    
-    handleLoadMore = () => {
-        console.log('load more')
-        this.props.coins.lazyLoadApi();
-    }
+  getItem = (data, index) => {
+    return this.props.coins.entities[index];    
+  }
+  
+  renderHeader = () => {
+    return (
+        <View style={styles.header}>
+            <Text style={styles.text}>Rank</Text>
+            <Text style={styles.text}>24H</Text>
+            <Text style={styles.text}>7D</Text>
+            <Text style={styles.text}>Price</Text>
+        </View>
+    );
+  }
+  
+  handleLoadMore = () => {
+    console.log('load more')
+    this.props.coins.lazyLoadApi();
+  }
 
-    handleRefresh = () => {
-        this.props.coins.refreshEntities();
-    }
+  handleRefresh = () => {
+    this.props.coins.refreshEntities();
+  }
 
-    renderFooter = () => {
-        return (
-            <View style={{
-                paddingVertical: 20,
-                borderTopWidth: 1,
-                borderColor: "#CED0CE"
-              }}
-            >
-              <ActivityIndicator animating size="large" />
-            </View>
-        );
-    }
+  renderFooter = () => {
+    return (
+        <View style={{
+            paddingVertical: 20,
+            borderTopWidth: 1,
+            borderColor: "#CED0CE"
+          }}
+        >
+          <ActivityIndicator animating size="large" />
+        </View>
+    );
+  }
 
-    renderSeparator = () => {
-        return(
-            <View
-                style={{
-                    height: 1,
-                    width: "86%",
-                    backgroundColor: "#CED0CE",
-                    marginLeft: "14%"
-                }}
-            />
-        );
-    }
+  renderSeparator = () => {
+    return(
+        <View
+            style={{
+                height: 1,
+                width: "86%",
+                backgroundColor: "#CED0CE",
+                marginLeft: "14%"
+            }}
+        />
+    );
+  }
 
-    renderItem = ({index, item}) => {
-        const {onCoinPress} = this.props;
-        return(
-            <TouchableOpacity onPress={onCoinPress.bind(null, item.coin.symbol)}>
-                <CoinCard coin={item.coin}/>
-            </TouchableOpacity>
-        );
-    }
+  renderItem = ({index, item}) => {
+    const {onCoinPress} = this.props;
+    return(
+        <TouchableOpacity onPress={ onCoinPress.bind(null, item.coin) }>
+            <CoinCard coin={item.coin}/>
+        </TouchableOpacity>
+    );
+  }
 
-    render() {
-        const {coins, search} = this.props;
+  render() {
+    const {coins, search} = this.props;
 
-        if(coins.loading) return <Loader/>
+    if(coins.loading) return <Loader/>
 
-        const data = search.value ? coins.entities.filter(item => {
-                    return item.name.toLowerCase().indexOf(search.value.toLowerCase()) > -1 || item.symbol.toLowerCase().indexOf(search.value.toLowerCase()) > -1;
-                }).map(item => ({key: item.id, coin: item})) : coins.entities.map(item => ({key: item.id, coin: item}));
+    const data = search.value  
+                  ? coins.entities
+                      .filter(item => {
+                        return item.name.toLowerCase().indexOf(search.value.toLowerCase()) > -1 
+                              || item.symbol.toLowerCase().indexOf(search.value.toLowerCase()) > -1;
+                      })
+                      .map(item => ({key: item.id, coin: item})) 
+                  : coins.entities
+                      .map(item => ({key: item.id, coin: item}));
 
-        return <FlatList 
-                    data={data}
-                    renderItem = {this.renderItem}
-                    keyExtractor={item => item.key}
-                    ListFooterComponent={this.renderFooter}
-                    refreshing={coins.refreshing}
-                    onRefresh={this.handleRefresh}
+    return (
+      <FlatList 
+        data={data}
+        renderItem = {this.renderItem}
+        keyExtractor={item => item.key}
+        ListFooterComponent={this.renderFooter}
+        refreshing={coins.refreshing}
+        onRefresh={this.handleRefresh}
 
-                    onEndReached={this.handleLoadMore}
-                    onEndReachedThreshold={0}                 
-                />
-    }
+        onEndReached={this.handleLoadMore}
+        onEndReachedThreshold={0}                 
+      />
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    search: {
-        backgroundColor: Colors.lightBackground
-    },
-    text:{
-        flex: 1, 
-        fontSize: 16,
-        textAlign: 'center',
-        color: Colors.actionText
-    },
-    header:{
-        backgroundColor: Colors.lightBackground,
-        borderBottomColor:Colors.border,
-        borderBottomWidth: 1,
-        flexDirection: 'row',
-        paddingHorizontal: 10  
-    }
+  search: {
+      backgroundColor: Colors.lightBackground
+  },
+  text:{
+      flex: 1, 
+      fontSize: 16,
+      textAlign: 'center',
+      color: Colors.actionText
+  },
+  header:{
+      backgroundColor: Colors.lightBackground,
+      borderBottomColor:Colors.border,
+      borderBottomWidth: 1,
+      flexDirection: 'row',
+      paddingHorizontal: 10  
+  }
 });
 
 export default CoinList;
