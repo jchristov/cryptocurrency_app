@@ -3,6 +3,7 @@ import { area as d3Area, line as d3Line } from 'd3-shape';
 import { extent } from 'd3-array';
 
 
+const CHART_PADDING_TOP = 20;
 /**
  * Creates a line graph SVG path that we can then use to render in our
  * React Native application with ART.
@@ -15,7 +16,7 @@ import { extent } from 'd3-array';
 function createGraph(data, width, height) {
   
   const scalePriceToY = scaleLinear()
-    .range([height, 0]) // ширина графика
+    .range([height, CHART_PADDING_TOP]) // ширина графика
     .domain(extent(data, d => d.price)) //возвратит массив  из максимального и минимального элементов
 
   //координата x отображает дату в пределе от extent(data, d => d.time) на ширине в [0, width]

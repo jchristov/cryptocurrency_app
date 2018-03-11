@@ -45,8 +45,8 @@ class DetailScreen extends Component {
 
   fetchPriceData = async() => {
     const { charts, navigation } = this.props;
+    
     const cryptocurrency = navigation.state.params.cryptocurrency;
-  
     const limit = DURATION_LIST[charts.selectedDurationIndex].limit;
     const api = DURATION_LIST[charts.selectedDurationIndex].api;
 
@@ -63,9 +63,8 @@ class DetailScreen extends Component {
   }
 
   handleDurationChange = (index) => { 
-    const {charts} = this.props; 
-
-    charts.setDurationIndex(index);
+    this.props.charts.setDurationIndex(index);
+    //FIX 
     this.fetchPriceData();
   }
 

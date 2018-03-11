@@ -13,10 +13,14 @@ const VerticalChartAxis = ({data, textAlign}) => {
   return (
     <View style={[styles.container, posStyle]}>
       <View>
-        <Text style={styles.text}>{formatCurrency(maxPrice, 'usd', 0)}</Text>
+        <Text style={styles.text}>
+          {formatCurrency(maxPrice, 'usd', 0)}
+        </Text>
       </View>
       <View>
-        <Text style={styles.text}>{formatCurrency(minPrice, 'usd', 0)}</Text>
+        <Text style={styles.text}>
+          {formatCurrency(minPrice, 'usd', 0)}
+        </Text>
       </View>
     </View>
   );
@@ -35,7 +39,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'space-between',
-    flexBasis: 40,
+    flexBasis: 65,
   },
   text: {
     color: Colors.lightText,

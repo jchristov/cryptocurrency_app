@@ -10,7 +10,7 @@ import  * as graphUtils  from './graph-utils';
 
 const { Group, Shape, Surface } = ART;
 
-const AnimationDurationMs = 250; 
+const AnimationDurationMs = 200; 
 const PaddingSize = 65;
 const TickWidth = PaddingSize * 2;
 
@@ -71,8 +71,8 @@ class ChartList extends Component {
     }
 
     if(this.props !== nextProps){
-      const pathFrom = this.previousGraph.path;
-      const pathTo = lineGraph.path;
+      const pathFrom = this.previousGraph.linePath;
+      const pathTo = lineGraph.linePath;
 
       cancelAnimationFrame(this.animating);
       this.animating = null;
@@ -120,7 +120,7 @@ class ChartList extends Component {
         this.animating = null;
         // Just to be safe set our final value to the new graph path.
         this.setState({
-          linePath: this.previousGraph.path,
+          linePath: this.previousGraph.linePath,
         });
 
         // Stop our animation loop.

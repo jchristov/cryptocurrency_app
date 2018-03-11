@@ -9,7 +9,7 @@ const DURATION_LIST = Object.keys(DURATION).map(item => DURATION[item]);
 class Charts extends EntitiesStore{
 
   @observable uid = null;
-  @observable selectedDurationIndex = 5;
+  @observable selectedDurationIndex = 2;
   @observable historicalPrice = null;
 
   constructor(...args){
@@ -24,7 +24,6 @@ class Charts extends EntitiesStore{
       .then(this.setHistoParams)
       .catch(err => console.error('load error component Charts', err));
   } 
-
   
   @action loadCharts(cryptocurrency, currency, api = 'histoday', timeLimit = '2000'){
     const uri = getHistoUrl(cryptocurrency, currency, api, timeLimit);
