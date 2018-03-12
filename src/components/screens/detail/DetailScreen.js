@@ -9,6 +9,7 @@ import Colors from '../../common/Colors';
 import images from '../../helpers/images';
 import ChartList from '../../chart/components/ChartList';
 import ChartPrice from '../../chart/components/ChartPrice';
+import HorizontalChartAxis from '../../chart/components/HorizontalChartAxis';
 import Tabs from '../../tabs/Tabs';
 import { DURATION, DEFAULT_CURRENCY } from '../../../constants';
 
@@ -110,11 +111,12 @@ class DetailScreen extends Component {
     const { charts } = this.props;
     const format = timeFormat('%B %d, %Y');
     const { height, width } = Dimensions.get('window');
+    const durationType = DURATION_LIST[charts.selectedDurationIndex].key;
 
     console.log(charts.entities.length);
     
-
     if(!charts.loaded) return this.getLoader();
+    
     return (
       <View style={styles.contanier}>
         <View style={styles.section}>
@@ -128,6 +130,7 @@ class DetailScreen extends Component {
             width={width}
           />
         </View>
+        <VerticalChartAxis data={charts.entities} duration={durationType}/>
       </View>
     );
   }

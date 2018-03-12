@@ -11,7 +11,7 @@ import  * as graphUtils  from './graph-utils';
 const { Group, Shape, Surface } = ART;
 
 const AnimationDurationMs = 200; 
-const PaddingSize = 65;
+const PaddingSize = 50;
 const TickWidth = PaddingSize * 2;
 
 const dimensionWindow = Dimensions.get('window');
