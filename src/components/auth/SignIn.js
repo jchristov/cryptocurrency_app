@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {View, Text, Platform, TouchableOpacity, StyleSheet} from 'react-native';
+import {View, Text, Platform, TouchableOpacity, StyleSheet, TextInput} from 'react-native';
 import {observer, inject} from 'mobx-react';
 import {action} from 'mobx';
-import {FormLabel, FormInput, Card, Button} from 'react-native-elements';
 
 /**
  * observer это метод который заворачивает 
@@ -22,36 +21,32 @@ class SignIn extends Component {
   render() {
     const {auth} = this.props;
     return (
-      <View style={styles.container}>
-        <Card>
-          <Text style = {styles.header}>Please Sign In</Text>
-          
-          <FormLabel>Email:</FormLabel>
-          <FormInput value={auth.email} 
-            onChangeText={this.setEmail} 
-            inputStyle={styles.input}
-            keyboardType='email-address'
-          />
-          
-          <FormLabel>Password:</FormLabel>
-          <FormInput value={auth.password} 
-            onChangeText={this.setPassword} 
-            inputStyle={styles.input}
-            secureTextEntry
-          />
-
-          <Button
-            title="Sign In"
-            textStyle={styles.btnText}
-            buttonStyle={styles.btn}
-          />
-        </Card>
+      <View style = {styles.container}>
+        <View>
+            <Text style = {styles.text}>Email:</Text>
+            <TextInput value = {auth.email}
+                      onChangeText = {this.handleEmailChange}
+                      keyboarType = 'email-address'
+                      style = {styles.input}
+            />
+        </View>
+        <View>
+            <Text style = {styles.text}>Password:</Text>
+            <TextInput value = {auth.password}
+                      onChangeText = {this.handlePasswordChange}
+                      secureTextEntry
+                      style = {styles.input}
+            />
+        </View>
+        <TouchableOpacity onPress = {auth.signIn}>
+            <Text>Submit</Text>
+        </TouchableOpacity>
       </View>
   )
   }
   //this.props.navigation.navigate('eventList');
-  @action setPassword = password => this.props.auth.password = password
-  @action setEmail = email => this.props.auth.email = email
+  @action handlePasswordChange  = password => this.props.auth.password = password
+  @action handleEmailChange  = email => this.props.auth.email = email
 }
 
 
@@ -65,35 +60,22 @@ class SignIn extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    flex: 1
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
   },
-  header: {
-      fontSize: 20,
-      fontWeight: 'bold'
+  text: {
+    fontWeight: 'bold'
   },
-  input:{
-      ...Platform.select({
-          ios: {
-              
-          },
-          android: {
-              
-          }
-      })
-  },
-  btn:{
-      backgroundColor: "rgba(92, 99,216, 1)",
-      borderColor: "transparent",
-      borderWidth: 0,
-      borderRadius: 5,
-      marginTop: 40,
-      
-  },
-  btnText:{
-      color: "white",
-      fontWeight: "700",
-  }
+  input: Platform.select({
+    ios: {
+        borderBottomWidth: 1
+    },
+    android: {
 
+    }
+  })
 });
 
 export default SignIn;

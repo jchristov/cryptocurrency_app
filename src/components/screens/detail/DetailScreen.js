@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, ActivityIndicator, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import {observer, inject} from 'mobx-react';
 import { timeFormat } from 'd3-time-format';
 import Back from '../../common/Back';
@@ -13,6 +13,10 @@ import HorizontalChartAxis from '../../chart/components/HorizontalChartAxis';
 import Tabs from '../../tabs/Tabs';
 import Sections from '../../common/Sections';
 import DetailSections from '../../detail/DetailSections';
+import DetailIcons from '../../detail/DetailIcons';
+import ConfirmModal from '../../common/ConfirmModal';
+import Loader from '../../common/Loader';
+import modal from '../../../decorators/modal';
 import { DURATION, DEFAULT_CURRENCY } from '../../../constants';
 
 const DURATION_LIST = Object.keys(DURATION).map(item => DURATION[item]); 
@@ -27,8 +31,8 @@ class DetailScreen extends Component {
   static navigationOptions = ({navigation, screenProps}) => {
     _goBack = () => {
       navigation.goBack();
-    }
-    
+    };
+  
     return {  
       title: navigation.state.params.cryptocurrency.name || 'Детали',
       headerTitle: <Header styleText={styles.title} value={navigation.state.params.cryptocurrency.name}/>,
@@ -36,7 +40,8 @@ class DetailScreen extends Component {
           backgroundColor: Colors.palatinateBlue,
           borderBottomWidth: 1,
       },
-      headerLeft: <Back onBackPress={_goBack}  value="Назад" />
+      headerLeft: <Back onBackPress={_goBack} value="Назад" />,
+      headerRight: <DetailIcons/>
     }
   };
 
@@ -53,14 +58,6 @@ class DetailScreen extends Component {
 
     await charts.loadPriceHistorical('BTC', DEFAULT_CURRENCY);  
     await charts.loadCharts('BTC', DEFAULT_CURRENCY, api, limit);   
-  }
-
-  getLoader = () => {
-    return (
-        <View style={styles.loader}>
-            <ActivityIndicator size='large'/>
-        </View>
-    );
   }
 
   handleDurationChange = (index) => { 
@@ -95,7 +92,7 @@ class DetailScreen extends Component {
 
 
   /**
-   * 
+   * FIX
    */
   renderCurrencyPrice() {
     const { charts, navigation } = this.props; 
@@ -114,41 +111,45 @@ class DetailScreen extends Component {
         />
     );
   }
-
+  
   render() {
     const { charts, navigation } = this.props;
     const format = timeFormat('%B %d, %Y');
     const { height, width } = Dimensions.get('window');
     const durationType = DURATION_LIST[charts.selectedDurationIndex];
-    const cryptocurrency = navigation.state.params.cryptocurrency;
+    const cryptocurrency = navigation.state.params.cryptocurrency;    
 
-    if(!charts.loaded) return this.getLoader();
+    if(!charts.loaded) return <Loader/>
     const lastEntities = charts.entities[charts.entities.length - 1];
-  
     return (
-      <View style={styles.contanier}>
-        <View style={styles.section}>
-          { this.renderDurationTabs() }
-          { this.renderCurrencyPrice() }
+      <ScrollView style={styles.body}>
+        <View style={styles.contanier}>
+          <View style={styles.section}>
+            { this.renderDurationTabs() }
+            { this.renderCurrencyPrice() }
+          </View>
+          <View style={styles.charts}>
+            <ChartList 
+              data={charts.entities} 
+              height={height/2} 
+              width={width}
+            />
+          </View>
+          <HorizontalChartAxis data={charts.entities} duration={durationType}/>
+          <DetailSections cryptocurrency={cryptocurrency} lastEntities={lastEntities}/>
         </View>
-        <View style={styles.charts}>
-          <ChartList 
-            data={charts.entities} 
-            height={height / 2} 
-            width={width}
-          />
-        </View>
-        <HorizontalChartAxis data={charts.entities} duration={durationType}/>
-        <DetailSections cryptocurrency={cryptocurrency} lastEntities={lastEntities}/>
-      </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  body:{
+    backgroundColor: Colors.white,
+    flex: 1
+  },
   contanier:{
     flexDirection: 'column',
-    backgroundColor: Colors.white,
     flex: 1
   },
   charts:{

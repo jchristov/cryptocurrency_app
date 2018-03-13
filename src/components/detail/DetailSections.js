@@ -12,6 +12,7 @@ export default class DetailSections extends Component {
     return [
         <Sections
           key="1"
+         
           title='Market'
           style={{
             container: {

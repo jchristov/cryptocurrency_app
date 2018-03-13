@@ -9,7 +9,7 @@ const DURATION_LIST = Object.keys(DURATION).map(item => DURATION[item]);
 class Charts extends EntitiesStore{
 
   @observable uid = null;
-  @observable selectedDurationIndex = 2;
+  @observable selectedDurationIndex = 0;
   @observable historicalPrice = null;
 
   constructor(...args){

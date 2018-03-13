@@ -31,9 +31,9 @@ class Sections extends Component {
   }
 
   render() {
-    const {title, style, key} = this.props;
+    const {title, style} = this.props;
     return (
-      <View style={styles.container} key={key}>
+      <View style={styles.container}>
         <Header 
           styleText={styles.textHeader}
           styleContainer={styles.containerHeader}
