@@ -140,12 +140,16 @@ class ChartList extends Component {
   }
 
   render() {
-    const { graphHeight, graphWidth, areaPath, linePath, ticks, scale } = this.state;
+    const { 
+      graphHeight, 
+      graphWidth, 
+      areaPath, 
+      linePath, 
+      ticks, 
+      scale 
+    } = this.state;
     const { data } = this.props;
     
-    /**
-     * Add Area Chart
-     */
     return (
         <View style={styles.container}>
           <VerticalChartAxis

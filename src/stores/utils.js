@@ -16,7 +16,15 @@ function entitiesFromFB(data) {
 }
   
 function entitiesFromHistoApi(data) {
-  return data.map(item => ({time: new Date(item.time * 1000), price: item.open}));
+  return data.map(item => (
+    {
+      time: new Date(item.time * 1000), 
+      price: item.open,
+      close: item.close,
+      high: item.high,
+      low: item.low,
+    }
+  ));
 }
 
 function setSchematic(data) {

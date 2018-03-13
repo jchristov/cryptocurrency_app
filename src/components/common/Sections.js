@@ -9,33 +9,39 @@ class Sections extends Component {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape({
       title: PropTypes.string,
-      value: PropTypes.string
+      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
     })).isRequired,
     title: PropTypes.string,
+    style: PropTypes.object
   };
 
   renderDataList = () => {
-    const {data} = this.props;
+    const {data, style} = this.props;
+    console.log(style.text);
+    
+    
     return data.map((item, index) => {
       return (
         <View key={index} style={styles.containerList}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Integer type="highlight" style={styles.value} prefix={item.prefix} value={item.value}/>
+          <Text style={[styles.title, style.text]}>{item.title}</Text>
+          <Integer type="highlight" style={[styles.value, style.text]} prefix={item.prefix} value={item.value}/>
         </View>
       );
     });
   }
 
   render() {
-    const {title} = this.props;
+    const {title, style, key} = this.props;
     return (
-      <View style={styles.container}>
+      <View style={styles.container} key={key}>
         <Header 
           styleText={styles.textHeader}
           styleContainer={styles.containerHeader}
           value={title}
         />
-        {this.renderDataList()}
+        <View style={style.container}>
+          {this.renderDataList()}
+        </View>
       </View>
     )
   }
@@ -45,7 +51,7 @@ const styles = StyleSheet.create({
   container: {
     borderTopColor: Colors.border,
     borderTopWidth: 1,
-   
+    paddingBottom: 8
   },
   containerHeader: {
     justifyContent: 'flex-start',
@@ -57,20 +63,18 @@ const styles = StyleSheet.create({
     paddingRight: 8
   },
   title: {
-    flex: 1,
     color: Colors.inactiveText,
     fontSize: 12,
   },
   value: {
     color: Colors.darkText,
-    flex: 1,
     fontSize: 12,
     fontWeight: 'bold'
   },
   textHeader: {
     color: Colors.darkText,
     padding: 8,
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: '300' 								
   }
 });

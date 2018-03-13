@@ -11,7 +11,8 @@ import ChartList from '../../chart/components/ChartList';
 import ChartPrice from '../../chart/components/ChartPrice';
 import HorizontalChartAxis from '../../chart/components/HorizontalChartAxis';
 import Tabs from '../../tabs/Tabs';
-import Sections from '../../sections/Sections';
+import Sections from '../../common/Sections';
+import DetailSections from '../../detail/DetailSections';
 import { DURATION, DEFAULT_CURRENCY } from '../../../constants';
 
 const DURATION_LIST = Object.keys(DURATION).map(item => DURATION[item]); 
@@ -114,7 +115,6 @@ class DetailScreen extends Component {
     );
   }
 
-  
   render() {
     const { charts, navigation } = this.props;
     const format = timeFormat('%B %d, %Y');
@@ -123,7 +123,8 @@ class DetailScreen extends Component {
     const cryptocurrency = navigation.state.params.cryptocurrency;
 
     if(!charts.loaded) return this.getLoader();
-    
+    const lastEntities = charts.entities[charts.entities.length - 1];
+  
     return (
       <View style={styles.contanier}>
         <View style={styles.section}>
@@ -133,38 +134,12 @@ class DetailScreen extends Component {
         <View style={styles.charts}>
           <ChartList 
             data={charts.entities} 
-            height={height / 3} 
+            height={height / 2} 
             width={width}
           />
         </View>
         <HorizontalChartAxis data={charts.entities} duration={durationType}/>
-        <Sections
-          title= 'Market'
-          data = {[
-            {
-              title: 'Coinmarketcap Rank',
-              value: cryptocurrency['rank']
-            },
-            {
-              prefix: '$',
-              title: 'Капитализация Рынка',
-              value: cryptocurrency['market_cap_usd']
-            },
-            {
-              prefix: '$',
-              title: 'Объем (24 часа)',
-              value: cryptocurrency['24h_volume_usd']
-            },
-            {
-              title: 'Предложение',
-              value: cryptocurrency['total_supply']
-            },
-            {
-              title: 'Max Предложение',
-              value: cryptocurrency['max_supply']
-            }
-          ]} 
-        />
+        <DetailSections cryptocurrency={cryptocurrency} lastEntities={lastEntities}/>
       </View>
     );
   }
@@ -180,10 +155,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     margin: 0,
     padding: 0,
-    marginTop: 20,
-    paddingTop: 20,
-    borderTopWidth: 1,
-    borderTopColor: Colors.border  
   },
   section:{
     backgroundColor: Colors.white,

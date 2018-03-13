@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'center',
-    flex: 1,
+   
   },
   section: {
     flexDirection: 'row',
