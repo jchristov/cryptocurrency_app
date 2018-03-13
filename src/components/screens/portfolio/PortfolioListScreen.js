@@ -18,7 +18,7 @@ class PortfolioListScreen extends Component {
 
     static navigationOptions = ({navigation, screenProps}) => {
         return { 
-            headerTitle: <Header style={styles.title} value='Портфель'/>,
+            headerTitle: <Header styleText={styles.title} value='Портфель'/>,
             headerRight: <SearchIcon />,    
             tabBarIcon: ({ focused }) => {
                 return <Ionicons

@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         flexDirection: 'row',
-        backgroundColor: Colors.lightBackground,
+        backgroundColor: Colors.white,
         justifyContent: 'space-between',
         borderBottomWidth: 1,
         borderBottomColor: Colors.border,

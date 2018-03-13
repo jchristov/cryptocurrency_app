@@ -3,23 +3,24 @@ import PropTypes from 'prop-types'
 import { Text, StyleSheet, Image, View } from 'react-native';
 import Colors from '../common/Colors';
 
-export default class Header extends Component {
+class Header extends Component {
     static propTypes = {
         value: PropTypes.string
     };
 
     render() {
-        const {value, uri, style} = this.props;
+        const {value, uri, styleText, styleContainer} = this.props;
         return (
-            <View style={styles.container}>
+            <View style={[styles.container, styleContainer]}>
                 {uri && <Image style={styles.image} source={{uri: uri}}/>} 
-                <Text style = {[styles.text, style]}>
+                <Text style = {[styles.text, styleText]}>
                     {value}       
                 </Text>
             </View>
         );
     }
 }
+
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
@@ -37,3 +38,5 @@ const styles = StyleSheet.create({
         height: 32
     }
 });
+
+export default Header;

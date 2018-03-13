@@ -5,6 +5,7 @@ import AppNavigator from './src/AppNavigator';
 import {Provider, observer} from 'mobx-react';
 import stores from './src/stores';
 import { Font } from 'expo';
+import { View, StyleSheet } from 'react-native';
 
 @observer
 export default class App extends React.Component {
@@ -17,9 +18,18 @@ export default class App extends React.Component {
   
   render() {
     return (
-      <Provider {...stores}>
+      <View style={styles.container}>
+        <Provider {...stores}>
           <AppNavigator navigation = {addNavigationHelpers(stores.navigation.config)}/>
-      </Provider>
+        </Provider>
+      </View>
     );
   }
 } 
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    flex: 1
+  }
+})

@@ -11,6 +11,7 @@ import ChartList from '../../chart/components/ChartList';
 import ChartPrice from '../../chart/components/ChartPrice';
 import HorizontalChartAxis from '../../chart/components/HorizontalChartAxis';
 import Tabs from '../../tabs/Tabs';
+import Sections from '../../sections/Sections';
 import { DURATION, DEFAULT_CURRENCY } from '../../../constants';
 
 const DURATION_LIST = Object.keys(DURATION).map(item => DURATION[item]); 
@@ -22,19 +23,17 @@ class DetailScreen extends Component {
   static propTypes = {
   };
 
-  //Colors.palatinateBlue
-
   static navigationOptions = ({navigation, screenProps}) => {
     _goBack = () => {
       navigation.goBack();
     }
+    
     return {  
-      title: 'Детали',
-      headerTitle: <Header style={styles.title} value='Детали'/>,
+      title: navigation.state.params.cryptocurrency.name || 'Детали',
+      headerTitle: <Header styleText={styles.title} value={navigation.state.params.cryptocurrency.name}/>,
       headerStyle: { 
           backgroundColor: Colors.palatinateBlue,
           borderBottomWidth: 1,
-          
       },
       headerLeft: <Back onBackPress={_goBack}  value="Назад" />
     }
@@ -70,9 +69,18 @@ class DetailScreen extends Component {
   }
 
   renderDurationTabs = () => {
-    const body = DURATION_LIST.map(itm=> (
-        <Text style={styles.text} key={itm.codename}>{itm.codename}</Text>
-    ));
+    const body = DURATION_LIST.map((itm, index) => {
+      let style = styles.textInActive;
+      if(index === this.props.charts.selectedDurationIndex){
+        style = styles.textActive;
+      }
+      return (
+        <Text style={style} key={itm.codename}>
+          {itm.codename}
+        </Text>
+      );
+    });
+
     return (
       <Tabs
         keys={DURATION_LIST.map(({ codename }) => codename)}
@@ -108,13 +116,12 @@ class DetailScreen extends Component {
 
   
   render() {
-    const { charts } = this.props;
+    const { charts, navigation } = this.props;
     const format = timeFormat('%B %d, %Y');
     const { height, width } = Dimensions.get('window');
-    const durationType = DURATION_LIST[charts.selectedDurationIndex].key;
+    const durationType = DURATION_LIST[charts.selectedDurationIndex];
+    const cryptocurrency = navigation.state.params.cryptocurrency;
 
-    console.log(charts.entities.length);
-    
     if(!charts.loaded) return this.getLoader();
     
     return (
@@ -131,6 +138,33 @@ class DetailScreen extends Component {
           />
         </View>
         <HorizontalChartAxis data={charts.entities} duration={durationType}/>
+        <Sections
+          title= 'Market'
+          data = {[
+            {
+              title: 'Coinmarketcap Rank',
+              value: cryptocurrency['rank']
+            },
+            {
+              prefix: '$',
+              title: 'Капитализация Рынка',
+              value: cryptocurrency['market_cap_usd']
+            },
+            {
+              prefix: '$',
+              title: 'Объем (24 часа)',
+              value: cryptocurrency['24h_volume_usd']
+            },
+            {
+              title: 'Предложение',
+              value: cryptocurrency['total_supply']
+            },
+            {
+              title: 'Max Предложение',
+              value: cryptocurrency['max_supply']
+            }
+          ]} 
+        />
       </View>
     );
   }
@@ -140,6 +174,7 @@ const styles = StyleSheet.create({
   contanier:{
     flexDirection: 'column',
     backgroundColor: Colors.white,
+    flex: 1
   },
   charts:{
     flexDirection: 'row',
@@ -161,9 +196,15 @@ const styles = StyleSheet.create({
   title:{
     fontWeight: '300'
   },
-  text:{
+  textInActive:{
+    color: Colors.inactiveText,
+    fontSize: 16,
+    textAlign: 'center'
+  },
+  textActive: {
     color: Colors.actionText,
     fontSize: 16,
+    textAlign: 'center'
   }
 });
 

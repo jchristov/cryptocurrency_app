@@ -2,17 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableHighlight , View, StyleSheet, Text } from 'react-native';
 import Colors from '../common/Colors';
-import { observer } from 'mobx-react';
 
-const Tabs = observer(({children, keys, selectedIndex, handlePress}) => {
+const Tabs = ({children, keys, selectedIndex, handlePress}) => {
   return (
     <View style={styles.container}>
       {
         children.map((child, index) => {
           const style = {};
           if(index === selectedIndex){
-            style.borderBottomColor = Colors.yellow;
-            style.borderBottomWidth = 2;  
+            style.borderBottomColor = Colors.border;
+            style.borderBottomWidth = 1;  
           }
           return (
             <TouchableHighlight 
@@ -20,28 +19,32 @@ const Tabs = observer(({children, keys, selectedIndex, handlePress}) => {
               key={keys[index]} 
               onPress={handlePress.bind(null, index)}
             >     
-                {child}
+              {child}
             </TouchableHighlight>
           );          
         })
       }
     </View>
   );
-})
+}
 
 Tabs.propTypes = {
-
+  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  keys: PropTypes.arrayOf(PropTypes.string).isRequired,
+  handlePress: PropTypes.func.isRequired,
+  selectedIndex: PropTypes.number.isRequired
 };
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginBottom: 20,  
+    alignItems: 'center',
+    padding: 10,
   },
   button: {
     alignItems: 'center',
-    padding: 10,
+    padding: 5,
     backgroundColor: 'transparent'
   }
 });

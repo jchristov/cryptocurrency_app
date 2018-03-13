@@ -16,42 +16,42 @@ import {FormLabel, FormInput, Card, Button} from 'react-native-elements';
 @inject('auth')
 @observer
 class SignIn extends Component {
-    static propTypes = {
-    };
-    
-    render() {
-        const {auth} = this.props;
-        return (
-            <View>
-                <Card>
-                    <Text style = {styles.header}>Please Sign In</Text>
-                    
-                    <FormLabel>Email:</FormLabel>
-                    <FormInput value={auth.email} 
-                               onChangeText={this.setEmail} 
-                               inputStyle={styles.input}
-                               keyboardType='email-address'
-                    />
-                    
-                    <FormLabel>Password:</FormLabel>
-                    <FormInput value={auth.password} 
-                            onChangeText={this.setPassword} 
-                            inputStyle={styles.input}
-                            secureTextEntry
-                    />
+  static propTypes = {
+  };
+  
+  render() {
+    const {auth} = this.props;
+    return (
+      <View style={styles.container}>
+        <Card>
+          <Text style = {styles.header}>Please Sign In</Text>
+          
+          <FormLabel>Email:</FormLabel>
+          <FormInput value={auth.email} 
+            onChangeText={this.setEmail} 
+            inputStyle={styles.input}
+            keyboardType='email-address'
+          />
+          
+          <FormLabel>Password:</FormLabel>
+          <FormInput value={auth.password} 
+            onChangeText={this.setPassword} 
+            inputStyle={styles.input}
+            secureTextEntry
+          />
 
-                    <Button
-                        title="Sign In"
-                        textStyle={styles.btnText}
-                        buttonStyle={styles.btn}
-                    />
-                </Card>
-            </View>
-        )
-    }
-    //this.props.navigation.navigate('eventList');
-    @action setPassword = password => this.props.auth.password = password
-    @action setEmail = email => this.props.auth.email = email
+          <Button
+            title="Sign In"
+            textStyle={styles.btnText}
+            buttonStyle={styles.btn}
+          />
+        </Card>
+      </View>
+  )
+  }
+  //this.props.navigation.navigate('eventList');
+  @action setPassword = password => this.props.auth.password = password
+  @action setEmail = email => this.props.auth.email = email
 }
 
 
@@ -63,32 +63,36 @@ class SignIn extends Component {
  * нежели создать просто обьект со стилем 
  */
 const styles = StyleSheet.create({
-    header: {
-        fontSize: 20,
-        fontWeight: 'bold'
-    },
-    input:{
-        ...Platform.select({
-            ios: {
-                
-            },
-            android: {
-                
-            }
-        })
-    },
-    btn:{
-        backgroundColor: "rgba(92, 99,216, 1)",
-        borderColor: "transparent",
-        borderWidth: 0,
-        borderRadius: 5,
-        marginTop: 40,
-        
-    },
-    btnText:{
-        color: "white",
-        fontWeight: "700",
-    }
+  container: {
+    backgroundColor: 'white',
+    flex: 1
+  },
+  header: {
+      fontSize: 20,
+      fontWeight: 'bold'
+  },
+  input:{
+      ...Platform.select({
+          ios: {
+              
+          },
+          android: {
+              
+          }
+      })
+  },
+  btn:{
+      backgroundColor: "rgba(92, 99,216, 1)",
+      borderColor: "transparent",
+      borderWidth: 0,
+      borderRadius: 5,
+      marginTop: 40,
+      
+  },
+  btnText:{
+      color: "white",
+      fontWeight: "700",
+  }
 
 });
 

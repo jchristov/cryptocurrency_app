@@ -8,10 +8,10 @@ import Morph from 'art/morph/path';
 import VerticalChartAxis from './VerticalChartAxis';
 import  * as graphUtils  from './graph-utils';
 
-const { Group, Shape, Surface } = ART;
 
+const { Group, Shape, Surface } = ART;
 const AnimationDurationMs = 200; 
-const PaddingSize = 50;
+const PaddingSize = 40;
 const TickWidth = PaddingSize * 2;
 
 const dimensionWindow = Dimensions.get('window');
@@ -51,7 +51,7 @@ class ChartList extends Component {
   computeNextState(nextProps){
     const {data, width, height} = nextProps;
 
-    const fullPaddingSize = PaddingSize ;
+    const fullPaddingSize = PaddingSize * 2;
     const graphWidth = width - fullPaddingSize;
     const graphHeight = height - fullPaddingSize;
 
@@ -148,12 +148,10 @@ class ChartList extends Component {
      */
     return (
         <View style={styles.container}>
-          
           <VerticalChartAxis
             data={data}
             textAlign="left"
           />
-          
           <View style={styles.chart}>
             <Surface width={graphWidth} height={graphHeight}>
               <Group x={0} y={0}>
@@ -167,11 +165,14 @@ class ChartList extends Component {
                   d={areaPath}
                   strokeWidth={2}
                   fill={'#FFEBC5'}
-                />
-              
+                />  
               </Group>
             </Surface>
           </View>
+          <VerticalChartAxis
+            data={data}
+            textAlign="right"
+          />
         </View>
     );
   }

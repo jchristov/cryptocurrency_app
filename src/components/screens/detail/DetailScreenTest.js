@@ -22,7 +22,7 @@ export default class DetailScreen extends Component {
         }
         return {  
             title: 'Детали',
-            headerTitle: <Header style={styles.title} value='Детали'/>,
+            headerTitle: <Header styleText={styles.title} value='Детали'/>,
             headerStyle: { 
                 backgroundColor: Colors.palatinateBlue,
                 borderBottomWidth: 1,

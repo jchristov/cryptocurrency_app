@@ -39,12 +39,12 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     justifyContent: 'space-between',
-    flexBasis: 50,
+    flexBasis: 40,
   },
   text: {
     color: Colors.lightText,
-    fontSize: 12,
-    fontWeight: '500',
+    fontSize: 10,
+    fontWeight: '300',
     textAlign: 'center'
   }
 });

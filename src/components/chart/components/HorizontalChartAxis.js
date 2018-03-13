@@ -41,7 +41,7 @@ class HorizontalChartAxis extends Component {
   renderTimeAxisTick = (timestamp, duration) => {
     return(
       <View key={timestamp}>
-        <Text>{HorizontalChartAxis.formatDate(timestamp, duration)}</Text>
+        <Text style={styles.timestamp}>{HorizontalChartAxis.formatDate(timestamp, duration)}</Text>
       </View>
     );
   }
@@ -49,9 +49,9 @@ class HorizontalChartAxis extends Component {
   render() {
     const {data, duration, tickCount} = this.props;
     const axisTicks = HorizontalChartAxis.generateTimeAxisTicks(data, tickCount);
-
+    
     return (
-      <View>
+      <View style={styles.container}>
         {axisTicks && axisTicks.map(time => this.renderTimeAxisTick(time, duration))}    
       </View>
     );
@@ -59,7 +59,7 @@ class HorizontalChartAxis extends Component {
 }
 
 HorizontalChartAxis.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
+  data: PropTypes.objectOf(PropTypes.shape({
     price: PropTypes.number,
     time: PropTypes.data
   })).isRequired,
@@ -68,13 +68,21 @@ HorizontalChartAxis.propTypes = {
 };
 
 HorizontalChartAxis.defaultProps = {
-  tickCount: 7
+  tickCount: 5
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingLeft: 40,
+    paddingRight: 40,
+    paddingBottom: 8,
+    paddingTop: 8
+  },
   timestamp: {
-    fontSize: 12,
-    fontWeight: 'bold',
+    fontSize: 10,
+    fontWeight: '300',
     color: Colors.lightText 
   }
 });
