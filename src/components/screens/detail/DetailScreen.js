@@ -130,7 +130,7 @@ class DetailScreen extends Component {
             width={width}
           />
         </View>
-        <VerticalChartAxis data={charts.entities} duration={durationType}/>
+        <HorizontalChartAxis data={charts.entities} duration={durationType}/>
       </View>
     );
   }
