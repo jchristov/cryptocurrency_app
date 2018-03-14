@@ -6,6 +6,7 @@ import Coins from './Coins';
 import Graphs from './Graphs';
 import SearchStore from './SearchStore';
 import Charts from './Charts';
+import UserStore from './UserStore';
 
 const stores = {};
 
@@ -22,6 +23,7 @@ export const coins = new Coins(stores);
 export const graphs = new Graphs(stores);
 export const search = new SearchStore(stores);
 export const charts = new Charts(stores);
+export const user = new UserStore(stores);
 
 stores.auth = auth;
 stores.navigation = navigation;
@@ -31,5 +33,6 @@ stores.coins = coins;
 stores.graphs = graphs;
 stores.search = search;
 stores.charts = charts;
+stores.user = user; 
 
 export default stores;

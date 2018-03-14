@@ -6,7 +6,7 @@ class UserStore extends BasicStore{
   @observable price = null;
   constructor(...args){
     super(...args);
-
-    
   }
 } 
+
+export default UserStore;

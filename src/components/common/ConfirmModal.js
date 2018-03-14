@@ -12,7 +12,7 @@ export default class ConfirmModal extends Component {
             <Modal visible={visible} animationType="slide" transparent>
                 <View style={styles.container}>
                     <View style={styles.content}>
-                        <Text>{children}</Text>
+                        <View>{children}</View>
                         <View style={styles.buttons}>
                             <Button title="ok" onPress={onConfirm} />
                             <Button title="cancel" onPress={onCancel} />
