@@ -6,7 +6,7 @@ import { setSchematic } from './utils';
 export default class Graphs extends EntitiesStore{
 
     @observable uid = null;
-
+    
     constructor(...args){
         super(...args);
         this.detailsApi = detailsApi;

@@ -1,16 +1,26 @@
-import React, { Component } from 'react'
-import {Modal, View, Text, TouchableOpacity, StyleSheet, Dimensions} from 'react-native'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import {Modal, View, Text, TouchableOpacity, StyleSheet, Dimensions} from 'react-native';
 import Colors from '../common/Colors';
 
 const { width } = Dimensions.get('window');
 
 export default class ConfirmModal extends Component {
     static propTypes = {
+        leftButtonText: PropTypes.string,
+        rightButtonText: PropTypes.string,
+        onCancel: PropTypes.func,
+        onConfirm: PropTypes.func,
+        visible: PropTypes.bool
+    };
 
+    static defaultProps = {
+        leftButtonText: 'Отмена',
+        rightButtonText: 'Ок'
     };
 
     render() {
-        const {visible, children, onConfirm, onCancel} = this.props
+        const {visible, children, onConfirm, onCancel, leftButtonText, rightButtonText} = this.props
         return (
             <Modal visible={visible} animationType="slide" transparent>
                 <View style={styles.container}>
@@ -20,10 +30,14 @@ export default class ConfirmModal extends Component {
                         </View>
                         <View style={styles.buttons}>
                             <TouchableOpacity style={[styles.button, styles.buttonBorder]} onPress={onCancel} >
-                                <Text style={styles.text}>Отмена</Text>
+                                <Text style={styles.text}>
+                                    {leftButtonText}
+                                </Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.button} onPress={onConfirm}>
-                                <Text style={styles.text}>Добавить</Text>
+                                <Text style={styles.text}>
+                                    {rightButtonText}
+                                </Text>
                             </TouchableOpacity>
                         </View>
                     </View>

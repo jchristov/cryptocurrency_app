@@ -1,15 +1,14 @@
-import BasicStore from './BasicStore';
-import {observable, action} from 'mobx';
+import EntitiesStore, { loadAllHelper } from './EntitiesStore';
+import {observable, action, computed} from 'mobx';
 import firebase from 'firebase';
+import { entitiesFromFB } from './utils';
 
-class UserStore extends BasicStore{
+class UserStore extends EntitiesStore{
   @observable price = null;
   @observable course = null;
-  @observable entities = null;
-  
-  constructor(...args){
-    super(...args);
-    this.key = null;
+ 
+  setSelectedCurrency = (coinName) => {
+    this.coinName = coinName;
   }
 
   @action setCourse = (course) => {
@@ -24,6 +23,11 @@ class UserStore extends BasicStore{
     this.entities = entities;
   }
 
+  @computed get selectedEntities(){
+    const entities = this.list;
+    return entities.filter(itm => (itm.coinName === this.coinName));
+  }
+
   @action addCryproCurrency = async(data) => {
     let updates = {};
     try {  
@@ -35,14 +39,7 @@ class UserStore extends BasicStore{
     }
   }
 
-  fetchPortfolioList = () => {
-    firebase.database().ref('portfolio').once('value')
-      .then(snapshot => {
-        const data = (snapshot.val() && snapshot.val()) || {};
-        this.setEntities(data);
-      })
-      .catch(err => console.log(err));
-  }
+  @action fetchPortfolioList = loadAllHelper('portfolio');
 
 } 
 

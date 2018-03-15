@@ -20,9 +20,7 @@ class EntitiesStore extends BasicStore {
         return await (await (fetch(uri)
             .then(status)
             .then(json)
-            .catch(err => {
-                console.log('Error load currency', err);           
-            })
+            .catch(err => console.log('Error load currency', err))
         ));
     }
 }

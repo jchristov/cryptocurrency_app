@@ -49,9 +49,9 @@ class DetailIcons extends Component {
 
   handlePress = () => this.setState({ confirmModal: true });
 
-  componentWillMount(){
+   componentWillMount(){
     const {user, cryptocurrency} = this.props;
-
+    user.setSelectedCurrency(cryptocurrency.name);
     user.fetchPortfolioList();
     user.setCourse(cryptocurrency.price_usd);
   }
@@ -68,7 +68,7 @@ class DetailIcons extends Component {
     }
   }
 
-  renderModalContent = () => {
+  renderAddForm = () => {
     const { cryptocurrency, user } = this.props;
 
     return (
@@ -100,12 +100,35 @@ class DetailIcons extends Component {
     );
   }
   
+  renderDelete = () => {
+    const {cryptocurrency} = this.props;
+    return (
+      <View>
+        <TouchableOpacity style={styles.icon} onPress={this.handlePress}>
+          <Ionicons name="ios-trash-outline" size={24} color="white"/>
+        </TouchableOpacity>
+        <ConfirmModal 
+          visible={this.state.confirmModal}
+          onConfirm={this.confirmAdd}
+          onCancel={this.cancelAdd}
+          rightButtonText="Удалить"
+        >
+          <Text style={styles.textModalHeader}>Удалить монету</Text>
+          <Text>Вы уверены что хотите удалить {cryptocurrency.name} из своего криптопортфеля?</Text> 
+          <Text>Это действие удалит всю информацию связанную с этой монетой.</Text>
+        </ConfirmModal>
+      </View>
+    );
+  }
+
   render() {
-    console.log('--', this.props.user.entities);
+    const {cryptocurrency, user} = this.props;
+
+    const entities = user.selectedEntities;    
+    if(entities.length) return this.renderDelete();
 
     return (
       <View>
-
         <TouchableOpacity style={styles.icon} onPress={this.handlePress}>
           <Ionicons name="md-add" size={24} color="white"/>
         </TouchableOpacity>
@@ -113,10 +136,10 @@ class DetailIcons extends Component {
           visible={this.state.confirmModal}
           onConfirm={this.confirmAdd}
           onCancel={this.cancelAdd}
+          rightButtonText="Добавить"
         >
-          { this.renderModalContent() } 
+          { this.renderAddForm() } 
         </ConfirmModal>
-      
       </View>
     );
   }
@@ -154,6 +177,11 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: 'bold',
     fontSize: 14,
+  },
+  textModalHeader: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: 10
   },
   icon : {
     marginHorizontal: 15

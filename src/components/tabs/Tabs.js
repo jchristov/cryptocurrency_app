@@ -16,6 +16,7 @@ const Tabs = ({children, keys, selectedIndex, handlePress}) => {
           return (
             <TouchableHighlight 
               style={[styles.button, style]}
+              underlayColor="transparent"
               key={keys[index]} 
               onPress={handlePress.bind(null, index)}
             >     

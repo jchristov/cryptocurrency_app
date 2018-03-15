@@ -16,13 +16,13 @@ const CHART_PADDING_TOP = 20;
 function createGraph(data, width, height) {
   
   const scalePriceToY = scaleLinear()
-    .range([height, CHART_PADDING_TOP]) // ширина графика
     .domain(extent(data, d => d.price)) //возвратит массив  из максимального и минимального элементов
+    .range([height, CHART_PADDING_TOP]); // ширина графика
 
   //координата x отображает дату в пределе от extent(data, d => d.time) на ширине в [0, width]
   const scaleTimeToX = scaleTime()
-    .range([0, width])
-    .domain(extent(data, d => d.time));
+    .domain(extent(data, d => d.time))
+    .range([0, width]);
 
   const newArr = data.map(({ price, time }) => ({
     price: scalePriceToY(price),

@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, StyleSheet, Dimensions, ART, LayoutAnimation } from 'react-native';
+import { View, StyleSheet, Dimensions, ART, LayoutAnimation, ActivityIndicator } from 'react-native';
 import ChartPrice from './ChartPrice';
 import { observer, inject } from 'mobx-react';
 import Colors from '../../common/Colors';
 import Morph from 'art/morph/path';
 import VerticalChartAxis from './VerticalChartAxis';
+import Loader from '../../common/Loader';
 import  * as graphUtils  from './graph-utils';
 
 
 const { Group, Shape, Surface } = ART;
-const AnimationDurationMs = 200; 
+const AnimationDurationMs = 100; 
 const PaddingSize = 40;
 const TickWidth = PaddingSize * 2;
-
 const dimensionWindow = Dimensions.get('window');
 
 const INITIAL_STATE = {
@@ -23,8 +23,6 @@ const INITIAL_STATE = {
   areaPath: ''
 };
 
-@inject('charts')
-@observer
 class ChartList extends Component {
   static propTypes = {
   
@@ -55,7 +53,7 @@ class ChartList extends Component {
     const graphWidth = width - fullPaddingSize;
     const graphHeight = height - fullPaddingSize;
 
-    const lineGraph = graphUtils.createGraph(data, graphWidth, graphHeight);
+    const lineGraph = graphUtils.createGraph(data.entities, graphWidth, graphHeight);
 
     this.setState({
       graphWidth,
@@ -73,6 +71,9 @@ class ChartList extends Component {
     if(this.props !== nextProps){
       const pathFrom = this.previousGraph.linePath;
       const pathTo = lineGraph.linePath;
+
+      const areaFrom = this.previousGraph.areaPath;
+      const areaTo = lineGraph.areaPath;
 
       cancelAnimationFrame(this.animating);
       this.animating = null;
@@ -95,6 +96,10 @@ class ChartList extends Component {
           pathFrom,
           pathTo,
         ),
+        areaPath: Morph.Tween(
+          areaFrom,
+          areaTo
+        )
       }, () => {
         // Kick off our animations!
         this.animate();
@@ -108,7 +113,6 @@ class ChartList extends Component {
   animate = (start) => {
     this.animating = requestAnimationFrame((timestamp) => {
       if (!start) {
-        // eslint-disable-next-line no-param-reassign
         start = timestamp;
       }
 
@@ -121,6 +125,7 @@ class ChartList extends Component {
         // Just to be safe set our final value to the new graph path.
         this.setState({
           linePath: this.previousGraph.linePath,
+          areaPath: this.previousGraph.areaPath
         });
 
         // Stop our animation loop.
@@ -129,6 +134,7 @@ class ChartList extends Component {
 
       // Tween the SVG path value according to what delta we're currently at.
       this.state.linePath.tween(delta);
+      this.state.areaPath.tween(delta);
 
       // Update our state with the new tween value and then jump back into
       // this loop.
@@ -140,41 +146,34 @@ class ChartList extends Component {
   }
 
   render() {
-    const { 
-      graphHeight, 
-      graphWidth, 
-      areaPath, 
-      linePath, 
-      ticks, 
-      scale 
-    } = this.state;
     const { data } = this.props;
-    
+    const { graphHeight, graphWidth, areaPath, linePath, ticks, scale } = this.state;
+
     return (
         <View style={styles.container}>
           <VerticalChartAxis
-            data={data}
+            data={data.entities}
             textAlign="left"
           />
           <View style={styles.chart}>
+            { data.loading && <ActivityIndicator size="small" animating />}
             <Surface width={graphWidth} height={graphHeight}>
-              <Group x={0} y={0}>
-                <Shape
-                  d={linePath}
-                  strokeWidth={2}
-                  stroke={'#FFB01E'}
-                />
-               
-                <Shape
-                  d={areaPath}
-                  strokeWidth={2}
-                  fill={'#FFEBC5'}
-                />  
-              </Group>
+                <Group x={0} y={0}>
+                  <Shape
+                    d={linePath}
+                    strokeWidth={2}
+                    stroke={'#FFB01E'}
+                  />
+                  <Shape
+                    d={areaPath}
+                    strokeWidth={2}
+                    fill={'#FFEBC5'}
+                  />
+                </Group>
             </Surface>
           </View>
           <VerticalChartAxis
-            data={data}
+            data={data.entities}
             textAlign="right"
           />
         </View>
@@ -197,10 +196,7 @@ const styles = StyleSheet.create({
 });
 
 ChartList.propTypes = {
-  data: PropTypes.objectOf(PropTypes.shape({
-    price: PropTypes.number,
-    time: PropTypes.date,
-  })).isRequired,
+  data: PropTypes.object.isRequired
 };
 
 export default ChartList;

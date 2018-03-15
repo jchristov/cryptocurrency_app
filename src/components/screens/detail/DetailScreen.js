@@ -72,11 +72,7 @@ class DetailScreen extends Component {
       if(index === this.props.charts.selectedDurationIndex){
         style = styles.textActive;
       }
-      return (
-        <Text style={style} key={itm.codename}>
-          {itm.codename}
-        </Text>
-      );
+      return <Text style={style} key={itm.codename}>{itm.codename}</Text>
     });
 
     return (
@@ -98,6 +94,7 @@ class DetailScreen extends Component {
     const { charts, navigation } = this.props; 
     const cryptocurrency = navigation.state.params.cryptocurrency;
 
+  
 
     const oldPrice = charts.historicalPrice[0].USD;
     
@@ -130,7 +127,7 @@ class DetailScreen extends Component {
           </View>
           <View style={styles.charts}>
             <ChartList 
-              data={charts.entities} 
+              data={charts} 
               height={height/2} 
               width={width}
             />
