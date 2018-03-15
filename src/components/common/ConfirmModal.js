@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import {Modal, View, Text, Button, StyleSheet} from 'react-native'
+import {Modal, View, Text, TouchableOpacity, StyleSheet, Dimensions} from 'react-native'
+import Colors from '../common/Colors';
+
+const { width } = Dimensions.get('window');
 
 export default class ConfirmModal extends Component {
     static propTypes = {
@@ -11,11 +14,17 @@ export default class ConfirmModal extends Component {
         return (
             <Modal visible={visible} animationType="slide" transparent>
                 <View style={styles.container}>
-                    <View style={styles.content}>
-                        <View>{children}</View>
+                    <View style={styles.wrap}>
+                        <View style={styles.content}>
+                            {children}
+                        </View>
                         <View style={styles.buttons}>
-                            <Button title="ok" onPress={onConfirm} />
-                            <Button title="cancel" onPress={onCancel} />
+                            <TouchableOpacity style={[styles.button, styles.buttonBorder]} onPress={onCancel} >
+                                <Text style={styles.text}>Отмена</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.button} onPress={onConfirm}>
+                                <Text style={styles.text}>Добавить</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
@@ -29,16 +38,33 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0.7)',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+    },
+    wrap: {
+        maxWidth: '80%',
+        width: width,
+        backgroundColor: '#FFF',
+        borderRadius: 12
     },
     content: {
-        maxWidth: '80%',
-        backgroundColor: '#FFF',
-        padding: 5,
-        borderRadius: 5
+        padding: 10,
     },
     buttons: {
         flexDirection: 'row',
-        justifyContent: 'space-around'
-    }
+        justifyContent: 'space-around',
+        borderTopColor: Colors.border,
+        borderTopWidth: 1,
+    },
+    button: {
+        width: '50%',
+        padding: 10
+    },
+    buttonBorder: {
+        borderRightWidth: 1,
+        borderRightColor: Colors.border    
+    },
+    text:{
+        color: Colors.facebookBlue,
+        textAlign: 'center'
+    },
 })

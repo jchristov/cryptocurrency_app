@@ -16,10 +16,7 @@ class Sections extends Component {
   };
 
   renderDataList = () => {
-    const {data, style} = this.props;
-    console.log(style.text);
-    
-    
+    const {data, style} = this.props;    
     return data.map((item, index) => {
       return (
         <View key={index} style={styles.containerList}>

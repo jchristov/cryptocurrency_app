@@ -20,57 +20,103 @@ const { width } = Dimensions.get('window');
 @observer
 class DetailIcons extends Component {
   static propTypes = {
-    
+    cryptocurrency: PropTypes.object.isRequired
   };
   
   state = {
     confirmModal: false
   };
 
-  confirmDelete = () => this.setState({ confirmModal: false });
+  confirmAdd = () => {
+    const {user, cryptocurrency} = this.props;
+    if(user.addCryproCurrency){
+      user.addCryproCurrency({
+        price: user.price,
+        course: user.course,
+        amount: user.price / user.course,
+        coinName: cryptocurrency.name,
+        whnCrt: new Date(),
+        whnUpt: new Date()
+      });
+    }
+
+    this.setState({ 
+      confirmModal: false 
+    });
+  }
   
-  cancelDelete = () => this.setState({ confirmModal: false });
+  cancelAdd = () => this.setState({ confirmModal: false });
 
   handlePress = () => this.setState({ confirmModal: true });
 
+  componentWillMount(){
+    const {user, cryptocurrency} = this.props;
+
+    user.fetchPortfolioList();
+    user.setCourse(cryptocurrency.price_usd);
+  }
+
+  handleCourseChange = (course) => {
+    if(this.props.user.setCourse){
+      this.props.user.setCourse(course);
+    }
+  }
+
+  handlePriceChange = (price) => {
+    if(this.props.user.setPrice){
+      this.props.user.setPrice(price);
+    }
+  }
+
   renderModalContent = () => {
+    const { cryptocurrency, user } = this.props;
+
     return (
       <View style={styles.container}>
         <View style={styles.section}>
-          <Text style={styles.text}>Колличество:</Text>
+          <Text>Добавьте {cryptocurrency.name} в свой криптопортфель.</Text>
+        </View>
+        <View style={styles.section}>
+          <Text style={styles.text}>Курс закупки {cryptocurrency.name} (usd):</Text>
           <TextInput
-            value=''
+            value={user.course}
             style={styles.input}
-            keyboarType = 'amount'
-            onChangeText={() => {}}
+            keyboarType = 'course'
+            keyboardType 	= 'numeric'
+            onChangeText={this.handleCourseChange}
           />
         </View>
         <View style={styles.section}>
-          <Text style={styles.text}>Стоимость:</Text>
+          <Text style={styles.text}>Баланс закупки(usd):</Text>
           <TextInput
-            value=''
+            value={user.price}
             style={styles.input}
             keyboarType = 'price'
-            onChangeText={() => {}}
+            keyboardType 	= 'numeric'
+            onChangeText={this.handlePriceChange}
           />
         </View>
       </View>
     );
   }
- 
+  
   render() {
+    console.log('--', this.props.user.entities);
+
     return (
       <View>
+
         <TouchableOpacity style={styles.icon} onPress={this.handlePress}>
           <Ionicons name="md-add" size={24} color="white"/>
         </TouchableOpacity>
         <ConfirmModal 
           visible={this.state.confirmModal}
-          onConfirm={this.confirmDelete}
-          onCancel={this.cancelDelete}
+          onConfirm={this.confirmAdd}
+          onCancel={this.cancelAdd}
         >
-          { this.renderModalContent() }
+          { this.renderModalContent() } 
         </ConfirmModal>
+      
       </View>
     );
   }
@@ -78,38 +124,40 @@ class DetailIcons extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    width: 200,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
+
   },
   section:{
-    flexDirection: 'row',
-    width: width
+    marginBottom 	: 15,
+    alignItems: 'flex-start'
   },
-  icon : {
-      marginHorizontal: 15
+  input: {
+    flexDirection: 'row',
+    borderRadius: 5,
+    width: '100%',
+    color: Colors.darkText,
+    ...Platform.select({
+      ios: {
+        borderWidth: 1,
+        borderColor: Colors.border,
+        minHeight: 36,
+      },
+      android: {
+        minHeight: 46,
+      },
+    }),
+  },
+  inputReadOnly:{
+    backgroundColor: Colors.border
   },
   text: {
     fontWeight: 'bold',
-    flex: 1
+    fontSize: 14,
   },
-  input: {
-    marginLeft: 15,
-    marginRight: 15,
-    ...Platform.select({
-      ios: {
-        borderBottomWidth: 1,
-        borderBottomColor: Colors.border,
-        minHeight: 36,
-        marginLeft: 20,
-        marginRight: 20,
-      },
-      android: {
-        minHeight: 46
-      },
-    }),
-  }
+  icon : {
+    marginHorizontal: 15
+  },
 });
 
 export default DetailIcons;

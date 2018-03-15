@@ -41,7 +41,7 @@ class DetailScreen extends Component {
           borderBottomWidth: 1,
       },
       headerLeft: <Back onBackPress={_goBack} value="Назад" />,
-      headerRight: <DetailIcons/>
+      headerRight: <DetailIcons cryptocurrency={navigation.state.params.cryptocurrency}/>
     }
   };
 
