@@ -14,7 +14,7 @@ class Integer extends Component {
         let style = this.props.type === 'highlight' && number ? value > 0 ? {color: '#03a15b'} : {color:'#da452f'} : {};
         
         return (
-            <Text numberOfLines={1} style= {[style, styles.text, this.props.style]}>
+            <Text numberOfLines={1} style= {[styles.text, this.props.style, style]}>
                 {text}
             </Text>
         );

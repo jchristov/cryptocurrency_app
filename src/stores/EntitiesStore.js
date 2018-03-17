@@ -16,8 +16,8 @@ class EntitiesStore extends BasicStore {
         return Object.keys(this.entities).length;
     }
 
-    async makeApiRequest(uri){    
-        return await (await (fetch(uri)
+    async makeApiRequest(uri, headers = {}){    
+        return await (await (fetch(uri, headers)
             .then(status)
             .then(json)
             .catch(err => console.log('Error load currency', err))

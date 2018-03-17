@@ -9,6 +9,7 @@ import CoinListScreen from './components/screens/coins/CoinListScreen';
 import DetailScreen from './components/screens/detail/DetailScreen';
 import PortfolioListScreen from './components/screens/portfolio/PortfolioListScreen';
 import ChartScreen from './components/screens/chart/ChartScreen';
+import NewsListScreen from './components/screens/news/NewsListScreen';
 
 const ListsNavigator = TabNavigator({
     coins: {
@@ -16,6 +17,9 @@ const ListsNavigator = TabNavigator({
     },
     portfolio: {
         screen: PortfolioListScreen
+    },
+    news: {
+        screen: NewsListScreen
     }
 });
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import Colors from './Colors';
 
-export default function Loader({size='large', color}) {
+export default function Loader({size='small', color}) {
     return (
         <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size={size} color={color} animating />

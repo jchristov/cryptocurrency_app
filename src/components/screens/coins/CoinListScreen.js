@@ -13,107 +13,107 @@ import Colors from '../../common/Colors';
 @inject('coins')
 @observer
 class CoinListScreen extends Component {
-    static propTypes = {
-        coins: PropTypes.object
-    };
+  static propTypes = {
+    coins: PropTypes.object
+  };
 
-    static navigationOptions = ({navigation, screenProps}) => {
-        return { 
-            headerTitle: <Header styleText={styles.title} value='Криптовалюты'/>,
-            headerRight: <SearchIcon />, 
-            tabBarIcon: ({ focused }) => {
-                return <Ionicons
-                            name="ios-stats-outline"
-                            size={32}
-                            color={ focused ? '#444' : '#176ced'}
-                        />
-            },   
-            title: 'Монеты',
-            headerStyle: { 
-                backgroundColor: Colors.palatinateBlue 
-            }
-        }
-    };
-    
-    componentDidMount(){
-        const {coins} = this.props;
-        if(!coins.loaded && !coins.loading) coins.loadApi();
+  static navigationOptions = ({navigation, screenProps}) => {
+    return { 
+      headerTitle: <Header styleText={styles.title} value='Криптовалюты'/>,
+      headerRight: <SearchIcon />, 
+      tabBarIcon: ({ focused }) => {
+        return <Ionicons
+                  name="ios-stats-outline"
+                  size={32}
+                  color={ focused ? '#176ced' : '#444'}
+              />
+      },   
+      title: 'Монеты',
+      headerStyle: { 
+          backgroundColor: Colors.palatinateBlue 
+      }
     }
-    
-    renderHeader = () => {
-        return (
-            <View style={styles.header}>
-                <TouchableOpacity style={[styles.cell, styles.head]}>
-                    <Text numberOfLines={1} style={[styles.text, styles.textCenter]}>Rank</Text>
-                </TouchableOpacity>
-                
-                <TouchableOpacity style={styles.cell}>
-                    <Text numberOfLines={1} style={[styles.text, styles.textRight]}>24H</Text>
-                </TouchableOpacity>
+  };
 
-                <TouchableOpacity style={styles.cell}>
-                    <Text numberOfLines={1} style={[styles.text, styles.textRight]}>7D</Text>
-                </TouchableOpacity>
+  componentDidMount(){
+    const {coins} = this.props;
+    if(!coins.loaded && !coins.loading) coins.loadApi();
+  }
 
-                <TouchableOpacity style={styles.cell}>
-                    <Text numberOfLines={1} style={[styles.text, styles.textRight]}>Price</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
+  renderHeader = () => {
+    return (
+      <View style={styles.header}>
+        <TouchableOpacity style={[styles.cell, styles.head]}>
+            <Text numberOfLines={1} style={[styles.text, styles.textCenter]}>Rank</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.cell}>
+            <Text numberOfLines={1} style={[styles.text, styles.textRight]}>24H</Text>
+        </TouchableOpacity>
 
-    render() {
-        const {coins} = this.props;
-        if(coins.loading) return <Loader/>
-        return (
-            <View style={styles.container}>
-                <SearchInput/>
-                {this.renderHeader()}
-                <CoinList onCoinPress = {this.handleCoinPress}/>
-            </View>
-        );
-    }
+        <TouchableOpacity style={styles.cell}>
+            <Text numberOfLines={1} style={[styles.text, styles.textRight]}>7D</Text>
+        </TouchableOpacity>
 
-    handleCoinPress = (cryptocurrency) => {
-        this.props.navigation.navigate('detail', {cryptocurrency});
-    }
+        <TouchableOpacity style={styles.cell}>
+            <Text numberOfLines={1} style={[styles.text, styles.textRight]}>Price</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  handleCoinPress = (cryptocurrency) => {
+    this.props.navigation.navigate('detail', {cryptocurrency});
+  }
+
+  render() {
+    const {coins} = this.props;
+    if(coins.loading) return <Loader/>
+    return (
+      <View style={styles.container}>
+        <SearchInput/>
+        {this.renderHeader()}
+        <CoinList onCoinPress = {this.handleCoinPress}/>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
-    header:{
-        backgroundColor: Colors.lightBackground,
-        borderBottomColor: Colors.border,
-        borderBottomWidth: 1,
-        flexDirection: 'row',
-        paddingHorizontal: 10  
-    },
-    head: {
-        alignItems: 'center',
-        flex: 2,
-        flexDirection : 'row'   
-    },
-    cell: {
-        flex: 1,
-        paddingHorizontal: 2,
-        paddingVertical: 10     
-    },
-    title:{
-        fontWeight: '300'
-    },
-    text:{
-        fontSize: 16,
-        flex: 1,
-        color: Colors.actionText
-    },
-    textRight: {
-        textAlign: 'right'
-    },
-    textCenter: {
-        textAlign: 'center'
-    }
+  container: {
+    flex: 1,
+  },
+  header:{
+    backgroundColor: Colors.lightBackground,
+    borderBottomColor: Colors.border,
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    paddingHorizontal: 10  
+  },
+  head: {
+    alignItems: 'center',
+    flex: 2,
+    flexDirection : 'row'   
+  },
+  cell: {
+    flex: 1,
+    paddingHorizontal: 2,
+    paddingVertical: 10     
+  },
+  title:{
+      fontWeight: '300'
+  },
+  text:{
+    fontSize: 16,
+    flex: 1,
+    color: Colors.actionText
+  },
+  textRight: {
+    textAlign: 'right'
+  },
+  textCenter: {
+    textAlign: 'center'
+  }
 });
 
 export default CoinListScreen;

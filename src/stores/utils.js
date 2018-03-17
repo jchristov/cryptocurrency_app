@@ -1,3 +1,5 @@
+import { parseString } from 'react-native-xml2js';
+
 function status(response) {
   if (response.status >= 200 && response.status < 300) {
     return Promise.resolve(response)
@@ -6,13 +8,24 @@ function status(response) {
   }
 }
   
-function json(response) {
+function json(response) {  
   return response.json()
 }
   
 function entitiesFromFB(data) {
   Object.entries(data).forEach(([key, value]) => value.uid = key)
   return data
+}
+
+function parseXml(xml){
+  let data;
+  parseString(xml, {
+    emptyTag: null 	,
+    explicitArray: false ,
+    normalize: true 	, 
+    normalizeTags: true
+  }, (error, json) => data = json.rss.channel.item);
+  return data;
 }
   
 function entitiesFromHistoApi(data) {
@@ -49,6 +62,19 @@ function getPriceHistoricalUrl(cryptocurrency = 'BTC', currency = 'USD', time) {
   return `https://min-api.cryptocompare.com/data/pricehistorical?fsym=${cryptocurrency}&tsyms=${currency}&ts=${time}`;
 }
 
+function getNewsUrl(){
+  return `https://feeds.feedburner.com/CoinDesk?format=xml`;
+}
+
+/**
+ * 
+ * @param {String} fsyms 
+ * @param {String} tsyms 
+ */
+function getPriceMultiFullUri(fsyms, tsyms){
+  return  `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH&tsyms=USD`;
+}
+
 function  getDateAgo(date, days) {
   let dateCopy = new Date(date);
 
@@ -63,6 +89,9 @@ export {
   json,
   getHistoUrl,
   getPriceHistoricalUrl,
+  getNewsUrl,
   getDateAgo,
-  entitiesFromHistoApi
+  entitiesFromHistoApi,
+  parseXml,
+  getPriceMultiFullUri
 };

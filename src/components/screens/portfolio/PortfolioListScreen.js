@@ -24,7 +24,7 @@ class PortfolioListScreen extends Component {
                 return <Ionicons
                     name="ios-briefcase-outline"
                     size={32}
-                    color={ focused ? '#444' : '#176ced'}
+                    color={ focused ? '#176ced' : '#444'}
                 />
 			},
             title: 'Портфель' 

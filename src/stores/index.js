@@ -7,6 +7,7 @@ import Graphs from './Graphs';
 import SearchStore from './SearchStore';
 import Charts from './Charts';
 import UserStore from './UserStore';
+import NewsStore from './NewsStore';
 
 const stores = {};
 
@@ -24,6 +25,7 @@ export const graphs = new Graphs(stores);
 export const search = new SearchStore(stores);
 export const charts = new Charts(stores);
 export const user = new UserStore(stores);
+export const news = new NewsStore(stores);
 
 stores.auth = auth;
 stores.navigation = navigation;
@@ -34,5 +36,6 @@ stores.graphs = graphs;
 stores.search = search;
 stores.charts = charts;
 stores.user = user; 
+stores.news = news;
 
 export default stores;

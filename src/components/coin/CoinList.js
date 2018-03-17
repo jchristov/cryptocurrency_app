@@ -39,12 +39,12 @@ class CoinList extends Component {
   
   renderHeader = () => {
     return (
-        <View style={styles.header}>
-            <Text style={styles.text}>Rank</Text>
-            <Text style={styles.text}>24H</Text>
-            <Text style={styles.text}>7D</Text>
-            <Text style={styles.text}>Price</Text>
-        </View>
+      <View style={styles.header}>
+        <Text style={styles.text}>Rank</Text>
+        <Text style={styles.text}>24H</Text>
+        <Text style={styles.text}>7D</Text>
+        <Text style={styles.text}>Price</Text>
+      </View>
     );
   }
   
@@ -59,45 +59,48 @@ class CoinList extends Component {
 
   renderFooter = () => {
     return (
-        <View style={{
-            paddingVertical: 20,
-            borderTopWidth: 1,
-            borderColor: "#CED0CE"
-          }}
-        >
-          <ActivityIndicator animating size="large" />
-        </View>
+      <View style={{
+          paddingVertical: 20,
+          borderTopWidth: 1,
+          borderColor: "#CED0CE"
+        }}
+      >
+        <ActivityIndicator animating size="small" />
+      </View>
     );
   }
 
   renderSeparator = () => {
     return(
-        <View
-            style={{
-                height: 1,
-                width: "86%",
-                backgroundColor: "#CED0CE",
-                marginLeft: "14%"
-            }}
-        />
+      <View
+        style={{
+            height: 1,
+            width: "86%",
+            backgroundColor: "#CED0CE",
+            marginLeft: "14%"
+        }}
+      />
     );
   }
 
   renderItem = ({index, item}) => {
     const {onCoinPress} = this.props;
     return(
-        <TouchableOpacity onPress={ onCoinPress.bind(null, item.coin) }>
-            <CoinCard coin={item.coin}/>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={ onCoinPress.bind(null, item.key) }>
+        <CoinCard coin={item}/>
+      </TouchableOpacity>
     );
+  }
+
+  separator = (section, row) => {
+    return <View key={section + '-' + row } style={styles.separator}/>
   }
 
   render() {
     const {coins, search} = this.props;
-
     if(coins.loading) return <Loader/>
-
-    const data = search.value  
+    
+    /*const data = search.value  
                   ? coins.entities
                       .filter(item => {
                         return item.name.toLowerCase().indexOf(search.value.toLowerCase()) > -1 
@@ -106,13 +109,17 @@ class CoinList extends Component {
                       .map(item => ({key: item.id, coin: item})) 
                   : coins.entities
                       .map(item => ({key: item.id, coin: item}));
+    */
+    
+  
 
     return (
       <FlatList 
-        data={data}
+        data={coins.sections}
         renderItem = {this.renderItem}
         keyExtractor={item => item.key}
         ListFooterComponent={this.renderFooter}
+        ItemSeparatorComponent={this.separator}
         refreshing={coins.refreshing}
         onRefresh={this.handleRefresh}
 
@@ -125,20 +132,24 @@ class CoinList extends Component {
 
 const styles = StyleSheet.create({
   search: {
-      backgroundColor: Colors.lightBackground
+    backgroundColor: Colors.lightBackground
   },
   text:{
-      flex: 1, 
-      fontSize: 16,
-      textAlign: 'center',
-      color: Colors.actionText
+    flex: 1, 
+    fontSize: 16,
+    textAlign: 'center',
+    color: Colors.actionText,
+  },
+  separator: {
+    height: 0.5,
+    backgroundColor: Colors.border,
   },
   header:{
-      backgroundColor: Colors.lightBackground,
-      borderBottomColor:Colors.border,
-      borderBottomWidth: 1,
-      flexDirection: 'row',
-      paddingHorizontal: 10  
+    backgroundColor: Colors.lightBackground,
+    borderBottomColor:Colors.border,
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    paddingHorizontal: 10,
   }
 });
 
