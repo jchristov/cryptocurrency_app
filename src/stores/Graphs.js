@@ -3,6 +3,9 @@ import { observable, action } from 'mobx';
 import { detailsApi } from '../apiConfig';
 import { setSchematic } from './utils';
 
+/**
+ * ! DEPRECATED, do not use 
+ */
 export default class Graphs extends EntitiesStore{
 
     @observable uid = null;

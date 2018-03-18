@@ -85,9 +85,12 @@ class CoinList extends Component {
 
   renderItem = ({index, item}) => {
     const {onCoinPress} = this.props;
+    
+    console.log('----', item);
+    
     return(
-      <TouchableOpacity onPress={ onCoinPress.bind(null, item.key) }>
-        <CoinCard coin={item}/>
+      <TouchableOpacity onPress={ onCoinPress.bind(null, item.coin) }>
+        <CoinCard coin={item.coin}/>
       </TouchableOpacity>
     );
   }
@@ -111,7 +114,8 @@ class CoinList extends Component {
                       .map(item => ({key: item.id, coin: item}));
     */
     
-  
+    console.log(coins.sections);
+                      
 
     return (
       <FlatList 

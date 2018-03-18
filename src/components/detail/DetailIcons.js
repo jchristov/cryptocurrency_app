@@ -16,7 +16,7 @@ import Colors from '../common/Colors';
 
 const { width } = Dimensions.get('window');
 
-@inject('user')
+@inject('portfolio')
 @observer
 class DetailIcons extends Component {
   static propTypes = {
@@ -28,12 +28,12 @@ class DetailIcons extends Component {
   };
 
   confirmAdd = () => {
-    const {user, cryptocurrency} = this.props;
-    if(user.addCryproCurrency){
-      user.addCryproCurrency({
-        price: user.price,
-        course: user.course,
-        amount: user.price / user.course,
+    const {portfolio, cryptocurrency} = this.props;
+    if(portfolio.subscribeCurrency){
+      portfolio.subscribeCurrency({
+        price: portfolio.price,
+        course: portfolio.course,
+        amount: portfolio.price / portfolio.course,
         coinName: cryptocurrency.name,
         whnCrt: new Date(),
         whnUpt: new Date()
@@ -50,26 +50,26 @@ class DetailIcons extends Component {
   handlePress = () => this.setState({ confirmModal: true });
 
    componentWillMount(){
-    const {user, cryptocurrency} = this.props;
-    user.setSelectedCurrency(cryptocurrency.name);
-    user.fetchPortfolioList();
-    user.setCourse(cryptocurrency.price_usd);
+    const {portfolio, cryptocurrency} = this.props;
+    portfolio.setSelectedCurrency(cryptocurrency.name);
+    portfolio.fetchPortfolioList();
+    portfolio.setCourse(cryptocurrency.price_usd);
   }
 
   handleCourseChange = (course) => {
-    if(this.props.user.setCourse){
-      this.props.user.setCourse(course);
+    if(this.props.portfolio.setCourse){
+      this.props.portfolio.setCourse(course);
     }
   }
 
   handlePriceChange = (price) => {
-    if(this.props.user.setPrice){
-      this.props.user.setPrice(price);
+    if(this.props.portfolio.setPrice){
+      this.props.portfolio.setPrice(price);
     }
   }
 
   renderAddForm = () => {
-    const { cryptocurrency, user } = this.props;
+    const { cryptocurrency, portfolio } = this.props;
 
     return (
       <View style={styles.container}>
@@ -79,7 +79,7 @@ class DetailIcons extends Component {
         <View style={styles.section}>
           <Text style={styles.text}>Курс закупки {cryptocurrency.name} (usd):</Text>
           <TextInput
-            value={user.course}
+            value={portfolio.course}
             style={styles.input}
             keyboarType = 'course'
             keyboardType 	= 'numeric'
@@ -89,7 +89,7 @@ class DetailIcons extends Component {
         <View style={styles.section}>
           <Text style={styles.text}>Баланс закупки(usd):</Text>
           <TextInput
-            value={user.price}
+            value={portfolio.price}
             style={styles.input}
             keyboarType = 'price'
             keyboardType 	= 'numeric'
@@ -122,9 +122,9 @@ class DetailIcons extends Component {
   }
 
   render() {
-    const {cryptocurrency, user} = this.props;
+    const {cryptocurrency, portfolio} = this.props;
 
-    const entities = user.selectedEntities;    
+    const entities = portfolio.selectedCurrency;    
     if(entities.length) return this.renderDelete();
 
     return (

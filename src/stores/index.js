@@ -6,7 +6,7 @@ import Coins from './Coins';
 import Graphs from './Graphs';
 import SearchStore from './SearchStore';
 import Charts from './Charts';
-import UserStore from './UserStore';
+import PortfolioStore from './PortfolioStore';
 import NewsStore from './NewsStore';
 
 const stores = {};
@@ -24,7 +24,7 @@ export const coins = new Coins(stores);
 export const graphs = new Graphs(stores);
 export const search = new SearchStore(stores);
 export const charts = new Charts(stores);
-export const user = new UserStore(stores);
+export const portfolio = new PortfolioStore(stores);
 export const news = new NewsStore(stores);
 
 stores.auth = auth;
@@ -35,7 +35,7 @@ stores.coins = coins;
 stores.graphs = graphs;
 stores.search = search;
 stores.charts = charts;
-stores.user = user; 
+stores.portfolio = portfolio; 
 stores.news = news;
 
 export default stores;

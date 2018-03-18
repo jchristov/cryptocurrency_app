@@ -3,7 +3,7 @@ import {observable, action, computed} from 'mobx';
 import firebase from 'firebase';
 import { entitiesFromFB } from './utils';
 
-class UserStore extends EntitiesStore{
+class PortfolioStore extends EntitiesStore{
   @observable price = null;
   @observable course = null;
  
@@ -23,12 +23,12 @@ class UserStore extends EntitiesStore{
     this.entities = entities;
   }
 
-  @computed get selectedEntities(){
+  @computed get selectedCurrency(){
     const entities = this.list;
     return entities.filter(itm => (itm.coinName === this.coinName));
   }
 
-  @action addCryproCurrency = async(data) => {
+  @action subscribeCurrency = async(data) => {
     let updates = {};
     try {  
       const { key } = await firebase.database().ref('portfolio').push();
@@ -41,6 +41,8 @@ class UserStore extends EntitiesStore{
 
   @action fetchPortfolioList = loadAllHelper('portfolio');
 
+  @action loadCurrencyExchanges
+
 } 
 
-export default UserStore;
+export default PortfolioStore;

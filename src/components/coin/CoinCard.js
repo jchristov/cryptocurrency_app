@@ -18,7 +18,11 @@ class CoinCard extends PureComponent {
       <View style={styles.container}>
         <View style={[styles.cell, styles.head ]}>
           <Image style={styles.image} source={{uri: images.currencies.medium_img(id)}}/>
-          <Text ellipsizeMode='tail' numberOfLines={1} style={[styles.textName, styles.textLeft]}>
+          <Text 
+            ellipsizeMode='tail' 
+            numberOfLines={1} 
+            style={[styles.textName, styles.textLeft]}
+          >
             {name}
           </Text>
         </View>

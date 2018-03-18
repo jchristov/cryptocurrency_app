@@ -12,11 +12,11 @@ import ChartScreen from './components/screens/chart/ChartScreen';
 import NewsListScreen from './components/screens/news/NewsListScreen';
 
 const ListsNavigator = TabNavigator({
-    coins: {
-        screen: CoinListScreen
-    },
     portfolio: {
         screen: PortfolioListScreen
+    },
+    coins: {
+        screen: CoinListScreen
     },
     news: {
         screen: NewsListScreen
