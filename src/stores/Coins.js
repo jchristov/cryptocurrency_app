@@ -18,7 +18,6 @@ export default class CoinsStore extends EntitiesStore{
 
     makeApiRequest = () => {
         const uri = `${this.api.domain}${this.api.path}?start=${this.startAt}&limit=${this.limit}`; 
-        
         super.makeApiRequest(uri)
             .then(this.setParams)
             .catch(err => console.error('lazy load error component Coins', err));

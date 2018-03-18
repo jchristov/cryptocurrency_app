@@ -28,7 +28,7 @@ class CoinListScreen extends Component {
                             color={ focused ? '#176ced' : '#444'}
                         />
             },   
-            title: 'Монеты',
+            title: 'Криптовалюты',
             headerStyle: { 
                 backgroundColor: Colors.palatinateBlue 
             }

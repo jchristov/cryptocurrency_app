@@ -12,7 +12,16 @@ class CoinCard extends PureComponent {
   };
 
   render() {
-    const {coin} = this.props;
+    const {coin: {
+      id, 
+      seperator, 
+      symbol, 
+      name, 
+      price_usd, 
+      percent_change_24h, 
+      percent_change_7d
+      }
+    } = this.props;
     
     return (                         
       <View style={styles.container}>

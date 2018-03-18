@@ -49,7 +49,7 @@ class CoinList extends Component {
   }
   
   handleLoadMore = () => {
-    console.log('load more')
+    
     this.props.coins.lazyLoadApi();
   }
 
@@ -85,9 +85,6 @@ class CoinList extends Component {
 
   renderItem = ({index, item}) => {
     const {onCoinPress} = this.props;
-    
-    console.log('----', item);
-    
     return(
       <TouchableOpacity onPress={ onCoinPress.bind(null, item.coin) }>
         <CoinCard coin={item.coin}/>
@@ -101,9 +98,10 @@ class CoinList extends Component {
 
   render() {
     const {coins, search} = this.props;
+    
     if(coins.loading) return <Loader/>
     
-    /*const data = search.value  
+    const data = search.value  
                   ? coins.entities
                       .filter(item => {
                         return item.name.toLowerCase().indexOf(search.value.toLowerCase()) > -1 
@@ -111,15 +109,11 @@ class CoinList extends Component {
                       })
                       .map(item => ({key: item.id, coin: item})) 
                   : coins.entities
-                      .map(item => ({key: item.id, coin: item}));
-    */
-    
-    console.log(coins.sections);
-                      
+                      .map(item => ({key: item.id, coin: item}));                  
 
     return (
       <FlatList 
-        data={coins.sections}
+        data={data}
         renderItem = {this.renderItem}
         keyExtractor={item => item.key}
         ListFooterComponent={this.renderFooter}

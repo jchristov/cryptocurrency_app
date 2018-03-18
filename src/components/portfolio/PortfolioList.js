@@ -15,17 +15,18 @@ import PortfolioCard from './PortfolioCard';
 import Loader from '../common/Loader';
 import Colors from '../common/Colors';
 
-@inject('coins')
+@inject('portfolio')
 @observer
 class PortfolioList extends Component {
     static propTypes = {
-        coins: PropTypes.object
+     
     };
 
   
-    componentWillMount() {
-        const {coins} = this.props
-        if (!coins.loaded && !coins.loading) coins.loadApi();
+    componentWillMount(){
+        const {portfolio} = this.props;
+        portfolio.fetchPortfolioList && portfolio.fetchPortfolioList();
+    
     }
 
     getItemCount = () => {
@@ -44,7 +45,7 @@ class PortfolioList extends Component {
     }
     
     handleLoadMore = () => {
-        console.log('load more')
+
         this.props.coins.lazyLoadApi();
     }
 

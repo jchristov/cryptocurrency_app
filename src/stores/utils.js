@@ -27,7 +27,7 @@ function parseXml(xml){
   }, (error, json) => data = json.rss.channel.item);
   return data;
 }
-  
+
 function entitiesFromHistoApi(data) {
   return data.map(item => (
     {
@@ -54,6 +54,18 @@ function setSchematic(data) {
   };
 }
 
+function  getDateAgo(date, days) {
+  let dateCopy = new Date(date);
+
+  dateCopy.setDate(date.getDate() - days);
+  return dateCopy.getTime();
+}
+
+
+/**
+ * ! GET URL FUNCTIONS
+ */
+
 function getHistoUrl(cryptocurrency = 'BTC', currency = 'USD', api, timeLimit){
   return `https://min-api.cryptocompare.com/data/${api}?fsym=${cryptocurrency}&tsym=${currency}&limit=${timeLimit}&aggregate=1&e=CCCAGG`;
 }
@@ -66,21 +78,18 @@ function getNewsUrl(){
   return `https://feeds.feedburner.com/CoinDesk?format=xml`;
 }
 
-/**
- * 
- * @param {String} fsyms 
- * @param {String} tsyms 
- */
+function getCoinListUri(){
+  return `https://www.cryptocompare.com/api/data/coinlist/`;
+}
+
 function getPriceMultiFullUri(fsyms, tsyms){
   return  `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH&tsyms=USD`;
 }
 
-function  getDateAgo(date, days) {
-  let dateCopy = new Date(date);
+/**
+ * ! END GET URL FUNCTIONS
+ */
 
-  dateCopy.setDate(date.getDate() - days);
-  return dateCopy.getTime();
-}
 
 export {
   status, 
@@ -93,5 +102,6 @@ export {
   getDateAgo,
   entitiesFromHistoApi,
   parseXml,
-  getPriceMultiFullUri
+  getPriceMultiFullUri,
+  getCoinListUri,
 };

@@ -1,12 +1,13 @@
 import EntitiesStore, { loadAllHelper } from './EntitiesStore';
 import {observable, action, computed} from 'mobx';
 import firebase from 'firebase';
-import { entitiesFromFB } from './utils';
+import { entitiesFromFB, getCoinListUri, symbolListFromFb } from './utils';
 
 class PortfolioStore extends EntitiesStore{
   @observable price = null;
   @observable course = null;
- 
+  @observable coinList = null;
+  
   setSelectedCurrency = (coinName) => {
     this.coinName = coinName;
   }
@@ -21,6 +22,17 @@ class PortfolioStore extends EntitiesStore{
 
   @action setEntities = (entities) => {
     this.entities = entities;
+  }
+
+  @action setCoinList = (coinList) => {   
+    this.coinList = coinList;
+  }
+
+  @action setParams = (response) => {
+    const raw = response.RAW;
+    this.loading = false;
+    this.loaded = true;
+    this.entities = Object.keys(raw).map(itm => (Object.assign({key: itm}, raw[itm].USD)));
   }
 
   @computed get selectedCurrency(){
@@ -39,9 +51,27 @@ class PortfolioStore extends EntitiesStore{
     }
   }
 
-  @action fetchPortfolioList = loadAllHelper('portfolio');
+  @action loadPriceMultiFull = () => {
+    this.loading = true;
 
-  @action loadCurrencyExchanges
+    firebase.database().ref('portfolio').once('value', data => {
+        const entities = entitiesFromFB(data.val()); 
+        const str = Object.values(entities).map(item => (item.symbol)).join(',');
+        const uri = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${str}&tsyms=USD`;
+        this.makeApiRequest(uri)
+      }).catch(err => console.log('Error load data from function loadPriceMultiFull', err));
+  }  
+
+  makeApiRequest = (uri) => super.makeApiRequest(uri).then(this.setParams);
+
+  loadCoinList = () => {
+    const uri = getCoinListUri();
+    
+    super.makeApiRequest(uri)
+      .then(this.setCoinList)
+      .catch(err => console.log('--err--'));
+  } 
+
 
 } 
 
