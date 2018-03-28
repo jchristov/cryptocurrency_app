@@ -45,7 +45,9 @@ class PortfolioListScreen extends Component {
 
     componentDidMount(){
       const {portfolio} = this.props;
-      if(!portfolio.loaded && !portfolio.loading) portfolio.loadPriceMultiFull();
+      if(!portfolio.loaded && !portfolio.loading){
+        portfolio.loadPriceMultiFull();
+      }
     }
     
     separator = (section, row) => {
@@ -61,7 +63,6 @@ class PortfolioListScreen extends Component {
       );
     }
 
-
     render() {
       const {portfolio} = this.props;
       
@@ -73,7 +74,6 @@ class PortfolioListScreen extends Component {
             data={portfolio.entities}
             renderItem = {this._renderItem}
             keyExtractor={item => item.key}
-            ItemSeparatorComponent={this.separator}
           />
       );
     }

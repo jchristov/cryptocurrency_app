@@ -6,11 +6,12 @@ import { entitiesFromFB, getCoinListUri, symbolListFromFb } from './utils';
 class PortfolioStore extends EntitiesStore{
   @observable price = null;
   @observable course = null;
-  @observable coinList = null;
   
   setSelectedCurrency = (coinName) => {
     this.coinName = coinName;
   }
+  
+  makeApiRequest = (uri) => super.makeApiRequest(uri).then(this.setParams);
 
   @action setCourse = (course) => {
     this.course = course;
@@ -24,15 +25,15 @@ class PortfolioStore extends EntitiesStore{
     this.entities = entities;
   }
 
-  @action setCoinList = (coinList) => {   
-    this.coinList = coinList;
-  }
-
   @action setParams = (response) => {
     const raw = response.RAW;
     this.loading = false;
     this.loaded = true;
+    
     this.entities = Object.keys(raw).map(itm => (Object.assign({key: itm}, raw[itm].USD)));
+
+    console.log('---', this.entities);
+    
   }
 
   @computed get selectedCurrency(){
@@ -40,6 +41,10 @@ class PortfolioStore extends EntitiesStore{
     return entities.filter(itm => (itm.coinName === this.coinName));
   }
 
+  /**
+   * Подписаться на валюту
+   * {Object} data
+   */
   @action subscribeCurrency = async(data) => {
     let updates = {};
     try {  
@@ -51,27 +56,22 @@ class PortfolioStore extends EntitiesStore{
     }
   }
 
+  /**
+   * Api https://min-api.cryptocompare.com/
+   * Загружаем инфу по валютам на которую мы подписаны
+   */
   @action loadPriceMultiFull = () => {
     this.loading = true;
 
     firebase.database().ref('portfolio').once('value', data => {
         const entities = entitiesFromFB(data.val()); 
-        const str = Object.values(entities).map(item => (item.symbol)).join(',');
+        this.coin_list = Object.values(entities).map(item => (item.symbol));
+        const str = this.coin_list.join(',');
+        
         const uri = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${str}&tsyms=USD`;
-        this.makeApiRequest(uri)
+        this.makeApiRequest(uri);
       }).catch(err => console.log('Error load data from function loadPriceMultiFull', err));
   }  
-
-  makeApiRequest = (uri) => super.makeApiRequest(uri).then(this.setParams);
-
-  loadCoinList = () => {
-    const uri = getCoinListUri();
-    
-    super.makeApiRequest(uri)
-      .then(this.setCoinList)
-      .catch(err => console.log('--err--'));
-  } 
-
 
 } 
 
