@@ -11,7 +11,21 @@ class PortfolioStore extends EntitiesStore{
     this.coinName = coinName;
   }
   
-  makeApiRequest = (uri) => super.makeApiRequest(uri).then(this.setParams);
+  makeApiRequest = async(uri) => {
+    try {   
+      const response = await super.makeApiRequest(uri)
+      
+      const raw = response && response.RAW;
+      const entities = Object.keys(raw).map(itm =>{
+        const symbol = raw[itm].USD.Symbol;
+        
+        return Object.assign({key: itm}, raw[itm].USD);
+
+      });
+
+      this.setParams(entities);
+    } catch (_) {}
+  }
 
   @action setCourse = (course) => {
     this.course = course;
@@ -25,15 +39,10 @@ class PortfolioStore extends EntitiesStore{
     this.entities = entities;
   }
 
-  @action setParams = (response) => {
-    const raw = response.RAW;
+  @action setParams = (entities) => {
     this.loading = false;
     this.loaded = true;
-    
-    this.entities = Object.keys(raw).map(itm => (Object.assign({key: itm}, raw[itm].USD)));
-
-    console.log('---', this.entities);
-    
+    this.entities = entities;
   }
 
   @computed get selectedCurrency(){
@@ -63,15 +72,27 @@ class PortfolioStore extends EntitiesStore{
   @action loadPriceMultiFull = () => {
     this.loading = true;
 
-    firebase.database().ref('portfolio').once('value', data => {
+    firebase.database().ref('portfolio').once('value')
+      .then(data => {
         const entities = entitiesFromFB(data.val()); 
         this.coin_list = Object.values(entities).map(item => (item.symbol));
         const str = this.coin_list.join(',');
         
         const uri = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${str}&tsyms=USD`;
         this.makeApiRequest(uri);
-      }).catch(err => console.log('Error load data from function loadPriceMultiFull', err));
+      })
+      .catch(err => console.log('Error load data from function loadPriceMultiFull', err));
   }  
+
+  loadFbCurrencyDetail = symbol => {
+    return new Promise((resolve, reject) => {
+      const ref = firebase.database().ref('currency');
+      ref.orderByChild('Symbol').equalTo(symbol).on("child_added")
+      .then(snapshot => {
+        resolve(snapshot);
+      }).catch(err => reject(err));
+    });
+  }
 
 } 
 

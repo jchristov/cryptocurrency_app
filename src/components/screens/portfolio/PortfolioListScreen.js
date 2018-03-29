@@ -50,12 +50,15 @@ class PortfolioListScreen extends Component {
       }
     }
     
+    handleCoinPress = (uid) => {
+      this.props.navigation.navigate('detail', {uid});
+    }
+
     separator = (section, row) => {
       return <View key={section + '-' + row } style={styles.separator}/>
     }
   
-
-    _renderItem = ({index, item}) => {
+    _renderItem = ({item}) => { 
       return(
         <TouchableOpacity onPress={this.handleCoinPress.bind(null, item.FROMSYMBOL)}>
           <PortfolioCard coin={item}/>
@@ -63,23 +66,22 @@ class PortfolioListScreen extends Component {
       );
     }
 
+    _keyExtractor = (item, index) =>{ 
+      return item.key;
+    }
+    
     render() {
       const {portfolio} = this.props;
-      
       if(portfolio.loading) return <Loader/>
 
       return (
           <FlatList
             style={styles.container}
             data={portfolio.entities}
-            renderItem = {this._renderItem}
-            keyExtractor={item => item.key}
+            renderItem={this._renderItem}
+            keyExtractor={this._keyExtractor}
           />
       );
-    }
-
-    handleCoinPress = (uid) => {
-      this.props.navigation.navigate('detail', {uid});
     }
 }
 

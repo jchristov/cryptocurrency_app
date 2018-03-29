@@ -38,8 +38,19 @@ function formatCurrency(value, currencyCode, precision = 1){
   });
 }
 
+/**
+ * Получаем график для валюты
+ * @param {String} symbol 
+ * @param {String} currency 
+ */
+function getCurrencyChart(symbol, currency = 'USD') {
+  const ts = Date.now() / 1000;
+  return `https://images.cryptocompare.com/sparkchart/${symbol}/${currency}/latest.png?ts=${ts}`;
+}
+
 export { 
   numberFormat, 
   getImgUrl,
-  formatCurrency 
+  formatCurrency,
+  getCurrencyChart 
 };

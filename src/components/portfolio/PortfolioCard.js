@@ -3,41 +3,42 @@ import PropTypes from 'prop-types';
 import {View, StyleSheet, Text, Image, Dimensions} from 'react-native';
 import images from '../helpers/images';
 import Colors from '../common/Colors';
-import { numberFormat } from '../helpers/utils';
+import { numberFormat, getCurrencyChart } from '../helpers/utils';
 import Integer from '../common/Integer';
 
 const {width, height} = Dimensions.get('window');
 
-export default class PortfolioCard extends PureComponent {
+class PortfolioCard extends PureComponent {
   static propTypes = {
 
   };
 
   render() {
-      const {coin} = this.props;
-
+    const {coin} = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.section}>
-          <View>
-            <Text>{coin.FROMSYMBOL}</Text>
+          <View style={styles.coin}>
+            <Image style={styles.coinImg} source={{uri:getCurrencyChart(coin.FROMSYMBOL)}} />
+            <Text style={[styles.text, styles.textHeader]}>
+              {coin.FROMSYMBOL}
+            </Text>
           </View>
-          <View>
-            <Text>12</Text>
-            <Text>1%</Text>
+          <View style={styles.chart}>
+            <Image style={styles.img} source={{uri:getCurrencyChart(coin.FROMSYMBOL) }}/>
           </View>
         </View>
 
         <View style={[styles.section, styles.borderTop]}>
           <View>
               <Text style={styles.label}>Purchase price:</Text>
-              <Text style={[styles.textPrice]}>
+              <Text style={[styles.text, styles.textPrice]}>
                 {'$' + numberFormat(Number(coin.PRICE).toFixed(2))}
               </Text>
           </View>
           <View>
               <Text style={styles.label}>Today price:</Text>
-              <Text style={[styles.textName, styles.textPrice]} numberOfLines={1}>
+              <Text style={[styles.text, styles.textPrice]} numberOfLines={1}>
                 {'$' + numberFormat(Number(coin.PRICE).toFixed(2))}
               </Text>
           </View>
@@ -54,7 +55,9 @@ export default class PortfolioCard extends PureComponent {
     </View>
     );
   }
+ 
 }
+
 
 const styles = StyleSheet.create({
   container:{
@@ -72,11 +75,11 @@ const styles = StyleSheet.create({
   },
   section:{
     flexDirection: "row",
-    padding: 10,
+    padding: 20,
     justifyContent: 'space-between',
   },
   label:{
-    fontSize: 16,
+    fontSize: 14,
     color: Colors.inactiveText,
     fontWeight: '100'
   },
@@ -86,11 +89,32 @@ const styles = StyleSheet.create({
     flex: 1,
     fontWeight: '300'
   }, 
+  textHeader: {
+    fontWeight: '600',
+    color: Colors.facebookBlue
+  },
   textPrice: {
-    color: Colors.blueCharcoal
+    color: Colors.facebookBlue
   },
   textPct: {
     color: Colors.yellow
+  },
+  chart: {
+  },
+  coin: {
+   
+  },
+  coinImg: {
+    width: 32,
+    height: 32
+  },
+  img: {
+    width: 150,
+    height: 35,
+    minWidth: 150,
+    maxWidth: 150,
   }
 
 });
+
+export default PortfolioCard;
