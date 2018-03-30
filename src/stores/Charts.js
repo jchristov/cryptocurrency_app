@@ -17,20 +17,37 @@ class Charts extends EntitiesStore{
     this.detailsApi = detailsApi;
     this.dayAgo = 365;
     this.date = new Date();
+    this.uri = '';
   }
 
-  makeApiRequest(uri){
-    super.makeApiRequest(uri)
-      .then(this.setHistoParams)
-      .catch(err => console.error('load error component Charts', err));
+  makeApiRequest = async() => {
+    try {
+      const response = await super.makeApiRequest(this.uri);
+      this.setHistoParams(response); 
+    } catch (err) {
+      console.error('load error component Charts', err)
+    }
   } 
   
   @action loadCharts(cryptocurrency, currency, api = 'histoday', timeLimit = '2000'){
-    const uri = getHistoUrl(cryptocurrency, currency, api, timeLimit);
+    this.uri = getHistoUrl(cryptocurrency, currency, api, timeLimit);
     this.loading = true;
-    this.makeApiRequest(uri);
+    this.makeApiRequest();
   }   
+  
+  @action setHistoParams = (entities) => {
+    this.loading = false;
+    this.loaded = true;
+    this.entities = entitiesFromHistoApi(entities.Data);
+  }
+  
+  @action setDurationIndex = (index) => {
+    this.selectedDurationIndex = index;
+  }
 
+  /**
+   * !Deprecated
+   */
   loadPriceHistorical(cryptocurrency, currency){
     const milliseconds = getDateAgo(this.date, this.dayAgo);
     const seconds = Math.round(milliseconds / 1000);
@@ -41,20 +58,14 @@ class Charts extends EntitiesStore{
       .catch(err => console.log('Error load PriceHistorical Data', err))
   }
 
-  @action setHistoParams = (entities) => {
-    this.loading = false;
-    this.loaded = true;
-    this.entities = entitiesFromHistoApi(entities.Data);
-  }
-
+  /**
+   * !Deprecated
+   */
   @action setPriceHistoricalParams = (price) => {
     const data = Object.keys(price).map(item => price[item]);
     this.historicalPrice = data;
   }
 
-  @action setDurationIndex = (index) => {
-    this.selectedDurationIndex = index;
-  }
 }
 
 export default Charts;

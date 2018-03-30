@@ -32,16 +32,16 @@ class DetailScreen extends Component {
     _goBack = () => {
       navigation.goBack();
     };
-  
+    
     return {  
-      title: navigation.state.params.cryptocurrency.name || 'Детали',
-      headerTitle: <Header styleText={styles.title} value={navigation.state.params.cryptocurrency.name}/>,
+      title: navigation.state.params.item.FROMSYMBOL || 'Детали',
+      headerTitle: <Header styleText={styles.title} value={navigation.state.params.item.FROMSYMBOL}/>,
       headerStyle: { 
           backgroundColor: Colors.palatinateBlue,
           borderBottomWidth: 1,
       },
       headerLeft: <Back onBackPress={_goBack} value="Назад" />,
-      headerRight: <DetailIcons cryptocurrency={navigation.state.params.cryptocurrency}/>
+      headerRight: <DetailIcons cryptocurrency={navigation.state.params.item}/>
     }
   };
 
@@ -51,12 +51,9 @@ class DetailScreen extends Component {
 
   fetchPriceData = async() => {
     const { charts, navigation } = this.props;
-    
-    const cryptocurrency = navigation.state.params.cryptocurrency;
     const limit = DURATION_LIST[charts.selectedDurationIndex].limit;
     const api = DURATION_LIST[charts.selectedDurationIndex].api;
 
-    await charts.loadPriceHistorical('BTC', DEFAULT_CURRENCY);  
     await charts.loadCharts('BTC', DEFAULT_CURRENCY, api, limit);   
   }
 
@@ -67,21 +64,20 @@ class DetailScreen extends Component {
   }
 
   renderDurationTabs = () => {
-    const body = DURATION_LIST.map((itm, index) => {
+    const duration_list = DURATION_LIST.map((itm, index) => {
       let style = styles.textInActive;
       if(index === this.props.charts.selectedDurationIndex){
         style = styles.textActive;
       }
       return <Text style={style} key={itm.codename}>{itm.codename}</Text>
     });
-
     return (
       <Tabs
         keys={DURATION_LIST.map(({ codename }) => codename)}
         handlePress={this.handleDurationChange}
         selectedIndex={this.props.charts.selectedDurationIndex}
       > 
-        {body}
+        {duration_list}
       </Tabs> 
       );
   }
@@ -92,18 +88,14 @@ class DetailScreen extends Component {
    */
   renderCurrencyPrice() {
     const { charts, navigation } = this.props; 
-    const cryptocurrency = navigation.state.params.cryptocurrency;
-
-  
-
-    const oldPrice = charts.historicalPrice[0].USD;
+    const oldPrice = charts.entities[0].price;
+    const currentPrice = navigation.state.params.item.PRICE; 
     
-
     return(
         <ChartPrice
           cryptocurrencyLabel={'bitcoin'}
           durationLabel={DURATION_LIST[charts.selectedDurationIndex].humanize}
-          currentPrice={+cryptocurrency.price_usd}
+          currentPrice={+currentPrice}
           oldPrice={+oldPrice}
         />
     );
@@ -114,10 +106,11 @@ class DetailScreen extends Component {
     const format = timeFormat('%B %d, %Y');
     const { height, width } = Dimensions.get('window');
     const durationType = DURATION_LIST[charts.selectedDurationIndex];
-    const cryptocurrency = navigation.state.params.cryptocurrency;    
+    const data = navigation.state.params.item;    
 
     if(!charts.loaded) return <Loader/>
     const lastEntities = charts.entities[charts.entities.length - 1];
+    
     return (
       <ScrollView style={styles.body}>
         <View style={styles.contanier}>
@@ -133,7 +126,7 @@ class DetailScreen extends Component {
             />
           </View>
           <HorizontalChartAxis data={charts.entities} duration={durationType}/>
-          <DetailSections cryptocurrency={cryptocurrency} lastEntities={lastEntities}/>
+          <DetailSections cryptocurrency={data.FROMSYMBOL} lastEntities={lastEntities}/>
         </View>
       </ScrollView>
     );

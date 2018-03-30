@@ -51,9 +51,8 @@ class DetailIcons extends Component {
 
    componentWillMount(){
     const {portfolio, cryptocurrency} = this.props;
-    portfolio.setSelectedCurrency(cryptocurrency.name);
-    portfolio.fetchPortfolioList();
-    portfolio.setCourse(cryptocurrency.price_usd);
+    portfolio.setSelectedCurrency(cryptocurrency.FROMSYMBOL);
+    portfolio.setCourse(cryptocurrency.PRICE);
   }
 
   handleCourseChange = (course) => {

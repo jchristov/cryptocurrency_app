@@ -5,9 +5,11 @@ import {
   View, 
   StyleSheet, 
   ActivityIndicator, 
-  TouchableOpacity, 
+  TouchableOpacity,
+  TouchableWithoutFeedback, 
   Text, 
-  FlatList
+  FlatList,
+  Animated
 } from 'react-native';
 import {observer, inject} from 'mobx-react';
 import {Ionicons} 	from '@expo/vector-icons';
@@ -50,8 +52,8 @@ class PortfolioListScreen extends Component {
       }
     }
     
-    handleCoinPress = (uid) => {
-      this.props.navigation.navigate('detail', {uid});
+    handleCoinPress = (item) => {
+      this.props.navigation.navigate('detail', {item});
     }
 
     separator = (section, row) => {
@@ -60,7 +62,7 @@ class PortfolioListScreen extends Component {
   
     _renderItem = ({item}) => { 
       return(
-        <TouchableOpacity onPress={this.handleCoinPress.bind(null, item.FROMSYMBOL)}>
+        <TouchableOpacity onPress={this.handleCoinPress.bind(null, item)}>
           <PortfolioCard coin={item}/>
         </TouchableOpacity>
       );

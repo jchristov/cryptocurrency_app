@@ -1,7 +1,7 @@
 import EntitiesStore, { loadAllHelper } from './EntitiesStore';
 import {observable, action, computed} from 'mobx';
 import firebase from 'firebase';
-import { entitiesFromFB, getCoinListUri, symbolListFromFb } from './utils';
+import { getPriceMultiFullUri, entitiesFromFB, getCoinListUri, symbolListFromFb } from './utils';
 
 class PortfolioStore extends EntitiesStore{
   @observable price = null;
@@ -11,20 +11,19 @@ class PortfolioStore extends EntitiesStore{
     this.coinName = coinName;
   }
   
-  makeApiRequest = async(uri) => {
-    try {   
-      const response = await super.makeApiRequest(uri)
-      
-      const raw = response && response.RAW;
-      const entities = Object.keys(raw).map(itm =>{
-        const symbol = raw[itm].USD.Symbol;
-        
-        return Object.assign({key: itm}, raw[itm].USD);
-
-      });
-
-      this.setParams(entities);
-    } catch (_) {}
+  makeApiRequest = (uri) => {
+    return new Promise((resolve, reject) => {
+      super.makeApiRequest(uri)
+        .then(response => {
+          const raw = response && response.RAW;
+          const entities = Object.keys(raw).map(itm =>(Object.assign({key: itm}, raw[itm].USD)));
+          this.setParams(entities);
+          resolve(true);
+        })
+        .catch(err => {
+          reject(false);
+        });
+    });    
   }
 
   @action setCourse = (course) => {
@@ -73,24 +72,26 @@ class PortfolioStore extends EntitiesStore{
     this.loading = true;
 
     firebase.database().ref('portfolio').once('value')
-      .then(data => {
+      .then(async(data) => {
         const entities = entitiesFromFB(data.val()); 
         this.coin_list = Object.values(entities).map(item => (item.symbol));
         const str = this.coin_list.join(',');
         
-        const uri = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${str}&tsyms=USD`;
-        this.makeApiRequest(uri);
+        const uri = getPriceMultiFullUri(str)
+        await this.makeApiRequest(uri);
+        
+        const detail = await Promise.all(this.coin_list.map(this.loadFbCurrencyDetail));
+        console.log('---', detail);
       })
       .catch(err => console.log('Error load data from function loadPriceMultiFull', err));
   }  
 
-  loadFbCurrencyDetail = symbol => {
+  loadFbCurrencyDetail = symbol => {    
     return new Promise((resolve, reject) => {
       const ref = firebase.database().ref('currency');
-      ref.orderByChild('Symbol').equalTo(symbol).on("child_added")
-      .then(snapshot => {
-        resolve(snapshot);
-      }).catch(err => reject(err));
+      ref.orderByChild('Symbol').equalTo(symbol).on("child_added", (snapshot) => {
+        snapshot ? resolve(snapshot) : reject(false);
+      });
     });
   }
 

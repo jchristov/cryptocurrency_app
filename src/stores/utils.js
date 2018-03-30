@@ -82,14 +82,13 @@ function getCoinListUri(){
   return `https://www.cryptocompare.com/api/data/coinlist/`;
 }
 
-function getPriceMultiFullUri(fsyms, tsyms){
-  return  `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=BTC,ETH&tsyms=USD`;
+function getPriceMultiFullUri(fsyms = 'BTC', tsyms = 'USD'){
+  return `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${fsyms}&tsyms=${tsyms}`;
 }
 
 /**
  * ! END GET URL FUNCTIONS
  */
-
 
 export {
   status, 
