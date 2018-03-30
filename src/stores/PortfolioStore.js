@@ -71,8 +71,8 @@ class PortfolioStore extends EntitiesStore{
   @action loadPriceMultiFull = () => {
     this.loading = true;
 
-    firebase.database().ref('portfolio').once('value')
-      .then(async(data) => {
+    firebase.database().ref('portfolio').once('value', async(data) => {
+      try {  
         const entities = entitiesFromFB(data.val()); 
         this.coin_list = Object.values(entities).map(item => (item.symbol));
         const str = this.coin_list.join(',');
@@ -82,8 +82,10 @@ class PortfolioStore extends EntitiesStore{
         
         const detail = await Promise.all(this.coin_list.map(this.loadFbCurrencyDetail));
         console.log('---', detail);
-      })
-      .catch(err => console.log('Error load data from function loadPriceMultiFull', err));
+      } catch (error) {
+        console.log('Error load data from function loadPriceMultiFull', err);
+      }      
+    });
   }  
 
   loadFbCurrencyDetail = symbol => {    
