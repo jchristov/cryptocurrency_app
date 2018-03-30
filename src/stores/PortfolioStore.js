@@ -81,6 +81,7 @@ class PortfolioStore extends EntitiesStore{
         await this.makeApiRequest(uri);
         
         const detail = await Promise.all(this.coin_list.map(this.loadFbCurrencyDetail));
+     
         console.log('---', detail);
       } catch (error) {
         console.log('Error load data from function loadPriceMultiFull', err);
@@ -88,6 +89,10 @@ class PortfolioStore extends EntitiesStore{
     });
   }  
 
+  /**
+   * 
+   * {String} symbol
+   */
   loadFbCurrencyDetail = symbol => {    
     return new Promise((resolve, reject) => {
       const ref = firebase.database().ref('currency');
