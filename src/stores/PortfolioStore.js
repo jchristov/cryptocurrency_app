@@ -16,12 +16,21 @@ class PortfolioStore extends EntitiesStore{
       super.makeApiRequest(uri)
         .then(response => {
           const raw = response && response.RAW;
-          const entities = Object.keys(raw).map(itm =>(Object.assign({key: itm}, raw[itm].USD)));
+          const entities = Object.keys(raw).map(itm => {
+            let extra_info = {};
+            this.coin_detail.forEach(detail => {
+              if(detail.Symbol === raw[itm].USD.FROMSYMBOL) {
+                extra_info = detail;
+              }
+            });
+            return Object.assign({key: itm}, raw[itm].USD, {extra_info: extra_info});
+          });
           this.setParams(entities);
           resolve(true);
         })
         .catch(err => {
-          reject(false);
+          console.log('portfolio load data error', err)
+          reject(err);
         });
     });    
   }
@@ -77,14 +86,12 @@ class PortfolioStore extends EntitiesStore{
         this.coin_list = Object.values(entities).map(item => (item.symbol));
         const str = this.coin_list.join(',');
         
+        this.coin_detail = await Promise.all(this.coin_list.map(this.loadFbCurrencyDetail));
+      
         const uri = getPriceMultiFullUri(str)
         await this.makeApiRequest(uri);
-        
-        const detail = await Promise.all(this.coin_list.map(this.loadFbCurrencyDetail));
-     
-        console.log('---', detail);
       } catch (error) {
-        console.log('Error load data from function loadPriceMultiFull', err);
+        console.log('Error load data from function loadPriceMultiFull', error);
       }      
     });
   }  
@@ -97,7 +104,7 @@ class PortfolioStore extends EntitiesStore{
     return new Promise((resolve, reject) => {
       const ref = firebase.database().ref('currency');
       ref.orderByChild('Symbol').equalTo(symbol).on("child_added", (snapshot) => {
-        snapshot ? resolve(snapshot) : reject(false);
+        snapshot ? resolve(entitiesFromFB(snapshot.val())) : reject(false);
       });
     });
   }

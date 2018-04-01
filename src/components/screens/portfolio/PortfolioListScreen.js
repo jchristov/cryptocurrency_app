@@ -29,7 +29,7 @@ class PortfolioListScreen extends Component {
 
     static navigationOptions = ({navigation, screenProps}) => {
       return { 
-        headerTitle: <Header styleText={styles.title} value='Портфель'/>,
+        headerTitle: <Header value='Портфель'/>,
         headerRight: <SearchIcon />,    
         tabBarIcon: ({ focused }) => {
             return <Ionicons
@@ -88,11 +88,8 @@ class PortfolioListScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  title:{
-    fontWeight: "300"
-  },
   container: {
-    backgroundColor: Colors.lightBackground
+    backgroundColor: Colors.white
   },
   separator: {
     height: 0.5,

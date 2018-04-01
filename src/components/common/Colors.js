@@ -10,7 +10,7 @@ const NAMED_COLORS = {
   timberwolf: "rgba(218, 216, 210, 1)",
   magnesium: "rgba(178, 178, 178, 1)",
   black: "rgba(3, 3, 3, 1)",
-  background: '#E1E2E1',
+  background: '#F6F7F9',
 
   // blues (light to dark)
   iceberg: "rgba(216, 240, 246, 1)",
@@ -47,7 +47,7 @@ const THEME_COLORS = {
   darkText: NAMED_COLORS.blueCharcoal,
   cellBorder: NAMED_COLORS.blueCharcoal,
   lightText: NAMED_COLORS.blueBayoux,
-  border: '#E0E0E0',
+  border: '#E9ECEF',
 
   // legacy
   inactiveText: "#9B9B9B"

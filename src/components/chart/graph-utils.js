@@ -24,6 +24,9 @@ function createGraph(data, width, height) {
     .domain(extent(data, d => d.time))
     .range([0, width]);
 
+  //const scale
+
+
   const newArr = data.map(({ price, time }) => ({
     price: scalePriceToY(price),
     time: scaleTimeToX(time),

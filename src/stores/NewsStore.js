@@ -1,6 +1,6 @@
 import EntitiesStore, { loadAllHelper } from './EntitiesStore';
 import {action, useStrict} from 'mobx';
-import { getNewsUrl, status, parseXml } from './utils';
+import { getNewsUri, status, parseXml } from './utils';
 
 const headers = {
   Accept 	: 'text/xml',
@@ -11,6 +11,8 @@ const headers = {
 };
 
 class NewsStore extends EntitiesStore {
+  /*
+  ! Deprecated устарешее Api для получения новостей 
   makeApiRequest(){
     fetch(this.uri, headers)
       .then(status)
@@ -21,11 +23,26 @@ class NewsStore extends EntitiesStore {
       })
       .catch(err => console.log(err))
   }
+  */
 
-  @action loadAll = () => {
-    this.uri = getNewsUrl();
+  makeApiRequest = () => {
+    return new Promise((resolve, reject) => {
+      const uri = getNewsUri();
+      super.makeApiRequest(uri)
+        .then(response => {
+          this.setParams(response);
+          resolve(true);
+        })
+        .catch(err =>{
+          reject(err);
+          console.log('Error load news', err)
+        });
+    });
+  }
+
+  @action loadAllNews = async() => {
     this.loading = true;
-    this.makeApiRequest();
+    await this.makeApiRequest();
   }
 
   @action setParams = (entities) => {
@@ -34,6 +51,5 @@ class NewsStore extends EntitiesStore {
     this.entities = entities;
   }
 }
-
 
 export default NewsStore;

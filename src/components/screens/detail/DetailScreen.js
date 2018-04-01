@@ -6,10 +6,9 @@ import { timeFormat } from 'd3-time-format';
 import Back from '../../common/Back';
 import Header from '../../common/Header';
 import Colors from '../../common/Colors';
-import images from '../../helpers/images';
-import ChartList from '../../chart/components/ChartList';
-import ChartPrice from '../../chart/components/ChartPrice';
-import HorizontalChartAxis from '../../chart/components/HorizontalChartAxis';
+import ChartList from '../../chart/ChartList';
+import ChartPrice from '../../chart/ChartPrice';
+import HorizontalChartAxis from '../../chart/HorizontalChartAxis';
 import Tabs from '../../tabs/Tabs';
 import Sections from '../../common/Sections';
 import DetailSections from '../../detail/DetailSections';
@@ -32,13 +31,11 @@ class DetailScreen extends Component {
     _goBack = () => {
       navigation.goBack();
     };
-    
     return {  
-      title: navigation.state.params.item.FROMSYMBOL || 'Детали',
-      headerTitle: <Header styleText={styles.title} value={navigation.state.params.item.FROMSYMBOL}/>,
+      title: navigation.state.params.item.extra_info.FullName || 'Детали',
+      headerTitle: <Header value={navigation.state.params.item.extra_info.FullName}/>,
       headerStyle: { 
-          backgroundColor: Colors.palatinateBlue,
-          borderBottomWidth: 1,
+          backgroundColor: Colors.palatinateBlue
       },
       headerLeft: <Back onBackPress={_goBack} value="Назад" />,
       headerRight: <DetailIcons cryptocurrency={navigation.state.params.item}/>
@@ -90,7 +87,6 @@ class DetailScreen extends Component {
     const { charts, navigation } = this.props; 
     const oldPrice = charts.entities[0].price;
     const currentPrice = navigation.state.params.item.PRICE; 
-    
     return(
         <ChartPrice
           cryptocurrencyLabel={'bitcoin'}
@@ -104,9 +100,14 @@ class DetailScreen extends Component {
   render() {
     const { charts, navigation } = this.props;
     const format = timeFormat('%B %d, %Y');
+    let tickCount = 7;
     const { height, width } = Dimensions.get('window');
     const durationType = DURATION_LIST[charts.selectedDurationIndex];
     const data = navigation.state.params.item;    
+
+    if(durationType == DURATION.ALL || durationType == DURATION.YEAR){
+      tickCount = 4;
+    }
 
     if(!charts.loaded) return <Loader/>
     const lastEntities = charts.entities[charts.entities.length - 1];
@@ -125,7 +126,7 @@ class DetailScreen extends Component {
               width={width}
             />
           </View>
-          <HorizontalChartAxis data={charts.entities} duration={durationType}/>
+          <HorizontalChartAxis data={charts.entities} tickCount={tickCount} duration={durationType}/>
           <DetailSections cryptocurrency={data.FROMSYMBOL} lastEntities={lastEntities}/>
         </View>
       </ScrollView>
@@ -155,9 +156,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center'
   },
-  title:{
-    fontWeight: '300'
-  },
+ 
   textInActive:{
     color: Colors.inactiveText,
     fontSize: 16,

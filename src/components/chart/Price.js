@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, StyleSheet, Text } from 'react-native';
 import { formatCurrency } from '../../helpers/utils';
-import { DEFAULT_CURRENCY } from '../../../constants';
-import Colors from '../../common/Colors';
+import { DEFAULT_CURRENCY } from '../../constants';
+import Colors from '../common/Colors';
 
 const PLUS_CHAR = '+';
 const MINUS_CHAR = '\u2212';
@@ -15,21 +15,21 @@ const Price = ({label, value, isCurrency, isPercentage, showPlusCharacter, visib
   const currencyValue = formatCurrency(Number(absValue).toFixed(2), ACTIVE_CURRENCY, 1);
   const percentageValue = Number(absValue).toFixed(2);
   
-
+  const style = isNegative ? styles.black : styles.blue;
 
   return (
     visible && 
     <View style={styles.container}>
       <View style={styles.section}>
-          {showPlusCharacter && <Text style={[styles.small_font, styles.green]}>{PLUS_CHAR}</Text>}
-          {isNegative && <Text style={styles.small_font}>{MINUS_CHAR}</Text>}
+          {showPlusCharacter && <Text style={[styles.large, style]}>{PLUS_CHAR}</Text>}
+          {isNegative && <Text style={[styles.large, style]}>{MINUS_CHAR}</Text>}
 
-          {isCurrency && <Text style={styles.small_font}>{currencyValue.slice(0, 1)}</Text>}
-          {isCurrency && <Text style={styles.large}>{currencyValue.slice(1, -2)}</Text>}
-          {isCurrency && <Text style={styles.small_font}>{currencyValue.slice(-2)}</Text>}
+          {isCurrency && <Text style={[styles.small_font, style]}>{currencyValue.slice(0, 1)}</Text>}
+          {isCurrency && <Text style={[styles.large, style]}>{currencyValue.slice(1, -2)}</Text>}
+          {isCurrency && <Text style={[styles.small_font, style]}>{currencyValue.slice(-2)}</Text>}
 
-          {isPercentage && <Text style={styles.large}>{percentageValue}</Text>}
-          {isPercentage && <Text style={styles.small_font}>%</Text>}
+          {isPercentage && <Text style={[styles.large, style]}>{percentageValue}</Text>}
+          {isPercentage && <Text style={[styles.small_font, style]}>%</Text>}
       </View>
       <View>
         <Text style={styles.label}>
@@ -75,17 +75,24 @@ const styles = StyleSheet.create({
   small_font: {
     color: Colors.black,
     fontSize: 12,
-    fontWeight: '500',
+    fontWeight: '300',
     paddingTop: 4
   },
   large: {
     color: Colors.black,
     fontSize: 24,
-    fontWeight: 'normal',
+    fontWeight: '300',
   },
-  green: {
-    color: Colors.green
+  yellow: {
+    color: Colors.yellow
+  },
+  blue: {
+    color: Colors.facebookBlue
+  },
+  black: {
+    color: Colors.black
   }
+ 
 
 });
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, StyleSheet, Image, View } from 'react-native';
+import { Text, StyleSheet, Image, View, Platform } from 'react-native';
 import Colors from '../common/Colors';
 
 class Header extends Component {
@@ -26,12 +26,19 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
+        ...Platform.select({
+            ios: {
+            },
+            android: {
+              padding: 10
+            }
+        })
     },
     text: {
         fontSize: 21,
         color: Colors.white,
-        fontWeight: 'bold'
+        fontWeight: '600'
     },
     image: {
         width: 32,

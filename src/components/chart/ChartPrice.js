@@ -1,55 +1,55 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { View, StyleSheet, Text} from 'react-native';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { View, StyleSheet, Dimensions } from 'react-native';
+import Price from './Price';
+import Colors from '../common/Colors';
+import { DEFAULT_CURRENCY } from '../../constants';
 
-export default class ChartPrice extends Component {
-    static propTypes = {
-    };
+const ChartPrice = ({cryptocurrencyLabel, durationLabel, currentPrice, oldPrice}) => {
+  const priceDifference = currentPrice - oldPrice;
+  const percentageDifference = ((currentPrice / oldPrice) - 1) * 100 || 0;
 
-    render() {
-        let cells = this.props.data.map (( item , index ) => {
-			return (
-				<View 
-					key={index}
-					style={styles.cell}
-				>
-					<Text style = { styles.text }>
-						{ item }
-					</Text>
-				</View>
-			);
-		});
-
-        return (
-            <View style={styles.container}>
-                {cells}
-            </View>
-        );
-    }
+  return (
+    <View style={styles.container}>
+      <Price
+        label={`${cryptocurrencyLabel} цена`}
+        isCurrency={true}  
+        value={currentPrice}
+      />
+      <Price
+        showPlusCharacter={priceDifference > 0}
+        isCurrency={true}
+        label={`${durationLabel} (${DEFAULT_CURRENCY})`}
+        value={priceDifference}
+        visible={!!durationLabel}
+      />
+      <Price
+        showPlusCharacter={percentageDifference > 0}
+        isPercentage={true}
+        label={`${durationLabel} (%)`}
+        value={percentageDifference}
+        visible={!!durationLabel}
+      />
+    </View>
+  );
 }
 
+ChartPrice.propTypes = {
+
+};
 
 const styles = StyleSheet.create({
-    cell:{
-        flex: 1,
-		flexDirection: 'column',
-		justifyContent: 'center'
-    },
-    text:{
-        color: 'black',
-        fontSize: 10,
-        padding: 2,
-        textAlign: 'right',
-        fontWeight: 'bold'
-    },
-    container: {
-        borderColor: '#cdcdcd',
-        borderBottomWidth: 1,
-        backgroundColor: 'white',
-        borderTopWidth: 1,
-        height: 230,
-        flexDirection: 'column',
-        paddingLeft: 10,
-        paddingRight: 5
-    }
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    borderTopWidth: 0.5,
+    borderTopColor: Colors.border,
+    borderBottomWidth: 0.5,
+    borderBottomColor: Colors.border,
+    padding: 10,
+    alignItems: 'center',
+    alignContent: 'center',
+  }
 });
+
+export default ChartPrice;

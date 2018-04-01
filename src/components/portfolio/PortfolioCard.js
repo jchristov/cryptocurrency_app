@@ -10,9 +10,8 @@ import {
   Animated,
   Platform
 } from 'react-native';
-import images from '../helpers/images';
 import Colors from '../common/Colors';
-import { numberFormat, getCurrencyChart } from '../helpers/utils';
+import { numberFormat, getCurrencyChart, getImgUri } from '../../helpers/utils';
 import Integer from '../common/Integer';
 
 const {width, height} = Dimensions.get('window');
@@ -23,16 +22,16 @@ class PortfolioCard extends PureComponent {
 
   render() {
     const {coin} = this.props;
+  
     return (
       <View style={styles.container}>
         <View style={styles.section}>
           <View style={styles.coin}>
-            <Text style={[styles.text, styles.textHeader]}>
-              {coin.FROMSYMBOL}
-            </Text>
+            <Image style={styles.coinImg} source={{uri: getImgUri(coin.extra_info.ImageUrl) }}/>
+            <Text style={[styles.text, styles.textHeader]}>{coin.extra_info.CoinName} ({coin.FROMSYMBOL})</Text>
           </View>
           <View style={styles.chart}>
-            <Image style={styles.img} source={{uri:getCurrencyChart(coin.FROMSYMBOL)}}/>
+            <Image style={styles.img} source={{uri: getCurrencyChart(coin.FROMSYMBOL)}}/>
           </View>
         </View>
         <View style={[styles.section, styles.borderTop]}>
@@ -68,13 +67,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     margin: 15,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.white  ,
     borderColor: Colors.border,
     borderWidth: 1,
     ...Platform.select({
       ios: {
-        shadowColor: 'rgba(0,0,0, .2)',
+        shadowColor: 'rgba(0,44,92,0.28)',
         shadowOffset: { height: 0, width: 0 },
+
         shadowOpacity: 1,
         shadowRadius: 1,
       },
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   borderTop: {
-    borderTopWidth: 0.5,
+    borderTopWidth: 1,
     borderTopColor:  Colors.border,
   },
 
@@ -117,17 +117,19 @@ const styles = StyleSheet.create({
   chart: {
   },
   coin: {
-   
+    flex: 1,
+    flexDirection: 'row'
   },
   coinImg: {
-    width: 32,
-    height: 32
+    width: 25,
+    height: 25,
+    marginRight: 10
   },
   img: {
-    width: 150,
-    height: 35,
-    minWidth: 150,
-    maxWidth: 150,
+    width: 125,
+    height: 45,
+    minWidth: 125,
+    maxWidth: 125,
   }
 
 });

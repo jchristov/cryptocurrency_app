@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableOpacity, Dimensions, FlatList, StyleSheet, Text, Linking } from 'react-native';
+import { View, TouchableOpacity, Dimensions, FlatList, StyleSheet, Text, Linking, Image } from 'react-native';
 import { observer, inject } from 'mobx-react';
 import Loader from '../../common/Loader';
 import {Ionicons} 	from '@expo/vector-icons';
@@ -21,7 +21,7 @@ export default class NewsListScreen extends Component {
   static navigationOptions = ({screenProps}) => {
     
     return {
-      headerTitle: <Header styleText={styles.menu} value='Новости'/>,
+      headerTitle: <Header value='Новости'/>,
       tabBarIcon 	: ({ focused }) => {
 				return (
 					<Ionicons
@@ -40,28 +40,28 @@ export default class NewsListScreen extends Component {
 
   componentDidMount(){
     const {news} = this.props;
-    if(!news.loading) news.loadAll();
+    if(!news.loading) news.loadAllNews();
   }
 
   separator = (section, row) => {
     return <View key={section + '-' + row } style={styles.separator}/>
   }
 
+  handleClick = (url) => () => {
+    Linking.openURL(url);
+  }
+
   renderItem = ({index, item}) => {
-    const date = Date.parse(item.pubdate);
+    const date = new Date(item.published_on * 1000);    
     return (
-      <TouchableOpacity onPress={() => (Linking.openURL(item.link))}>
+      <TouchableOpacity onPress={this.handleClick(item.url)}>
         <View style={styles.item}>
           <View style={styles.icon}>
-            <Ionicons
-              color={Colors.facebookBlue}
-              name='md-book'
-              size={40}
-            />
+            <Image style={styles.img} source={{uri: item.imageurl}} />
           </View>
           <View style={styles.content}>
             <Text style={styles.textHeader}>{item.title}</Text>
-            <Text style={styles.textContent}>{item.description}</Text>
+            <Text style={styles.textContent}>{item.body}</Text>
             <Text style={styles.textDate}>{dateFormat(date)}</Text>
           </View>
         </View>
@@ -106,15 +106,12 @@ const styles = StyleSheet.create({
   },
   content: {
     flexWrap: 'wrap',
-    flexDirection: 'column',
-    flexGrow: 1
+    flex: 1,
+    flexDirection: 'column'
   },
   separator: {
-    height: 0.5,
+    height: 1,
     backgroundColor: Colors.border
-  },
-  menu:{
-    fontWeight: '300'
   },
   textHeader: {
     fontWeight: 'bold',
@@ -129,12 +126,17 @@ const styles = StyleSheet.create({
     fontWeight: '300',
   },
   textContent: {
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
     fontSize: 10,
     color: Colors.lightText,
     fontWeight: '300',
     marginBottom: 4
   },
-  
+  img: {
+    width: 32,
+    height: 32
+  },
   link:{
     flex: 1,
     color: Colors.facebookBlue,

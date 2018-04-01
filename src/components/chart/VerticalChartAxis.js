@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { View, StyleSheet, Text } from 'react-native';
 import { extent } from 'd3-array';
 import { formatCurrency } from '../../helpers/utils';
-import Colors from '../../common/Colors';
+import Colors from '../common/Colors';
 
 const VerticalChartAxis = ({data, textAlign}) => { 
   const [minPrice, maxPrice] = extent(data, d => d.price);

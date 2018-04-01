@@ -5,7 +5,6 @@ import EventScreen from './components/screens/events/EventScreen';
 import PeopleListScreen from './components/screens/people/PeopleListScreen';
 import ShowMap from './components/screens/ShowMap';
 import PersonPhotoScreen from './components/screens/people/PersonPhotoScreen';
-import CoinListScreen from './components/screens/coins/CoinListScreen';
 import DetailScreen from './components/screens/detail/DetailScreen';
 import PortfolioListScreen from './components/screens/portfolio/PortfolioListScreen';
 import ChartScreen from './components/screens/chart/ChartScreen';
@@ -14,9 +13,6 @@ import NewsListScreen from './components/screens/news/NewsListScreen';
 const ListsNavigator = TabNavigator({
     portfolio: {
         screen: PortfolioListScreen
-    },
-    coins: {
-        screen: CoinListScreen
     },
     news: {
         screen: NewsListScreen

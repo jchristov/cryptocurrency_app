@@ -18,10 +18,10 @@ function numberFormat(number) {
 
 /**
  * Get image url
- * @param {String} coinName 
+ * @param {String} path 
  */
-function getImgUrl(coinName){
-  return `https://files.coinmarketcap.com/static/img/coins_legacy/32x32/${coinName}.png`;
+function getImgUri(path){
+  return `https://www.cryptocompare.com/${path}`;
 }
 
 /**
@@ -50,7 +50,7 @@ function getCurrencyChart(symbol, currency = 'USD') {
 
 export { 
   numberFormat, 
-  getImgUrl,
+  getImgUri,
   formatCurrency,
   getCurrencyChart 
 };

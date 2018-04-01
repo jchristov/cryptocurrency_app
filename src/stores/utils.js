@@ -86,9 +86,9 @@ function getPriceMultiFullUri(fsyms = 'BTC', tsyms = 'USD'){
   return `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${fsyms}&tsyms=${tsyms}`;
 }
 
-/**
- * ! END GET URL FUNCTIONS
- */
+function getNewsUri(lang = 'EN') {
+  return `https://min-api.cryptocompare.com/data/news/?lang=${lang}`;
+}
 
 export {
   status, 
@@ -103,4 +103,5 @@ export {
   parseXml,
   getPriceMultiFullUri,
   getCoinListUri,
+  getNewsUri,
 };

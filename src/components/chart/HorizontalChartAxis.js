@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
 import { extent } from 'd3-array';
-import { timeFormat } from 'd3-time-format';
-import { DURATION } from '../../../constants';
-import Colors from '../../common/Colors';
+import { timeFormat, timeFormatDefaultLocale } from 'd3-time-format';
+import { DURATION } from '../../constants';
+import { json, status } from '../../stores/utils';
+import Colors from '../common/Colors';
 
 const DURATION_LIST = Object.keys(DURATION).map(itm => DURATION[itm]);
 
@@ -12,15 +13,16 @@ class HorizontalChartAxis extends Component {
   static formatDate(timestamp, duration){
     switch (duration) {
       case DURATION.ALL:
-        return timeFormat('%b %Y')(timestamp); // 'Mmm YYYY'
-      case DURATION.YEAR:
+        return timeFormat('%b %Y')(timestamp); 
+      case DURATION.YEAR: 
+        return timeFormat('%_d %b %Y')(timestamp); 
       case DURATION.MONTH:
       case DURATION.WEEK:
-        return timeFormat('%b %_d')(timestamp); // 'Mmm D'
+        return timeFormat('%_d %b')(timestamp); 
       case DURATION.DAY:
       case DURATION.HOUR:
       default:
-        return timeFormat('%I:%M %p')(timestamp); // 'HH:MM PM/AM'
+        return timeFormat('%H:%M')(timestamp);
     }
   }
 
@@ -38,6 +40,15 @@ class HorizontalChartAxis extends Component {
     return generatedTicks;
   }
 
+  componentDidMount(){
+    fetch('https://unpkg.com/d3-time-format@2/locale/ru-RU.json')
+      .then(status)
+      .then(json)
+      .then(locale => {
+        timeFormatDefaultLocale(locale);
+      })
+  }
+
   renderTimeAxisTick = (timestamp, duration) => {
     return(
       <View key={timestamp}>
@@ -49,7 +60,6 @@ class HorizontalChartAxis extends Component {
   render() {
     const {data, duration, tickCount} = this.props;
     const axisTicks = HorizontalChartAxis.generateTimeAxisTicks(data, tickCount);
-    
     return (
       <View style={styles.container}>
         {axisTicks && axisTicks.map(time => this.renderTimeAxisTick(time, duration))}    
@@ -68,7 +78,7 @@ HorizontalChartAxis.propTypes = {
 };
 
 HorizontalChartAxis.defaultProps = {
-  tickCount: 5
+  tickCount: 7
 };
 
 const styles = StyleSheet.create({

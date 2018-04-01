@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Text, StyleSheet } from 'react-native';
-import { numberFormat } from '../helpers/utils';
+import { numberFormat } from '../../helpers/utils';
 
 class Integer extends Component {
     render() {
