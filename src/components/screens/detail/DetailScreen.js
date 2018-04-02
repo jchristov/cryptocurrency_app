@@ -18,8 +18,10 @@ import Loader from '../../common/Loader';
 import modal from '../../../decorators/modal';
 import { DURATION, DEFAULT_CURRENCY } from '../../../constants';
 
+const { height, width } = Dimensions.get('window');
 const DURATION_LIST = Object.keys(DURATION).map(item => DURATION[item]); 
-
+let tickCount = 7;
+    
 @inject('charts')
 @observer
 class DetailScreen extends Component {
@@ -43,15 +45,18 @@ class DetailScreen extends Component {
   };
 
   componentDidMount(){
-    this.fetchPriceData();
+    const {charts} = this.props;
+    if(!charts.loading && !charts.loaded){
+      this.fetchPriceData();
+    }
   }
 
   fetchPriceData = async() => {
     const { charts, navigation } = this.props;
+    const currency = navigation.state.params.item.FROMSYMBOL || 'BTC';
     const limit = DURATION_LIST[charts.selectedDurationIndex].limit;
     const api = DURATION_LIST[charts.selectedDurationIndex].api;
-
-    await charts.loadCharts('BTC', DEFAULT_CURRENCY, api, limit);   
+    await charts.loadCharts(currency, DEFAULT_CURRENCY, api, limit);   
   }
 
   handleDurationChange = (index) => { 
@@ -100,8 +105,6 @@ class DetailScreen extends Component {
   render() {
     const { charts, navigation } = this.props;
     const format = timeFormat('%B %d, %Y');
-    let tickCount = 7;
-    const { height, width } = Dimensions.get('window');
     const durationType = DURATION_LIST[charts.selectedDurationIndex];
     const data = navigation.state.params.item;    
 
@@ -112,6 +115,10 @@ class DetailScreen extends Component {
     if(!charts.loaded) return <Loader/>
     const lastEntities = charts.entities[charts.entities.length - 1];
     
+    console.log('000', data);
+    
+
+
     return (
       <ScrollView style={styles.body}>
         <View style={styles.contanier}>
@@ -122,7 +129,7 @@ class DetailScreen extends Component {
           <View style={styles.charts}>
             <ChartList 
               data={charts} 
-              height={height/2} 
+              height={height / 2} 
               width={width}
             />
           </View>

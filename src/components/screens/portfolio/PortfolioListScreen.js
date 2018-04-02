@@ -21,6 +21,7 @@ import SearchInput from '../../search/SearchInput';
 import PortfolioCard from '../../portfolio/PortfolioCard';
 
 @inject('portfolio')
+@inject('charts')
 @observer
 class PortfolioListScreen extends Component {
     static propTypes = {
@@ -46,8 +47,8 @@ class PortfolioListScreen extends Component {
     };
 
     componentDidMount(){
-      const {portfolio} = this.props;
-      if(!portfolio.loaded && !portfolio.loading){
+      const { portfolio } = this.props;
+      if(!portfolio.loading && !portfolio.loaded){
         portfolio.loadPriceMultiFull();
       }
     }

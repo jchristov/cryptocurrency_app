@@ -46,8 +46,7 @@ export function loadAllHelper(refName){
           this.entities = entitiesFromFB(data.val())
           this.loading = false;
           this.loaded = true;
-      })
-      .catch(err => console.log('Error load data from firebase', err));
+      });
   }
 }
 

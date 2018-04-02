@@ -1,15 +1,17 @@
 import EntitiesStore from './EntitiesStore';
 import {observable, computed, action} from 'mobx';
 import {status, json} from './utils';
-import {api} from '../apiConfig';
 
+/**
+ * ! MAY BE DEPRECATED TO
+*/
 export default class CoinsStore extends EntitiesStore{  
   @observable refreshing = false;
   @observable startAt = 0;
   constructor(...args){
     super(...args);
     this.limit = 20;
-    this.api = api;
+    this.api = '';
   }
 
   makeApiRequest = () => {

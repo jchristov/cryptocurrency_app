@@ -1,41 +1,45 @@
 import EntitiesStore from './EntitiesStore';
 import { observable, action } from 'mobx';
-import { detailsApi } from '../apiConfig';
 import { getHistoUrl, getPriceHistoricalUrl, getDateAgo, entitiesFromHistoApi } from './utils';
 import { DURATION } from '../constants';
 
 const DURATION_LIST = Object.keys(DURATION).map(item => DURATION[item]); 
 
 class Charts extends EntitiesStore{
-
   @observable uid = null;
   @observable selectedDurationIndex = 0;
   @observable historicalPrice = null;
 
   constructor(...args){
     super(...args);  
-    this.detailsApi = detailsApi;
     this.dayAgo = 365;
     this.date = new Date();
-    this.uri = '';
   }
 
-  makeApiRequest = async() => {
-    try {
-      const response = await super.makeApiRequest(this.uri);
-      this.setHistoParams(response); 
-    } catch (err) {
-      console.error('load error component Charts', err)
-    }
+  makeApiRequest = (uri) => {
+    return new Promise((resolve, reject) => {
+      super.makeApiRequest(uri)
+        .then(data => {
+          this.setEntities(data); 
+          resolve(data);
+        })
+        .catch(err => {
+          reject(err);
+        })
+    });
   } 
   
-  @action loadCharts(cryptocurrency, currency, api = 'histoday', timeLimit = '2000'){
-    this.uri = getHistoUrl(cryptocurrency, currency, api, timeLimit);
-    this.loading = true;
-    this.makeApiRequest();
+  @action loadCharts = async(cryptocurrency, currency, api = 'histoday', timeLimit = '2000') => {
+    try {
+      const uri = getHistoUrl(cryptocurrency, currency, api, timeLimit);
+      this.loading = true;
+      await this.makeApiRequest(uri);       
+    } catch (error) {
+      console.log('Error load entities Chart', error);
+    }
   }   
   
-  @action setHistoParams = (entities) => {
+  @action setEntities = (entities) => {
     this.loading = false;
     this.loaded = true;
     this.entities = entitiesFromHistoApi(entities.Data);

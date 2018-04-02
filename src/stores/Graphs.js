@@ -1,6 +1,5 @@
 import EntitiesStore from './EntitiesStore';
 import { observable, action } from 'mobx';
-import { detailsApi } from '../apiConfig';
 import { setSchematic } from './utils';
 
 /**
@@ -12,7 +11,7 @@ export default class Graphs extends EntitiesStore{
     
     constructor(...args){
         super(...args);
-        this.detailsApi = detailsApi;
+        this.detailsApi = '';
     }
 
     makeApiRequest(){

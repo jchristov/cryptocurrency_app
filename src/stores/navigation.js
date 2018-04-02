@@ -31,10 +31,12 @@ export default class NavigationStore extends BasicStore {
     }
 
     goTo(routeName){
-        this.dispatch(NavigationActions.navigate({routeName}));
+        const action = NavigationActions.navigate({routeName}) 
+        this.dispatch(action);
     }
 
     goBack(){
-        this.dispatch(NavigationActions.back());
+        const action = NavigationActions.back();
+        this.dispatch(action);
     }
 }

@@ -24,7 +24,6 @@ const INITIAL_STATE = {
 
 class ChartList extends Component {
   static propTypes = {
-  
   };
 
   static defaultProps = {

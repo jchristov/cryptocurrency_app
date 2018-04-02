@@ -7,6 +7,11 @@ class PortfolioStore extends EntitiesStore{
   @observable price = null;
   @observable course = null;
   
+  constructor(...args) {
+    super(...args);
+    this.coin_detail = [];
+  }
+
   setSelectedCurrency = (coinName) => {
     this.coinName = coinName;
   }
@@ -18,11 +23,17 @@ class PortfolioStore extends EntitiesStore{
           const raw = response && response.RAW;
           const entities = Object.keys(raw).map(itm => {
             let extra_info = {};
-            this.coin_detail.forEach(detail => {
-              if(detail.Symbol === raw[itm].USD.FROMSYMBOL) {
-                extra_info = detail;
-              }
-            });
+
+            this.getStore('');
+
+            if(this.coin_detail.length){
+              this.coin_detail.forEach(detail => {
+                if(detail.Symbol === raw[itm].USD.FROMSYMBOL) {
+                  extra_info = detail;
+                }
+              });
+            }
+            
             return Object.assign({key: itm}, raw[itm].USD, {extra_info: extra_info});
           });
           this.setParams(entities);
