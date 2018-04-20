@@ -7,6 +7,7 @@ import stores from './src/stores';
 import { Font } from 'expo';
 import { View, StyleSheet } from 'react-native';
 
+
 @observer
 export default class App extends React.Component {
   
